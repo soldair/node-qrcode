@@ -1,22 +1,28 @@
-This is a node js server side qr code generator.
+This is a node js server side QR code / 2d barcode generator.
 it is an extension of "QRCode for JavaScript" which Kazuhiko Arase thankfully mit licensed
-
 
 the qrcode-draw.js can be used  directly as a client side lib if its appended too or included with lib/qrcode.js
 to use this on the server side please require('qrcode'); =)
 
 
-
 install:
+
 	npm install qrcode
-dependencies
-	npm install node-canvas
+
+dependencies:
+
+	npm install canvas
+
 api:
 	QRCode.draw(text,cb(error,canvas));
+		returns node canvas object see https://github.com/LearnBoost/node-canvas for all of the cool node things you can do
+		look up the canvas api for the other cool things
 
-	QRCode.toDataURL(text,cb(error,datsURL));
+	QRCode.toDataURL(text,cb(error,dataURL));
+		returns mime image/png data url for the 2d barcode 
 
 	QRCode.save(path,text,cb(error,written));
+		saves png to the path specified returns bytes
 	
 examples:
 	---code---
@@ -31,3 +37,7 @@ examples:
 	--- execute ---
 	node ./tests/url.js
 
+
+
+The word "QR Code" is registered trademark of 
+DENSO WAVE INCORPORATED

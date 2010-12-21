@@ -25,30 +25,29 @@ var dataURL = exports.toDataURL = function(text,cb){
 	});
 }
 
-
 //returns bytes written to file 
 exports.save = function(path,text,cb){
 	draw(text,function(error,canvas){
 
-		var fd,buf,fdAndBuff = function(){
-			fs.write(fd, buff, 0, buf.length, 0, function(err,written){
+		var fd,buf,fdAndBuf = function(){
+			fs.write(fd, buf, 0, buf.length, 0, function(err,written){
 				fs.close(fd);
 				cb(err,written);
 			});
 		};
 
 		//run async calls at the same time ish so they can take advantage of the others idle time
-		fs.open(path, 'w', 0666, function(err,_fd){
-			if(err) return cb(err,0);
-			fd = _fd
-			if(buf) fdAndBuf();
-		});
-		
 		canvas.toBuffer(function(err, _buf){
 			if(err) return cb(err,0);
 			
 			buf = _buf
 			if(fd) fdAndBuf();
+		});
+
+		fs.open(path, 'w', 0666, function(err,_fd){
+			if(err) return cb(err,0);
+			fd = _fd
+			if(buf) fdAndBuf();
 		});
 
 	});
