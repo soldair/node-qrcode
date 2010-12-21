@@ -38,6 +38,13 @@ examples:
 	node ./tests/url.js
 
 
+	for server use
+		see tests/server.js
+
+	for client side use
+		open tests/clientside.html in your browser
+
+
 
 The word "QR Code" is registered trademark of 
 DENSO WAVE INCORPORATED

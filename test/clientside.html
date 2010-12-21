@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>client side test for node-qrcode</title>
+		<script src="../lib/qrcode.js"></script>
+		<script src="../lib/qrcode-draw.js"></script>
+	</head>
+	<body>
+		<canvas id="test"></canvas>
+		<script>
+			QRCodeDraw.draw(document.getElementById('test'),'i work client side too?',function(error,canvas){
+				if(error) {
+					alert('error: '+error);
+					if(window.console && window.console.log) console.log(error);
+				}
+			});
+		</script>
+	</body>
+</html>
