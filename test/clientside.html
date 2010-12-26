@@ -15,16 +15,14 @@
 		<script>
 			//trigger error!
 			QRCodeDraw.errorBehavior.length = false;
-
 			var drawQR = function(text){
 				QRCodeDraw.draw(document.getElementById('test'),text,function(error,canvas){
 					if(error) {
-						if(window.console && window.console.error) {
-							console.error(error);
+						if(window.console && window.console.warn) {
+							console.warn(error);
+						} else {
+							alert(error);
 						}
-
-						alert(error);
-
 					}
 				});
 			}
