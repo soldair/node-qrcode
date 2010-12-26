@@ -4,16 +4,39 @@
 		<title>client side test for node-qrcode</title>
 		<script src="/qrcode.js"></script>
 		<script src="/qrcode-draw.js"></script>
+		<style>.b{display:block;}</style>
 	</head>
 	<body>
+
 		<canvas id="test"></canvas>
+		<label for="test-text" class="b">type here and watch it update!:</label>
+		<textarea id="test-text" class="b"></textarea>
+		<small style="color:#d4d4d4;" class="b">* i did not include jquery on purpose</small>
 		<script>
-			QRCodeDraw.draw(document.getElementById('test'),'i work client side too?',function(error,canvas){
-				if(error) {
-					alert('error: '+error);
-					if(window.console && window.console.error) console.error(error);
-				}
-			});
+			//trigger error!
+			QRCodeDraw.errorBehavior.length = false;
+
+			var drawQR = function(text){
+				QRCodeDraw.draw(document.getElementById('test'),text,function(error,canvas){
+					if(error) {
+						if(window.console && window.console.error) {
+							console.error(error);
+						}
+
+						alert(error);
+
+					}
+				});
+			}
+
+			var ta = document.getElementById('test-text');
+			ta.addEventListener('keyup',function(){
+				drawQR(this.value);
+			},false);
+
+			ta.value = 'i work client side too?';
+			drawQR('i work client side too?');
+
 		</script>
 	</body>
 </html>
