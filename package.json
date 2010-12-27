@@ -1,0 +1,13 @@
+{ "name": "qrcode"
+ , "description": "QRCode / 2d Barcode api with both server side and client side support using canvas"
+ , "version": "0.0.1"
+ , "author": "Ryan Day <soldair@gmail.com>"
+ , "keywords": ["canvas", "qrcode", "barcode"]
+ , "main": "./qrcode.js"
+ ,"homepage":"http://github.com/soldair/node-qrcode"
+ ,"repository":{
+	"type":"git"
+	,"url":"git://github.com/soldair/node-qrcode.git"
+ }
+ ,"engines":{"node":">=0.2.3"}
+}
