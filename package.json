@@ -5,6 +5,9 @@
  , "keywords": ["canvas", "qrcode", "barcode"]
  , "main": "./qrcode.js"
  ,"homepage":"http://github.com/soldair/node-qrcode"
+ ,"dependencies": {
+   "canvas": ">= 0.4.3"
+ }
  ,"repository":{
 	"type":"git"
 	,"url":"git://github.com/soldair/node-qrcode.git"
