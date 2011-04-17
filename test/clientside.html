@@ -35,15 +35,13 @@
 				var l = Date.now(),z = this;
 				last = l;
 				setTimeout(function(){
-					z.disabled = true;
-					//this will still lock the browser.
+					//this will kinda lock the browsers event loop for a sec.
 					//it could have some setTimeout within processing to make it more client side friendly.
 					if(l == last) {
 						var s=Date.now();
 						drawQR(z.value);
 						lastTime = Date.now()-s;
 					}
-					z.disabled = null;
 				},lastTime+(lastTime/2));
 			},false);
 
