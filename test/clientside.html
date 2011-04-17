@@ -3,6 +3,7 @@
 	<head>
 		<title>client side test for node-qrcode</title>
 		<script src="/qrcode.js"></script>
+		<script src="/qrcapacitytable.js"></script>
 		<script src="/qrcode-draw.js"></script>
 		<style>.b{display:block;}</style>
 	</head>
@@ -13,7 +14,8 @@
 		<textarea id="test-text" class="b"></textarea>
 		<small style="color:#d4d4d4;" class="b">* i did not include jquery on purpose</small>
 		<script>
-			//trigger error!
+			if(!window.console) window.console = {log:function(){},warn:function(){}};
+			//triggered errors will throw
 			QRCodeDraw.errorBehavior.length = false;
 			var drawQR = function(text){
 				QRCodeDraw.draw(document.getElementById('test'),text,function(error,canvas){
@@ -27,9 +29,22 @@
 				});
 			}
 
-			var ta = document.getElementById('test-text');
+			var ta = document.getElementById('test-text'),last=0,lastTime = 1;
 			ta.addEventListener('keyup',function(){
-				drawQR(this.value);
+
+				var l = Date.now(),z = this;
+				last = l;
+				setTimeout(function(){
+					z.disabled = true;
+					//this will still lock the browser.
+					//it could have some setTimeout within processing to make it more client side friendly.
+					if(l == last) {
+						var s=Date.now();
+						drawQR(z.value);
+						lastTime = Date.now()-s;
+					}
+					z.disabled = null;
+				},lastTime+(lastTime/2));
 			},false);
 
 			ta.value = 'i work client side too?';

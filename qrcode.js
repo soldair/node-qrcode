@@ -1,10 +1,9 @@
-
 var QRCodeDraw = require(__dirname+'/lib/qrcode-draw')
 	, Canvas = require('canvas')
 	, fs = require('fs');
 
+//EXPORTS
 exports.QRCodeDraw = QRCodeDraw;
-exports.version = '0.0.0';
 
 // returns Canvas Object with qr code drawn on it
 var draw = exports.draw = function(text,cb){
