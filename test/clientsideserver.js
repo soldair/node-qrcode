@@ -20,7 +20,7 @@ app.get('/', function(req, res){
 });
 
 app.get('/generate', function(req, res){
-	var q = req.query||{};
+	var q = req.query||{},imageSrc;
 	
 	QRCode.QRCodeDraw.color.light = q.lightColor||'#ffffff';
 	QRCode.QRCodeDraw.color.dark = q.darkColor||'#000000';
@@ -41,6 +41,8 @@ app.get('/generate', function(req, res){
 				,up=[],down=[],left=[],right=[]
 				,upPx,downPx,leftPx,rightPx,undefined,r,t,l,b,corner = 0;
 
+				tpx.threshold = 100;
+				
 				tpx.iterate(canvas,function(px,i,len,pixels,w,h,pixelCore){
 					corner = 0;
 
@@ -114,13 +116,85 @@ app.get('/generate', function(req, res){
 			});
 			break;
 		case "bacon":
-			var img = new Image();
-			img.onload = function(){
-			
-			};
-			break;
+			if(!imageSrc) imageSrc = __dirname+'/fixtures/bacon-love.png';
 		case "bacon-bikini":
-			
+			if(!imageSrc) imageSrc = __dirname+'/fixtures/bacon-bikini.png';
+		case "image":
+			console.log('hit');
+			var img = new Image(),convert = canvasutil.conversionLib;
+			img.onload = function(){
+				QRCode.draw(q.text||'',function(err,canvas){
+					
+					var codeCtx = canvas.getContext('2d')
+					, frame = codeCtx.getImageData(0,0,canvas.width,canvas.width)
+					, tpx = new canvasutil.PixelCore()
+					, baconCanvas = new Canvas(canvas.width,canvas.width)
+					, ctx = baconCanvas.getContext('2d')
+					,topThreshold = q.darkThreshold||25
+					,bottomThreshold = q.lightThreshold||75;
+					
+					tpx.threshold = 50;
+					
+					//scale image
+					var w = canvas.width;
+					var h = canvas.height;
+					
+					if(img.width>img.height) {
+						w = w*(canvas.height/h)
+						h = canvas.height;
+					} else {
+						h = h*(canvas.height/w)
+						w = canvas.width;
+					}
+					ctx.drawImage(img,0,0,w,h);
+					
+					try{
+					tpx.iterate(baconCanvas,function(px,i,l,pixels,w,h,pixelCore){
+						var luma = (0.2125*px.r + 0.7154*px.g + 0.0721*px.b)
+						, codeLuma = convert.luma709Only(frame.data[i*4],frame.data[i*4+1],frame.data[i*4+2]);
+						
+						if(codeLuma > pixelCore.threshold){
+							if(luma < bottomThreshold) {
+								var yuv = convert.rgbToYuv(px.r,px.g,px.b),rgb;
+								
+								rgb = convert.yuvToRgb(bottomThreshold,yuv[1],yuv[2]);
+								
+								px.r = rgb[0];
+								px.g = rgb[1];
+								px.b = rgb[2];
+							}
+						} else {
+							if(luma > topThreshold) {
+								var yuv = convert.rgbToYuv(px.r,px.g,px.b),rgb;
+								
+								rgb = convert.yuvToRgb(topThreshold,yuv[1],yuv[2]);
+								
+								px.r = rgb[0];
+								px.g = rgb[1];
+								px.b = rgb[2];
+							}
+						}
+					});
+					} catch(e){
+						console.log(e.stack);
+						console.log('COCK!');
+					}
+					console.log('after here');
+					
+					baconCanvas.toBuffer(function(err, buf){
+						console.log('to buffer');
+						if(err){
+							console.log(err.stack);
+							throw Error("problem getting buffer from canvas \n"+err.message+"\n"+err.stack);
+						}
+						res.header('Content-Type','image/png');
+						res.send(buf);
+					});
+					
+					
+				});
+			};
+			img.src = imageSrc;
 			break;
 		default:
 			QRCode.draw(q.text||'',function(err,canvas){

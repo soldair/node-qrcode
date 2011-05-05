@@ -36,7 +36,7 @@
 				last = l;
 				setTimeout(function(){
 					//this will kinda lock the browsers event loop for a sec.
-					//it could have some setTimeout within processing to make it more client side friendly.
+					//it could have some setTimeout within processing to make it more client side friendly. or web workers...
 					if(l == last) {
 						var s=Date.now();
 						drawQR(z.value);

@@ -32,7 +32,7 @@ exports.QRCodeDrawConstructor = QRCodeDraw;
 * provide an api to return the max characters allowed for given dimensions, and miniumum error correction level
 * the qr code library will always use the maximum error correction level for the given numbar of chars constrained by size
 */
-exports.getMaxChars = function(minErrorCorrectionLevel,width,moduleWidth){
+exports.getMaxChars = function(minErrorCorrectionLevel,width,moduleScale){
 	//TODO THIS NEEDS TO WORK
 };
 
@@ -46,14 +46,13 @@ var draw = exports.draw = function(text,options,cb){
 	arguments = [].slice.call(arguments);
 	cb = arguments.pop();
 	if(typeof cb != 'function') {
-		throw new TypeError('last arguement must be a function');
+		throw new TypeError('last argument must be a function');
 	}
 	text = arguments.shift();
 	options = arguments.shift()||{};
 	
 	//TODO add optional options argument before calback
-	//TODO in order to be predictable i will provide an api that throws exceptions if the data cannot fit
-	// in the specified width. from a design perspective qr codes with dynmic data cannot break layout
+	//TODO in order to be predictable from a design perspective qr codes with dynamic data cannot break layout
 	//NOTE the width and height are determined from within the qr code lib and are not configurable from the outside yet
 	drawInstance.draw(new Canvas(200,200),text,function(error,canvas){
 		cb(error,canvas)
@@ -104,6 +103,8 @@ exports.save = function(path,text,cb){
 this returns an array of points that have either a 0 or 1 value representing 0 for light and 1 for dark
 these values include points in the white edge of the qrcode because that edge is actually part of the spec  
 */
-exports.drawBits = function(text,cb){
-	//TODO THIS NEEDS TO WORK
+exports.drawBitArray = function(text,cb){
+	drawInstance.drawBitArray(text,function(error,bits,width){
+		cb(error,bits,width);
+	});
 }
