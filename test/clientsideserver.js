@@ -120,7 +120,6 @@ app.get('/generate', function(req, res){
 		case "bacon-bikini":
 			if(!imageSrc) imageSrc = __dirname+'/fixtures/bacon-bikini.png';
 		case "image":
-			console.log('hit');
 			var img = new Image(),convert = canvasutil.conversionLib;
 			img.onload = function(){
 				QRCode.draw(q.text||'',function(err,canvas){
