@@ -60,7 +60,7 @@ var draw = exports.draw = function(text,options,cb){
 };
 
 //returns data uri for drawn qrcode png
-exports.toDataURL = function(text,cb){
+exports.toDataURL = exports.toDataURI = function(text,cb){
 	draw(text,function(error,canvas){
 		if(error) {
 			cb(error,'');
