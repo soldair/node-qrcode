@@ -44,7 +44,7 @@ simple test
 	var QRCode = require('qrcode');
 
 	QRCode.toDataURL('i am a pony!',function(err,url){
-		sys.print(url);
+		console.log(url);
 	});
 
 in bash
