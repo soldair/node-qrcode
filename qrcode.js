@@ -24,6 +24,27 @@ var dataURL = exports.toDataURL = function(text,cb){
 	});
 }
 
+//synchronous PNGStream
+var pngStream = exports.toPNGStream = function (text, WSpath, cb) {
+	var out = fs.createWriteStream(WSpath);
+	
+	draw(text,function (error,canvas) {
+		if(error) {
+			cb(error,'');
+		} else {
+			stream = canvas.createPNGStream();
+		}
+	});
+	
+	stream.on('data', function (chunk) {
+	  out.write(chunk);
+	});
+
+	stream.on('end', function () {
+	  console.log('saved png');
+	});	
+}
+
 //returns bytes written to file 
 exports.save = function(path,text,cb){
 	draw(text,function(error,canvas){
