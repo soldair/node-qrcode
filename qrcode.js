@@ -70,7 +70,35 @@ exports.toDataURL = exports.toDataURI = function(text,cb){
 	});
 }
 
-//callback with bytes written to file 
+//synchronous PNGStream
+var pngStream = exports.toPNGStream = function (text, WSpath, cb) {
+	var out = fs.createWriteStream(WSpath);
+	
+        draw(text,function (error,canvas) {
+          if(error) {
+                  cb(error,'');
+          } else {
+                  stream = canvas.createPNGStream();
+          }
+
+          stream.on('end', function () {
+            cb(error,'');
+          });
+
+          stream.pipe(out);
+
+        });
+	
+	stream.on('end', function () {
+          cb(error,'');
+	});
+
+        stream.pipe(out);
+
+        return out;
+}
+
+//returns bytes written to file 
 exports.save = function(path,text,cb){
 	draw(text,function(error,canvas){
 
