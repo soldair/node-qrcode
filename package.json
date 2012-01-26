@@ -9,7 +9,7 @@
    "canvas": ">= 0.4.3"
  }
  ,"devDependencies":{
-	"connect":"*"
+	"connect":"1.8.*"
  }
  ,"repository":{
 	"type":"git"
