@@ -1,0 +1,20 @@
+#!/usr/bin/env node
+
+try{
+  var qr = require('qrcode');
+
+} catch (e) {
+	qr = require(__dirname+'/../qrcode.js');
+}
+
+
+var text = process.argv[2];
+
+if (text && text.length) {
+  qr.drawAscii(text,function(error,text){
+    process.stdout.write(text);
+    process.stdout.write("\n");
+  });
+} else {
+  process.stderr.write("text required as first argument.\n");
+}

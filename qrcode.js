@@ -9,24 +9,22 @@
 *
 */
 
-var QRCodeDraw = require(__dirname+'/lib/qrcode-draw')
+var QRCodeLib = require(__dirname+'/lib/qrcode-draw')
+, termialRender = require(__dirname+'/lib/termialrender.js')
 , Canvas = require('canvas')
-, fs = require('fs')
-, drawInstance = new QRCodeDraw();
+, fs = require('fs');
+
+
+var QRCodeDraw = QRCodeLib.QRCodeDraw,
+  QRCode = QRCodeLib.QRCode;
 
 //EXPORTS
-/*
-so i return an instance... this is a terrible api because it kinda blocks 
-being able to do more than just extensions and the opperation of the qrcode
-lib now alters the state of the object.. 
-which is not an issue unless you need to read properties off of an object in a callback
-*/
-exports.QRCodeDraw = drawInstance;
-/*
-to make amends im adding the constriuctor to this object so extensions and instances can be made easily
-this has to be done i dont like this name but backwards compat requires that the top object be an instance
-*/
-exports.QRCodeDrawConstructor = QRCodeDraw;
+
+//
+// breaking change to 0.1 this used to be an instance. now it returns the constructor.
+//
+exports.QRCodeDraw = QRCodeDraw;
+
 
 /*
 * provide an api to return the max characters allowed for given dimensions, and miniumum error correction level
@@ -43,63 +41,61 @@ exports.getMaxChars = function(minErrorCorrectionLevel,width,moduleScale){
 */
 var draw = exports.draw = function(text,options,cb){
 
-	arguments = [].slice.call(arguments);
-	cb = arguments.pop();
+	var args = Array.prototype.slice.call(arguments);
+	cb = args.pop();
 	if(typeof cb != 'function') {
 		throw new TypeError('last argument must be a function');
 	}
-	text = arguments.shift();
-	options = arguments.shift()||{};
 	
-	//TODO add optional options argument before calback
-	//TODO in order to be predictable from a design perspective qr codes with dynamic data cannot break layout
+	text = args.shift();
+	options = args.shift()||{};
+	
 	//NOTE the width and height are determined from within the qr code lib and are not configurable from the outside yet
-	drawInstance.draw(new Canvas(200,200),text,function(error,canvas){
+  
+	var drawInstance = new QRCodeDraw();
+	drawInstance.draw(new Canvas(200,200),text,options,function(error,canvas){
 		cb(error,canvas)
 	});
 };
 
 //returns data uri for drawn qrcode png
 exports.toDataURL = exports.toDataURI = function(text,cb){
-	draw(text,function(error,canvas){
-		if(error) {
-			cb(error,'');
-		} else {
-			canvas.toDataURL(cb);
-		}
-	});
+  draw(text,function(error,canvas){
+    if(error) {
+      cb(error,'');
+    } else {
+      canvas.toDataURL(cb);
+    }
+  });
 }
 
 //synchronous PNGStream
-var pngStream = exports.toPNGStream = function (text, WSpath, cb) {
-	var out = fs.createWriteStream(WSpath);
-	
-        draw(text,function (error,canvas) {
-          if(error) {
-                  cb(error,'');
-          } else {
-                  stream = canvas.createPNGStream();
-          }
+exports.toPNGStream = function (text, WSpath, cb) {
+  var out = fs.createWriteStream(WSpath);
 
-          stream.on('end', function () {
-            cb(error,'');
-          });
+  draw(text,function (error,canvas) {
+    if(error) {
+      cb(error,'');
+    } else {
+      stream = canvas.createPNGStream();
+    }
 
-          stream.pipe(out);
+    stream.pipe(out);
 
-        });
-	
-	stream.on('end', function () {
-          cb(error,'');
-	});
+    stream.on('end', function () {
+      cb(error,'');
+    });
 
-        stream.pipe(out);
+    stream.pipe(out);
+    
+  });
 
-        return out;
+  return out;
 }
 
 //returns bytes written to file 
 exports.save = function(path,text,cb){
+
 	draw(text,function(error,canvas){
 
 		var fd,buf,fdAndBuf = function(){
@@ -127,12 +123,26 @@ exports.save = function(path,text,cb){
 };
 
 
-/*
-this returns an array of points that have either a 0 or 1 value representing 0 for light and 1 for dark
-these values include points in the white edge of the qrcode because that edge is actually part of the spec  
-*/
+//
+//this returns an array of points that have either a 0 or 1 value representing 0 for light and 1 for dark
+//these values include points in the white edge of the qrcode because that edge is actually part of the spec  
+//
 exports.drawBitArray = function(text,cb){
-	drawInstance.drawBitArray(text,function(error,bits,width){
-		cb(error,bits,width);
-	});
+  var drawInstance = new QRCodeDraw();
+  drawInstance.drawBitArray(text,function(error,bits,width){
+    cb(error,bits,width);
+  });
 }
+
+exports.drawForConsole = exports.drawAscii = function(text,cb){
+  var drawInstance = new QRCodeDraw();
+  drawInstance.drawBitArray(text,function(error,bits,width){
+    if (!error) {
+      var code = termialRender.renderBits(bits,width);
+      cb(error,code);
+    } else {
+      cb(error,null);
+    }
+  });
+}
+
