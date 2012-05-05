@@ -1,5 +1,5 @@
 /*
-*copyright Ryan Day 2011
+*copyright Ryan Day 2012
 *
 * Licensed under the MIT license:
 *   http://www.opensource.org/licenses/mit-license.php
@@ -10,7 +10,7 @@
 */
 
 var QRCodeLib = require(__dirname+'/lib/qrcode-draw')
-, termialRender = require(__dirname+'/lib/termialrender.js')
+, terminalRender = require(__dirname+'/lib/termialrender.js')
 , Canvas = require('canvas')
 , fs = require('fs');
 
@@ -138,7 +138,7 @@ exports.drawForConsole = exports.drawAscii = function(text,cb){
   var drawInstance = new QRCodeDraw();
   drawInstance.drawBitArray(text,function(error,bits,width){
     if (!error) {
-      var code = termialRender.renderBits(bits,width);
+      var code = terminalRender.renderBits(bits,width);
       cb(error,code);
     } else {
       cb(error,null);
