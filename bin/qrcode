@@ -1,20 +1,30 @@
 #!/usr/bin/env node
 
 try{
-  var qr = require('qrcode');
-
-} catch (e) {
-	qr = require(__dirname+'/../qrcode.js');
+  var qr = require(__dirname+'/../qrcode.js');
+} catch (e) { 
+  qr = require('qrcode');
 }
 
-
-var text = process.argv[2];
+var text = process.argv[2],
+  file = process.argv[3];
 
 if (text && text.length) {
-  qr.drawAscii(text,function(error,text){
-    process.stdout.write(text);
-    process.stdout.write("\n");
-  });
+  if(file && file.length){
+    qr.save(file,text,function(err,data){
+      if(!err) {
+        process.stdout.write("saved qrcode png to: "+file+"\n");
+      } else {
+        process.stderr.write("failed to save qrcode\n");
+	throw err;
+      }
+    });
+  } else {
+    qr.drawAscii(text,function(error,text){
+      process.stdout.write(text);
+      process.stdout.write("\n");
+    });
+  }
 } else {
-  process.stderr.write("text required as first argument.\n");
+  process.stderr.write("text\n\trequired as first argument.\nfile name [optional]\n\tto save png qrcode may be provided as optional second argument\n");
 }
