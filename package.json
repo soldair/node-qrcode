@@ -21,7 +21,6 @@
   "express":"2.5.x"
   ,"browserify":"1.9.x"
   ,"uglify-js":"1.2.x"
-  ,"connect":"1.8.x"
  }
  ,"repository":{
 	"type":"git"
