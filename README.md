@@ -40,7 +40,7 @@ examples
 --------
 simple test
 
-	var sys = require('sys');
+	var util = require('util');
 	var QRCode = require('qrcode');
 
 	QRCode.toDataURL('i am a pony!',function(err,url){
