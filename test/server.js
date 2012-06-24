@@ -1,5 +1,5 @@
 var QRCode = require(__dirname+'/../qrcode')
-	, connect = require('connect');
+	, connect = require('express');
 	
 function testQRCode(req, res) {
 	res.writeHead(200, { 'Content-Type': 'text/html' });
