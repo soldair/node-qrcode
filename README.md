@@ -2,11 +2,28 @@ node-qrcode
 ===========
 
 
-This is a node js server side QR code / 2d barcode generator.
+This is a server side QR code / 2d barcode generator.
 it is an extension of "QRCode for JavaScript" which Kazuhiko Arase thankfully mit licensed
 
 the qrcode-draw.js can be used  directly as a client side lib if its appended too or included with lib/qrcode.js
 to use this on the server side please require('qrcode'); =)
+
+examples
+--------
+simple test
+
+	var QRCode = require('qrcode');
+
+	QRCode.toDataURL('i am a pony!',function(err,url){
+		console.log(url);
+	});
+
+in your shell if you install globally
+
+	qrcode "hi i want a qrcode"
+
+qr code capacity.
+-----------------
 
 this libary can encode a string up to lengths:
 2953 in error correct level L
@@ -24,6 +41,10 @@ install
 
 	npm install qrcode
 
+	to use qrcode from the command line to save  qrcode images or generate ones you can view in your termial
+
+	npm install -g qrcode 
+
 api
 ---
 	QRCode.draw(text,cb(error,canvas));
@@ -35,22 +56,15 @@ api
 
 	QRCode.save(path,text,cb(error,written));
 		saves png to the path specified returns bytes written
+
+	QRCode.drawText(text,cb)
+		returns an ascii representation of the qrcode using unicode characters and ansi control codes for background control.
+
+	QRCode.drawBitArray(text,cb(error,bits,width));
+		returns an array with each value being either 0 light or 1 dark and the width of each row.
+		this is enough info to render a qrcode any way you want =)
+
 	
-examples
---------
-simple test
-
-	var util = require('util');
-	var QRCode = require('qrcode');
-
-	QRCode.toDataURL('i am a pony!',function(err,url){
-		console.log(url);
-	});
-
-in bash
-
-	node ./tests/url.js
-
 
 for server use:
 see tests/server.js
