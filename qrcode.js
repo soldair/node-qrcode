@@ -32,6 +32,7 @@ exports.QRCodeDraw = QRCodeDraw;
 */
 exports.getMaxChars = function(minErrorCorrectionLevel,width,moduleScale){
 	//TODO THIS NEEDS TO WORK
+        console.log('this doesnt work yet. comming soon =)');
 };
 
 
@@ -134,7 +135,7 @@ exports.drawBitArray = function(text,cb){
   });
 }
 
-exports.drawForConsole = exports.drawAscii = function(text,cb){
+exports.drawText = function(text,cb){
   var drawInstance = new QRCodeDraw();
   drawInstance.drawBitArray(text,function(error,bits,width){
     if (!error) {

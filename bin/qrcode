@@ -20,7 +20,7 @@ if (text && text.length) {
       }
     });
   } else {
-    qr.drawAscii(text,function(error,text){
+    qr.drawText(text,function(error,text){
       process.stdout.write(text);
       process.stdout.write("\n");
     });
