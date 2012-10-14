@@ -2,7 +2,7 @@ var express = require('express')
 	,app = express.createServer()
 	,fs = require('fs')
 	,QRCode = require(__dirname+'/../qrcode')
-	,canvasutil = require(__dirname+'/../../node-canvasutil/app.js')
+	,canvasutil = require('canvasutil')
 	,Canvas = require('canvas')
 	,Image = Canvas.Image;
 

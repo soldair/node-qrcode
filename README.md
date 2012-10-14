@@ -29,7 +29,7 @@ this libary can encode a string up to lengths:
 2953 in error correct level L
 2331 in error correct level M
 1663 in error correct level Q
-1273 in error correct level h
+1273 in error correct level H
 
 the default is H. 
 It can now be changed in an ugly way that wont be supported for more then another few days if you really need to.
@@ -45,22 +45,33 @@ install
 
 	npm install -g qrcode 
 
+
+  node-canvas is a native module and requires dev packages of cairo and pixman to compile. 
+  on ubuntu you can install them with apt-get and npm install will work great.
+
+  ```sh
+  
+  sudo apt-get install libpixman-1-dev libcairo2-dev
+  ```
+  
+  it is my higest priority for this module to use an all js png encoder and remove this dep.
+
 api
 ---
-	QRCode.draw(text,cb(error,canvas));
+	QRCode.draw(text, [optional options], cb(error,canvas));
 		returns node canvas object see https://github.com/LearnBoost/node-canvas for all of the cool node things you can do
 		look up the canvas api for the other cool things
 
-	QRCode.toDataURL(text,cb(error,dataURL));
+	QRCode.toDataURL(text, [optional options], cb(error,dataURL));
 		returns mime image/png data url for the 2d barcode 
 
-	QRCode.save(path,text,cb(error,written));
+	QRCode.save(path, text, [optional options] , cb(error,written));
 		saves png to the path specified returns bytes written
 
-	QRCode.drawText(text,cb)
+	QRCode.drawText(text, [optional options],cb)
 		returns an ascii representation of the qrcode using unicode characters and ansi control codes for background control.
 
-	QRCode.drawBitArray(text,cb(error,bits,width));
+	QRCode.drawBitArray(text, [optional options], cb(error,bits,width));
 		returns an array with each value being either 0 light or 1 dark and the width of each row.
 		this is enough info to render a qrcode any way you want =)
 
@@ -71,6 +82,7 @@ see tests/server.js
 
 for client side use:
 open tests/clientside.html in your browser
+
 or run tests/clientsideserver.js
 yes, it really works in the browser. new browsers but yeah it works.
 for bad ones perhaps try excanvas?
