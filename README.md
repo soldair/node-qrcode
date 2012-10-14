@@ -15,15 +15,91 @@ examples
 --------
 simple test
 
+```js
+
 	var QRCode = require('qrcode');
 
 	QRCode.toDataURL('i am a pony!',function(err,url){
 		console.log(url);
 	});
 
-in your shell if you install globally
+```
+in your terminal if you install globally
+
+```sh
 
 	qrcode "hi i want a qrcode"
+
+  qrcode "i like to save qrs to file" qr.png
+
+
+```
+
+in client side html. 
+
+```html
+
+    <!--[if ie]><script type="text/javascript" src="/vendors/excanvas/excanvas.js"></script><![endif]-->
+		<script src="/build/qrcode.js"></script>
+		<canvas id="test"></canvas>
+		<script>
+
+		  var qrcodedraw = new qrcodelib.qrcodedraw();
+		  //triggered errors will throw
+		  qrcodedraw.errorbehavior.length = false;
+
+			qrcodedraw.draw(document.getElementByID('test'),text,function(error,canvas){
+			  if(error) {
+			    if(window.console && window.console.warn) {
+			      console.warn(error);
+			    } else {
+			      alert(error);
+			    }
+			  }
+			});
+    </script>
+
+```
+
+remeber to put excanvas and qrcode.js somewhere where your browser can find them
+
+server side api
+---------------
+
+  QRCode.draw(text, [optional options], cb(error,canvas));
+    returns node canvas object see https://github.com/LearnBoost/node-canvas for all of the cool node things you can do
+    look up the canvas api for the other cool things
+
+  QRCode.toDataURL(text, [optional options], cb(error,dataURL));
+    returns mime image/png data url for the 2d barcode 
+
+  QRCode.save(path, text, [optional options] , cb(error,written));
+    saves png to the path specified returns bytes written
+
+  QRCode.drawText(text, [optional options],cb)
+    returns an ascii representation of the qrcode using unicode characters and ansi control codes for background control.
+
+  QRCode.drawBitArray(text, [optional options], cb(error,bits,width));
+    returns an array with each value being either 0 light or 1 dark and the width of each row.
+    this is enough info to render a qrcode any way you want =)
+
+
+client side api
+---------------
+
+window.qrcodelib
+  - .qrcodedraw() Constructor
+
+qrcodedraw instance
+  - .draw(canvasElement,text,[optional options],cb);
+
+
+for quick client side use:
+
+- run node test/clientsideserver.js
+- open localhost:3031 in your browser
+
+the javascript is in test/clientside.html
 
 qr code capacity.
 -----------------
@@ -59,36 +135,6 @@ install
   
   it is my higest priority for this module to use an all js png encoder and remove this dep.
 
-api
----
-	QRCode.draw(text, [optional options], cb(error,canvas));
-		returns node canvas object see https://github.com/LearnBoost/node-canvas for all of the cool node things you can do
-		look up the canvas api for the other cool things
-
-	QRCode.toDataURL(text, [optional options], cb(error,dataURL));
-		returns mime image/png data url for the 2d barcode 
-
-	QRCode.save(path, text, [optional options] , cb(error,written));
-		saves png to the path specified returns bytes written
-
-	QRCode.drawText(text, [optional options],cb)
-		returns an ascii representation of the qrcode using unicode characters and ansi control codes for background control.
-
-	QRCode.drawBitArray(text, [optional options], cb(error,bits,width));
-		returns an array with each value being either 0 light or 1 dark and the width of each row.
-		this is enough info to render a qrcode any way you want =)
-
-	
-
-for server use:
-see tests/server.js
-
-for client side use:
-open tests/clientside.html in your browser
-
-or run tests/clientsideserver.js
-yes, it really works in the browser. new browsers but yeah it works.
-for bad ones perhaps try excanvas?
 
 dependencies
 ------------

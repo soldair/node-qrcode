@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 	<head>
 		<title>client side test for node-qrcode</title>
-    		<!--[if IE]><script type="text/javascript" src="vendors/excanvas/excanvas.js"></script><![endif]-->
+    <!--[if ie]><script type="text/javascript" src="vendors/excanvas/excanvas.js"></script><![endif]-->
 		<script src="/build/qrcode.js"></script>
 		<style>.b{display:block;}</style>
 	</head>
@@ -15,11 +15,11 @@
 		<script>
 		      if(!window.console) window.console = {log:function(){},warn:function(){}};
 
-		      var QRCodeDraw = new QRCodeLib.QRCodeDraw();
+		      var qrcodedraw = new qrcodelib.qrcodedraw();
 		      //triggered errors will throw
-		      QRCodeDraw.errorBehavior.length = false;
-		      var drawQR = function(text){
-			QRCodeDraw.draw(document.getElementById('test'),text,function(error,canvas){
+		      qrcodedraw.errorbehavior.length = false;
+		      var drawqr = function(text){
+			qrcodedraw.draw(document.getElementById('test'),text,function(error,canvas){
 			  if(error) {
 			    if(window.console && window.console.warn) {
 			      console.warn(error);
@@ -51,9 +51,5 @@
 
 		</script>
 
-    <div>
-      <h1>L test</h1>
-      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHwAAAB8CAIAAAAkfEPpAAAABmJLR0QA/wD/AP+gvaeTAAACMklEQVR4nO3dwW4CMQwA0W7F///yckO5RIpleyeBeceKFjSK3G0I2+u+7z89659+Ab/I6ACjA4wOMDrA6ACjA4wOMDrA6ACjA4wOMDrA6ACjA4wOMDrA6ACjA16Zb76uq+p1fKy8Zzs+7/j4la9Xyby37EoHGB1gdEBqpo8yMy46czPP9eTrnHGlA4wOMDqgbKaPVmZfx/V4dF5Xvc4oVzrA6ACjA1pmepXZPJ19fTbrd+NKBxgdYHTA1jN99OReeTdXOsDoAKMDWmZ69zXybI5Hn5e6lnelA4wOMDqgbKZ3XC9nzres7M9QXOkAowOMDkjN9N32rKP77xRXOsDoAKMD2s+nP7n33X3epoorHWB0gNEBZdfpVfsk0bnfsQ+z8nr8zNFhjA4wOuDRcy9V8zc6czN/T3T8neFKBxgdYHTAVbW3EJ2tmc8HZa6jdzjD7koHGB1gdAB2lrHjd0D0MdR8d6UDjA4wOqDsOr1D1X1gMj/H/fQvYXSA0QHH3Jex6tp/5fHd53Nc6QCjA4wOOOa+jCvzuuNzpB37M650gNEBRgdsfV/G6PdG56/76T/E6ACjA7a+h9dsXztzhr3j8VGudIDRAUYHbD3Tq/bHV97z7D6LOXKlA4wOMDrgmPsydvxPjKr7gkW50gFGBxgdsPV9GWcye+WZee11+sGMDjA6YOvz6d/KlQ4wOsDoAKMDjA4wOsDoAKMDjA4wOsDoAKMDjA4wOsDoAKMDjA4wOsDogDcjgAwAvM5/aQAAAABJRU5ErkJggg==" title='L'/>
-    </div>
 	</body>
 </html>
