@@ -60,10 +60,16 @@ var draw = exports.draw = function(text,options,cb){
 };
 
 //returns data uri for drawn qrcode png
-exports.toDataURL = exports.toDataURI = function(text,cb){
-  draw(text,function(error,canvas){
+exports.toDataURL = exports.toDataURI = function(text,options,cb){
+
+  if(typeof options == 'function') {
+    cb = options;
+    options = {};
+  }
+
+  draw(text,options,function(error,canvas){
     if(error) {
-      cb(error,'');
+      cb(error);
     } else {
       canvas.toDataURL(cb);
     }
@@ -71,7 +77,13 @@ exports.toDataURL = exports.toDataURI = function(text,cb){
 }
 
 //synchronous PNGStream
-exports.toPNGStream = function (text, WSpath, cb) {
+exports.toPNGStream = function (text, WSpath, options,cb) {
+
+  if(typeof options == 'function'){
+    cb = options;
+    options = {};
+  }
+
   var out = fs.createWriteStream(WSpath);
 
   draw(text,function (error,canvas) {
@@ -95,7 +107,12 @@ exports.toPNGStream = function (text, WSpath, cb) {
 }
 
 //returns bytes written to file 
-exports.save = function(path,text,cb){
+exports.save = function(path,text,options,cb){
+
+  if(typeof options == 'function'){
+    cb = options;
+    options = {};
+  }
 
 	draw(text,function(error,canvas){
 
@@ -128,14 +145,29 @@ exports.save = function(path,text,cb){
 //this returns an array of points that have either a 0 or 1 value representing 0 for light and 1 for dark
 //these values include points in the white edge of the qrcode because that edge is actually part of the spec  
 //
-exports.drawBitArray = function(text,cb){
+exports.drawBitArray = function(text,options,cb){
+
+  if(typeof options == 'function'){
+    cb = options;
+    options = {};
+  }
+
   var drawInstance = new QRCodeDraw();
   drawInstance.drawBitArray(text,function(error,bits,width){
     cb(error,bits,width);
   });
 }
 
-exports.drawText = function(text,cb){
+//
+// draw qr in your terminal!
+//
+exports.drawText = function(text,options,cb){
+
+  if(typeof options == 'function'){
+    cb = options;
+    options = {};
+  }
+
   var drawInstance = new QRCodeDraw();
   drawInstance.drawBitArray(text,function(error,bits,width){
     if (!error) {

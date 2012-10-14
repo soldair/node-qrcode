@@ -8,7 +8,7 @@
  ,"scripts":{
     "pretest":"node build.js"
     ,"prepublish":"node build.js"
-    ,"test":"./test.sh"
+    ,"test":"tap test/url.js"
  }
  ,"bin":{
 	"qrcode":"./bin/qrcode"
@@ -21,6 +21,8 @@
   "express":"2.5.x"
   ,"browserify":"1.9.x"
   ,"uglify-js":"1.2.x"
+  ,"canvasutil":"*"
+  ,"tap":"*"
  }
  ,"repository":{
 	"type":"git"
