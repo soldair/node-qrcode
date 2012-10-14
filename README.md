@@ -88,10 +88,10 @@ client side api
 ---------------
 
 window.qrcodelib
-  - .qrcodedraw() Constructor
+  - qrcodelib.qrcodedraw() Constructor
 
-qrcodedraw instance
-  - .draw(canvasElement,text,[optional options],cb);
+qrcode = new qrcodelib.qrcodedraw()
+  - qrcode.draw(canvasElement,text,[optional options],cb);
 
 
 for quick client side use:
