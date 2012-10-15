@@ -39,25 +39,20 @@ in client side html.
 
 ```html
 
-    <!--[if ie]><script type="text/javascript" src="/vendors/excanvas/excanvas.js"></script><![endif]-->
-		<script src="/build/qrcode.js"></script>
-		<canvas id="test"></canvas>
-		<script>
+<!--[if ie]><script type="text/javascript" src="/vendors/excanvas/excanvas.js"></script><![endif]-->
+<script src="/build/qrcode.js"></script>
+<canvas id="test"></canvas>
+<script>
 
-		  var qrcodedraw = new qrcodelib.qrcodedraw();
-		  //triggered errors will throw
-		  qrcodedraw.errorbehavior.length = false;
+  var qrcodedraw = new qrcodelib.qrcodedraw();
 
-			qrcodedraw.draw(document.getElementByID('test'),text,function(error,canvas){
-			  if(error) {
-			    if(window.console && window.console.warn) {
-			      console.warn(error);
-			    } else {
-			      alert(error);
-			    }
-			  }
-			});
-    </script>
+  qrcodedraw.draw(document.getElementByID('test'),"this text will be in the code!",function(error,canvas){
+    if(error) {
+      return console.log('Error =( ',error);
+    }
+    console.log('success!');
+  });
+</script>
 
 ```
 
@@ -83,6 +78,14 @@ server side api
     returns an array with each value being either 0 light or 1 dark and the width of each row.
     this is enough info to render a qrcode any way you want =)
 
+options
+---------
+
+  errorCorrectLevel
+    can be one of the values in qrcode.errorCorrectLevel
+    can be a string. one of  "minumum","medium","high","max"
+    if undefined defaults to H which is max error correction
+    if invalid value defaults to minimum error correction
 
 client side api
 ---------------
