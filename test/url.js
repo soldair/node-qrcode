@@ -18,7 +18,7 @@ test('qrcode to data uri should be correct.',function(t){
 });
 
 test('qrcode generated with changed error correction should be expected value',function(t){
-  QRCode.toDataURL('i am a pony!',{errorCorrectLevel:'L'},function(err,url){
+  QRCode.toDataURL('i am a pony!',{errorCorrectLevel:'minimum'},function(err,url){
     t.ok(!err,'there should be no error '+err);
     t.equals(url,lShouldBe,"url should match expected value for error correction L");
     t.end();

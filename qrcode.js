@@ -25,6 +25,10 @@ var QRCodeDraw = QRCodeLib.QRCodeDraw,
 //
 exports.QRCodeDraw = QRCodeDraw;
 
+//
+// export error correct levels.
+//
+exports.errorCorrectLevels = QRCodeLib.QRErrorCorrectLevel;
 
 /*
 * provide an api to return the max characters allowed for given dimensions, and miniumum error correction level
@@ -32,7 +36,7 @@ exports.QRCodeDraw = QRCodeDraw;
 */
 exports.getMaxChars = function(minErrorCorrectionLevel,width,moduleScale){
 	//TODO THIS NEEDS TO WORK
-        console.log('this doesnt work yet. comming soon =)');
+  console.log('this doesnt work yet. comming soon =)');
 };
 
 
@@ -50,7 +54,13 @@ var draw = exports.draw = function(text,options,cb){
 	
 	text = args.shift();
 	options = args.shift()||{};
-	
+  var textKeys = {'minimum':"L",'medium':"M",'high':"Q",'max':"H"}
+	if(options.errorCorrectLevel) {
+    var ec = options.errorCorrectLevel;  
+    if(textKeys[ec]){
+      options.errorCorrectLevel = textKeys[ec];
+    }
+  }
 	//NOTE the width and height are determined from within the qr code lib and are not configurable from the outside yet
   
 	var drawInstance = new QRCodeDraw();
