@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 	<head>
 		<title>client side test for node-qrcode</title>
-    		<!--[if IE]><script type="text/javascript" src="vendors/excanvas/excanvas.js"></script><![endif]-->
+    <!--[if ie]><script type="text/javascript" src="vendors/excanvas/excanvas.js"></script><![endif]-->
 		<script src="/build/qrcode.js"></script>
 		<style>.b{display:block;}</style>
 	</head>
@@ -15,11 +15,11 @@
 		<script>
 		      if(!window.console) window.console = {log:function(){},warn:function(){}};
 
-		      var QRCodeDraw = new QRCodeLib.QRCodeDraw();
+		      var qrcodedraw = new qrcodelib.qrcodedraw();
 		      //triggered errors will throw
-		      QRCodeDraw.errorBehavior.length = false;
-		      var drawQR = function(text){
-			QRCodeDraw.draw(document.getElementById('test'),text,function(error,canvas){
+		      qrcodedraw.errorbehavior.length = false;
+		      var drawqr = function(text){
+			qrcodedraw.draw(document.getElementById('test'),text,function(error,canvas){
 			  if(error) {
 			    if(window.console && window.console.warn) {
 			      console.warn(error);
@@ -50,5 +50,6 @@
 			drawQR('i work client side too?');
 
 		</script>
+
 	</body>
 </html>
