@@ -4,7 +4,6 @@
 node-qrcode
 =
 
-
 This is a server side QR code/2d barcode generator.
 
 It is an extension of "QRCode for JavaScript" which Kazuhiko Arase thankfully MIT licensed.
@@ -15,12 +14,12 @@ To use this on the server side please `require('qrcode');` =)
 
 Examples
 --------
-simple server side test
+A simple server side test...
 
     var QRCode = require('qrcode');
     
     QRCode.toDataURL('i am a pony!',function(err,url){
-    	console.log(url);
+        console.log(url);
     });
 
 
@@ -51,13 +50,13 @@ In client side HTML...
     </script>
 
 
-Remember to put `excanvas.js` and `qrcode.js` somewhere where your browser can find them
+Remember to put `excanvas.js` and `qrcode.js` somewhere where your browser can find them.
 
 Server Side API
 ---
 
     QRCode.draw(text, [optional options], cb(error,canvas));
-Returns node canvas object see https://github.com/LearnBoost/node-canvas for all of the cool node things you can do. Look up the canvas api for the other cool things.
+Returns a node canvas object see https://github.com/LearnBoost/node-canvas for all of the cool node things you can do. Look up the canvas api for the other cool things.
     
     QRCode.toDataURL(text, [optional options], cb(error,dataURL));
 Returns mime image/png data url for the 2d barcode.
@@ -80,7 +79,7 @@ Options
 
 Can be one of the values in `qrcode.errorCorrectLevel`.
 Can be a string. one of `"minumum","medium","high","max"`.
-If undefined, defaults to H which is max error correction.
+If `undefined`, defaults to H which is max error correction.
 If invalid value, defaults to minimum error correction.
 
 client side api
@@ -94,10 +93,10 @@ client side api
     qrcode.draw(canvasElement,text,[optional options],cb);
 
 
-For quick client side use:
+For quick client side use...
 
-    run node test/clientsideserver.js
-    open localhost:3031 in your browser
+    node test/clientsideserver.js
+    open http://localhost:3031
 
 The JavaScript is in `test/clientside.html`.
 
@@ -120,7 +119,7 @@ Installation
 --
 
     npm install qrcode
-To use qrcode from the command line to save  qrcode images or generate ones you can view in your termial
+To use qrcode from the command line to save  qrcode images or generate ones you can view in your terminal...
 
     npm install -g qrcode 
 `node-canvas` is a native module and requires dev packages of `cairo` and `pixman` to compile. 
@@ -137,7 +136,7 @@ These should be taken care of for you by npm but you should...
 
     npm install canvas
 
-If `cairo` gives you trouble and you cannot install `canvas`, checkout the canvas site. I know tj has setup a way to download and install a version of cairo/pixman for testing.
+If `cairo` gives you trouble and you cannot install `canvas`, checkout the canvas site. I know @tjholowaychuk has setup a way to download and install a version of cairo/pixman for testing.
 
 The word "QR Code" is registered trademark of:
 
