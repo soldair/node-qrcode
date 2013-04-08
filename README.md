@@ -39,9 +39,9 @@ In client side HTML...
     <canvas id="test"></canvas>
     <script>
     
-    var qrcodedraw = new qrcodelib.qrcodedraw();
+    var qrcodedraw = new QRCodeLib.QRCodeDraw();
     
-    qrcodedraw.draw(document.getElementByID('test'),"this text will be in the code!", function(error,canvas){
+    qrcodedraw.draw(document.getElementById('test'),"this text will be in the code!", function(error,canvas){
       if(error){
          return console.log('Error =( ',error);
       }
