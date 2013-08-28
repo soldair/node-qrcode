@@ -1,32 +1,40 @@
-{ "name": "qrcode"
- ,"description": "QRCode / 2d Barcode api with both server side and client side support using canvas"
- ,"version": "0.2.5"
- ,"author": "Ryan Day <soldair@gmail.com>"
- ,"keywords": ["canvas", "qrcode", "barcode"]
- ,"main": "./qrcode.js"
- ,"homepage":"http://github.com/soldair/node-qrcode"
- ,"scripts":{
-    "pretest":"node build.js"
-    ,"prepublish":"node build.js"
-    ,"test":"tap test/url.js"
- }
- ,"bin":{
-	"qrcode":"./bin/qrcode"
- }
- ,"dependencies": {
-   "canvas": ">= 0.4.3 <=1.0.4",
-   "colors":"*"
- }
- ,"devDependencies":{
-  "express":"2.5.x"
-  ,"browserify":"1.9.x"
-  ,"uglify-js":"1.2.x"
-  ,"canvasutil":"*"
-  ,"tap":"*"
- }
- ,"repository":{
-	"type":"git"
-	,"url":"git://github.com/soldair/node-qrcode.git"
- }
- ,"engines":{"node":">=0.2.3"}
+{
+  "name": "qrcode",
+  "description": "QRCode / 2d Barcode api with both server side and client side support using canvas",
+  "version": "0.2.5",
+  "author": "Ryan Day <soldair@gmail.com>",
+  "keywords": [
+    "canvas",
+    "qrcode",
+    "barcode"
+  ],
+  "main": "./qrcode.js",
+  "homepage": "http://github.com/soldair/node-qrcode",
+  "scripts": {
+    "pretest": "node build.js",
+    "prepublish": "node build.js",
+    "test": "tap test/url.js"
+  },
+  "bin": {
+    "qrcode": "./bin/qrcode"
+  },
+  "dependencies": {
+    "canvas": ">= 0.4.3 <=1.0.4",
+    "colors": "*",
+    "bops": "0.0.6"
+  },
+  "devDependencies": {
+    "express": "2.5.x",
+    "browserify": "1.9.x",
+    "uglify-js": "1.2.x",
+    "canvasutil": "*",
+    "tap": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/soldair/node-qrcode.git"
+  },
+  "engines": {
+    "node": ">=0.2.3"
+  }
 }

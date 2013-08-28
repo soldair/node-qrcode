@@ -61,6 +61,9 @@ var draw = exports.draw = function(text,options,cb){
       options.errorCorrectLevel = textKeys[ec];
     }
   }
+
+//-------------^^^^^^^^^
+
 	//NOTE the width and height are determined from within the qr code lib and are not configurable from the outside yet
   
 	var drawInstance = new QRCodeDraw();
