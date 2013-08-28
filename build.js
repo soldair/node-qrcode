@@ -4,9 +4,10 @@ var spawn = require('child_process').spawn,
 
 var q = [
   function(){
-    var browserify = spawn('node',['node_modules/browserify/bin/cli.js','qrcodeclient.js','-o', 'build/qrcode.js']);
+    var browserify = spawn('node',['node_modules/browserify/bin/cmd.js','qrcodeclient.js','-o', 'build/qrcode.js']);
     browserify.stdin.end();
     browserify.stdout.pipe(process.stdout);
+    browserify.stderr.pipe(process.stderr);
     browserify.on('exit',function(code){
       if(code){
         console.error('browserify failed!');

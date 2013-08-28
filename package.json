@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "express": "2.5.x",
-    "browserify": "1.9.x",
+    "browserify": "~2.29.0",
     "uglify-js": "1.2.x",
     "canvasutil": "*",
     "tap": "*"
