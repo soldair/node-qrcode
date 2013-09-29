@@ -99,7 +99,7 @@ exports.toPNGStream = function (text, WSpath, options,cb) {
 
   var out = fs.createWriteStream(WSpath);
 
-  draw(text,function (error,canvas) {
+  draw(text, options, function (error,canvas) {
     if(error) {
       cb(error,'');
     } else {
@@ -127,7 +127,7 @@ exports.save = function(path,text,options,cb){
     options = {};
   }
 
-	draw(text,function(error,canvas){
+	draw(text, options, function(error,canvas){
 
 		var fd,buf,fdAndBuf = function(){
 			fs.write(fd, buf, 0, buf.length, 0, function(error,written){
