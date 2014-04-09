@@ -67,8 +67,8 @@ var draw = exports.draw = function(text,options,cb){
 	//NOTE the width and height are determined from within the qr code lib and are not configurable from the outside yet
   
 	var drawInstance = new QRCodeDraw();
-	drawInstance.draw(new Canvas(200,200),text,options,function(error,canvas){
-		cb(error,canvas)
+	drawInstance.draw(new Canvas(200,200),text,options,function(error,canvas,qrWidth){
+		cb(error,canvas,qrWidth)
 	});
 };
 
