@@ -103,7 +103,7 @@ The JavaScript is in `test/clientside.html`.
 QR code capacity
 ---
 
-This libary can encode a string up to lengths:
+This libary can encode this many bytes at each error correct level:
 
 - 2953 in error correct level L
 - 2331 in error correct level M
@@ -111,6 +111,16 @@ This libary can encode a string up to lengths:
 - 1273 in error correct level H
 
 The default is H. 
+
+please note as pointed out by @giacecco that byte length is often greater than string length due to multibyte characters.
+
+```js
+// so use the byte length
+(new Buffer(str)).length
+
+// instead of the string length
+str.length 
+```
 
 It can now be changed in an ugly way that wont be supported for more then another few days if you really need to. Also the default module size at qr version 40 is really too small for the camera on my Nexus 1 and to make it larger i run out of screen to show it. At 40 the barcode scanner even finds random UPC 1d barcodes in the mass of little squares.
 the default module size cannot be changed through the public api at this time.
