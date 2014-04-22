@@ -30,6 +30,11 @@ exports.QRCodeDraw = QRCodeDraw;
 //
 exports.errorCorrectLevels = QRCodeLib.QRErrorCorrectLevel;
 
+//
+// export original canvas to be used with draw method, esp. Canvas.Image
+//
+exports.canvas=Canvas;
+
 /*
 * provide an api to return the max characters allowed for given dimensions, and miniumum error correction level
 * the qr code library will always use the maximum error correction level for the given numbar of chars constrained by size
