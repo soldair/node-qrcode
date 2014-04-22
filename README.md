@@ -78,7 +78,7 @@ Options
     errorCorrectLevel
 
 Can be one of the values in `qrcode.errorCorrectLevel`.
-Can be a string. one of `"minumum","medium","high","max"`.
+Can be a string. one of `"minimum","medium","high","max"`.
 If `undefined`, defaults to H which is max error correction.
 If invalid value, defaults to minimum error correction.
 
