@@ -135,22 +135,21 @@ exports.save = function(path,text,options,cb){
 	draw(text, options, function(error,canvas){
 
 		var fd,buf,fdAndBuf = function(){
-			fs.write(fd, buf, 0, buf.length, 0, function(error,written){
+			fs.write(fd, buf, 0, buf.length, 0, function(fsErr, written){
 				fs.close(fd);
-				if(cb) cb(error,written);
+				if(cb) cb(fsErr, written);
 			});
 		};
 
 		//run non dependent async calls at the same time ish
-		canvas.toBuffer(function(error, _buf){
-			if(error) return cb(error,0);
-			
+		canvas.toBuffer(function(canvasErr, _buf){
+			if(canvasErr) return cb(canvasErr);
 			buf = _buf
 			if(fd) fdAndBuf();
 		});
 
-		fs.open(path, 'w', 0666, function(err,_fd){
-			if(error) return cb(error,0);
+		fs.open(path, 'w', 0666, function(fsErr,_fd){
+			if(fsErr) return cb(fsErr);
 			fd = _fd
 			if(buf) fdAndBuf();
 		});

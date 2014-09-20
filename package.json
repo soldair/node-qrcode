@@ -1,7 +1,7 @@
 {
   "name": "qrcode",
   "description": "QRCode / 2d Barcode api with both server side and client side support using canvas",
-  "version": "0.2.11",
+  "version": "0.2.12",
   "author": "Ryan Day <soldair@gmail.com>",
   "keywords": [
     "canvas",
@@ -19,9 +19,9 @@
     "qrcode": "./bin/qrcode"
   },
   "dependencies": {
-    "bops": "0.0.6",
     "canvas": "~1.1.6",
-    "colors": "*"
+    "colors": "*",
+    "bops": "0.0.6"
   },
   "devDependencies": {
     "express": "2.5.x",
@@ -35,6 +35,6 @@
     "url": "git://github.com/soldair/node-qrcode.git"
   },
   "engines": {
-    "node": ">=0.2.3"
+    "node": ">= 0.6.0"
   }
 }
