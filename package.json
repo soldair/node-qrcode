@@ -9,6 +9,7 @@
     "barcode"
   ],
   "main": "./qrcode.js",
+  "browser":"./lib/qrcode-draw.js",
   "homepage": "http://github.com/soldair/node-qrcode",
   "scripts": {
     "pretest": "node build.js",
