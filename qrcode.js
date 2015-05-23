@@ -9,8 +9,8 @@
 *
 */
 
-var QRCodeLib = require(__dirname+'/lib/qrcode-draw')
-, terminalRender = require(__dirname+'/lib/termialrender.js')
+var QRCodeLib = require('qrcode-canvas/lib/qrcode-draw')
+, terminalRender = require('qrcode-canvas/lib/termialrender')
 , Canvas = require('canvas')
 , fs = require('fs');
 
