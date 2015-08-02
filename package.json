@@ -1,7 +1,7 @@
 {
   "name": "qrcode",
   "description": "QRCode / 2d Barcode api with both server side and client side support using canvas",
-  "version": "0.2.12",
+  "version": "0.3.0",
   "author": "Ryan Day <soldair@gmail.com>",
   "keywords": [
     "canvas",
