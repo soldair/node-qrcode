@@ -20,7 +20,7 @@
     "qrcode": "./bin/qrcode"
   },
   "dependencies": {
-    "canvas": "~1.1.6",
+    "canvas": "~1.2.9",
     "colors": "*",
     "bops": "0.0.6"
   },
