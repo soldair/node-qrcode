@@ -1,5 +1,8 @@
 language: node_js
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install -y libgif-dev
 node_js:
   - "0.10"
   - "0.12"
-  - "4.0"
+  - "4.2.1"
