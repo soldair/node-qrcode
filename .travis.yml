@@ -1,7 +1,7 @@
 language: node_js
 before_install:
-  sudo apt-get update
-  sudo apt-get install -y libpixman-1-dev libcairo2-dev libpangocairo-1.0-0 libpango1.0-dev libgif-dev
+  - sudo apt-get update
+  - sudo apt-get install -y libpixman-1-dev libcairo2-dev libpangocairo-1.0-0 libpango1.0-dev libgif-dev
 node_js:
   - "0.10"
   - "0.12"
