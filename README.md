@@ -143,9 +143,9 @@ npm install -g qrcode
  On ubuntu you can install them with `apt-get` and `npm install` will work great.
   
 ```shell
-sudo apt-get install libpixman-1-dev libcairo2-dev libpangocairo-1.0-0 libpango1.0-dev libgif-dev
+sudo apt-get install libpixman-1-dev libcairo2-dev libpangocairo-1.0-0 libpango1.0-dev libgif-dev  libjpeg-dev
 ```
-It is my higest priority for this module to use an all `js` png encoder and remove this dep.
+i would like to switch to a js only image encoder to remove these deps.
 
 
 Dependencies
