@@ -159,3 +159,10 @@ If `cairo` gives you trouble and you cannot install `canvas`, checkout the canva
 The word "QR Code" is registered trademark of:
 
 DENSO WAVE INCORPORATED
+
+GS1 qrcodes
+-----------
+
+there was a real good discussion here about them. but in short any qrcode generator will make gs1 compatable qrcodes, but what defines a gs1 qrcode is a header with metadata that describes your gs1 information.
+
+https://github.com/soldair/node-qrcode/issues/45
