@@ -1,5 +1,5 @@
-var QRCode = require(__dirname+'/../qrcode.js');
+var QRCode = require('../qrcode.js');
 
-QRCode.drawAscii('yo yo yo',function(error,data){
+QRCode.drawText('yo yo yo',function(error,data){
     console.log(data);
 });

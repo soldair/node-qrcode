@@ -1,20 +1,22 @@
 var express = require('express')
 	,app = express.createServer()
 	,fs = require('fs')
-	,QRCode = require(__dirname+'/../qrcode')
+	,QRCode = require('../qrcode')
 	,canvasutil = require('canvasutil')
 	,Canvas = require('canvas')
 	,Image = Canvas.Image;
+
+var path = require('path')
 
 app.configure(function(){
 	app.use(express.methodOverride());
 	app.use(express.bodyParser());
 	app.use(app.router);
-	app.use(express.static(__dirname + '/../'));
+	app.use(express.static(path.resolve(__dirname,'..')));
 });
 
 app.get('/', function(req, res){
-	fs.readFile(__dirname+'/clientside.html', function (err, data) {
+	fs.readFile(path.join(__dirname,'clientside.html'), function (err, data) {
 		res.send(data?data.toString():err);
 	});
 });
@@ -53,22 +55,22 @@ app.get('/generate', function(req, res){
 });
 
 effectHandlers.node = function(args,cb){
-	args.src = __dirname+'/fixtures/node_logo.png';
-	this.image(args,cb);
+	args.src = path.join(__dirname,'fixtures','node_logo.png');
+	this.image(path.join(args,cb);
 };
 
 effectHandlers.npm = function(args,cb){
-	args.src = __dirname+'/fixtures/npm_logo.png';
+	args.src = path.join(__dirname,'fixtures','npm_logo.png');
 	this.image(args,cb);
 };
 
 effectHandlers.bacon = function(args,cb){
-	args.src = __dirname+'/fixtures/bacon-love.png';
+	args.src = path.join(__dirname,'fixtures','bacon-love.png');
 	this.image(args,cb);
 };
 
 effectHandlers.baconBikini = function(args,cb){
-	args.src = __dirname+'/fixtures/bacon-bikini.png';
+	args.src = path.join(__dirname,'fixtures','bacon-bikini.png');
 	this.image(args,cb);
 };
 
