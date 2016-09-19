@@ -54,12 +54,20 @@ Remember to put `excanvas.js` and `qrcode.js` somewhere where your browser can f
 
 Server Side API
 ---
+
 ```javascript
 QRCode.draw(text, [optional options], cb(error,canvas));
 ```
 Returns a node canvas object see https://github.com/LearnBoost/node-canvas for all of the cool node things you can do. Look up the canvas api for the other cool things.
+
 ```javascript
 QRCode.toDataURL(text, [optional options], cb(error,dataURL));
+
+```
+
+SVG output!
+```javascript
+QRCode.drawSvg(text, [optional options],cb(error, svgString)); 
 ```
 Returns mime image/png data url for the 2d barcode.
 ```javascript
