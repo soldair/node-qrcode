@@ -11,6 +11,7 @@
 
 var QRCodeLib = require('./lib/qrcode-draw')
 , terminalRender = require('./lib/termialrender.js')
+, svgRender = require('./lib/svgrender')
 , Canvas = require('canvas')
 , fs = require('fs');
 
@@ -134,6 +135,16 @@ exports.save = function(path,text,options,cb){
     options = {};
   }
 
+  var fileExt = path.slice((path.lastIndexOf(".") - 1 >>> 0) + 2).toLowerCase();
+
+  if (fileExt === 'svg') {
+    saveSvg(path,text,options,cb);
+  } else {
+    savePng(path,text,options,cb);
+  }
+};
+
+function savePng(path,text,options,cb){
 	draw(text, options, function(error,canvas){
 
 		var fd,buf,fdAndBuf = function(){
@@ -157,7 +168,17 @@ exports.save = function(path,text,options,cb){
 		});
 
 	});
-};
+}
+
+function saveSvg(path,text,options,cb){
+  exports.drawSvg(text,function(error,code){
+    if (!error) {
+      fs.writeFile(path, code, function(fsErr) {
+        return cb(fsErr, fsErr ? null : code);
+      });
+    }
+  });
+}
 
 
 //
@@ -199,3 +220,19 @@ exports.drawText = function(text,options,cb){
   });
 }
 
+exports.drawSvg = function(text,options,cb){
+  if(typeof options == 'function'){
+    cb = options;
+    options = {};
+  }
+
+  var drawInstance = new QRCodeDraw();
+  drawInstance.drawBitArray(text,function(error,bits,width){
+    if (!error) {
+      var code = svgRender.renderBits(bits,width,options);
+      cb(error,code);
+    } else {
+      cb(error,null);
+    }
+  });
+}
