@@ -13,7 +13,7 @@ if (text && text.length) {
   if(file && file.length){
     qr.save(file,text,function(err,data){
       if(!err) {
-        process.stdout.write("saved qrcode png to: "+file+"\n");
+        process.stdout.write("saved qrcode to: "+file+"\n");
       } else {
         process.stderr.write("failed to save qrcode\n");
 	throw err;
@@ -26,5 +26,5 @@ if (text && text.length) {
     });
   }
 } else {
-  process.stderr.write("text\n\trequired as first argument.\nfile name [optional]\n\tto save png qrcode may be provided as optional second argument\n");
+  process.stderr.write("text\n\trequired as first argument.\nfile name [optional]\n\tto save png or svg qrcode may be provided as optional second argument\n");
 }
