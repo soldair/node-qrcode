@@ -41,5 +41,11 @@
   },
   "engines": {
     "node": ">= 0.10"
+  },
+  "standard": {
+    "ignore": [
+      "build/",
+      "vendors/"
+    ]
   }
 }

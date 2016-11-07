@@ -1,5 +1,9 @@
-var QRCode = require('../qrcode.js');
+var QRCode = require('../qrcode.js')
 
-QRCode.drawText('yo yo yo',function(error,data){
-    console.log(data);
-});
+QRCode.drawText('yo yo yo', function (error, data) {
+  if (error) {
+    throw new Error(error)
+  }
+
+  console.log(data)
+})
