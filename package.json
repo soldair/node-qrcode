@@ -15,7 +15,7 @@
   "browser": "./lib/qrcode-draw.js",
   "homepage": "http://github.com/soldair/node-qrcode",
   "scripts": {
-    "pretest": "node build.js",
+    "pretest": "standard && node build.js",
     "prepublish": "node build.js",
     "test": "tap test/url.js test/svg.js"
   },
@@ -31,6 +31,7 @@
     "canvasutil": "*",
     "express": "2.5.x",
     "libxmljs": "^0.18.0",
+    "standard": "^8.5.0",
     "tap": "*",
     "uglify-js": "1.2.x"
   },
