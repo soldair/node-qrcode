@@ -24,8 +24,7 @@
   },
   "dependencies": {
     "canvas": "~1.3.4",
-    "colors": "*",
-    "bops": "0.0.6"
+    "colors": "*"
   },
   "devDependencies": {
     "browserify": "^13.1.1",
