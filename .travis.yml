@@ -1,8 +1,20 @@
 language: node_js
-before_install:
-  - sudo apt-get update
-  - sudo apt-get install -y libgif-dev
+
 node_js:
   - "0.10"
   - "0.12"
   - "4.2.1"
+
+env:
+  - CXX=g++-4.8
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
+
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install -y libgif-dev
