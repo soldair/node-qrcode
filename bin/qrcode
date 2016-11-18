@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 try {
-  var qr = require('../qrcode.js')
+  var qr = require('../lib')
 } catch (e) {
   qr = require('qrcode')
 }

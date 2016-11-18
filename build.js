@@ -3,7 +3,7 @@ var fs = require('fs')
 
 var q = [
   function () {
-    var browserify = spawn('node', ['node_modules/browserify/bin/cmd.js', 'qrcodeclient.js', '-o', 'build/qrcode.js'])
+    var browserify = spawn('node', ['node_modules/browserify/bin/cmd.js', 'lib/browser.js', '-o', 'build/qrcode.js'])
     browserify.stdin.end()
     browserify.stdout.pipe(process.stdout)
     browserify.stderr.pipe(process.stderr)

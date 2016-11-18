@@ -1,4 +1,4 @@
-var QRCode = require('../qrcode')
+var QRCode = require('../lib')
 var fs = require('fs')
 var util = require('util')
 

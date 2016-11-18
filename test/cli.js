@@ -1,4 +1,4 @@
-var QRCode = require('../qrcode.js')
+var QRCode = require('../lib')
 
 QRCode.drawText('yo yo yo', function (error, data) {
   if (error) {

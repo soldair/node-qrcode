@@ -1,4 +1,4 @@
-var QRCode = require('../qrcode')
+var QRCode = require('../lib')
 var connect = require('express')
 
 function testQRCode (req, res) {
