@@ -1,5 +1,5 @@
 
-var QRCodeLib = require('./lib/qrcode-draw.js')
+var QRCodeLib = require('./lib/renderer/qrcode-draw.js')
 
 if (typeof window !== 'undefined') {
   window.qrcodelib = window.QRCodeLib = QRCodeLib

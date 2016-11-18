@@ -9,9 +9,9 @@
 *
 */
 
-var QRCodeLib = require('./lib/qrcode-draw')
-var terminalRender = require('./lib/termialrender')
-var svgRender = require('./lib/svgrender')
+var QRCodeLib = require('./lib/renderer/qrcode-draw')
+var terminalRender = require('./lib/renderer/terminal')
+var svgRender = require('./lib/renderer/svg')
 var Canvas = require('canvas')
 var fs = require('fs')
 
@@ -44,7 +44,13 @@ exports.getMaxChars = function (minErrorCorrectionLevel, width, moduleScale) {
 }
 
 var parseOptions = function (options) {
-  var textKeys = {'minimum': 'L', 'medium': 'M', 'high': 'Q', 'max': 'H'}
+  var textKeys = {
+    'minimum': QRCodeLib.QRErrorCorrectLevel.L,
+    'medium': QRCodeLib.QRErrorCorrectLevel.M,
+    'high': QRCodeLib.QRErrorCorrectLevel.Q,
+    'max': QRCodeLib.QRErrorCorrectLevel.H
+  }
+
   if (options.errorCorrectLevel) {
     var ec = options.errorCorrectLevel
     if (textKeys[ec]) {
