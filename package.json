@@ -15,9 +15,11 @@
   "browser": "./lib/browser.js",
   "homepage": "http://github.com/soldair/node-qrcode",
   "scripts": {
-    "pretest": "standard && node build.js",
-    "prepublish": "node build.js",
-    "test": "tap --cov --coverage-report=text --reporter classic lib/**/*.test.js"
+    "lint": "standard",
+    "pretest": "npm run lint",
+    "test": "tap --cov --coverage-report=text --reporter classic 'lib/**/*.test.js'",
+    "build": "node build.js",
+    "prepublish": "npm run test && npm run build"
   },
   "bin": {
     "qrcode": "./bin/qrcode"
@@ -31,7 +33,7 @@
     "canvasutil": "*",
     "express": "2.5.x",
     "libxmljs": "^0.18.0",
-    "standard": "^8.5.0",
+    "standard": "*",
     "tap": "*",
     "uglify-js": "1.2.x"
   },
