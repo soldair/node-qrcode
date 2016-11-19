@@ -3,7 +3,21 @@ var fs = require('fs')
 
 var q = [
   function () {
-    var browserify = spawn('node', ['node_modules/browserify/bin/cmd.js', 'lib/browser.js', '-o', 'build/qrcode.js'])
+    if (!fs.existsSync('./build')) {
+      fs.mkdirSync('./build')
+    }
+
+    done()
+  },
+
+  function () {
+    var browserify = spawn('node', [
+      'node_modules/.bin/browserify',
+      'lib/browser.js',
+      '-d',
+      '-o', 'build/qrcode.js'
+    ])
+
     browserify.stdin.end()
     browserify.stdout.pipe(process.stdout)
     browserify.stderr.pipe(process.stderr)
@@ -17,7 +31,13 @@ var q = [
   },
 
   function () {
-    var uglify = spawn('node', ['node_modules/uglify-js/bin/uglifyjs', 'build/qrcode.js'])
+    var uglify = spawn('node', [
+      'node_modules/.bin/uglifyjs',
+      '--compress', '--mangle',
+      '--source-map', 'build/qrcode.min.js.map',
+      '--source-map-url', 'qrcode.min.js.map',
+      '--', 'build/qrcode.js'])
+
     var minStream = fs.createWriteStream('build/qrcode.min.js')
     uglify.stdout.pipe(minStream)
     uglify.stdin.end()
