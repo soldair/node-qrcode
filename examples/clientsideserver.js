@@ -58,22 +58,22 @@ app.get('/generate', function (req, res) {
 })
 
 effectHandlers.node = function (args, cb) {
-  args.src = path.join(__dirname, 'fixtures', 'node_logo.png')
+  args.src = path.join(__dirname, 'images', 'node_logo.png')
   this.image(path.join(args, cb))
 }
 
 effectHandlers.npm = function (args, cb) {
-  args.src = path.join(__dirname, 'fixtures', 'npm_logo.png')
+  args.src = path.join(__dirname, 'images', 'npm_logo.png')
   this.image(args, cb)
 }
 
 effectHandlers.bacon = function (args, cb) {
-  args.src = path.join(__dirname, 'fixtures', 'bacon-love.png')
+  args.src = path.join(__dirname, 'images', 'bacon-love.png')
   this.image(args, cb)
 }
 
 effectHandlers.baconBikini = function (args, cb) {
-  args.src = path.join(__dirname, 'fixtures', 'bacon-bikini.png')
+  args.src = path.join(__dirname, 'images', 'bacon-bikini.png')
   this.image(args, cb)
 }
 

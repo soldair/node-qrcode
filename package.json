@@ -45,7 +45,7 @@
   "standard": {
     "ignore": [
       "build/",
-      "vendors/"
+      "examples/vendors/"
     ]
   }
 }
