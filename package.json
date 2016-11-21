@@ -16,6 +16,11 @@
     "./lib/index.js": "./lib/browser.js",
     "./lib/utils/buffer.js": "./lib/utils/typedarray-buffer.js"
   },
+  "files": [
+    "bin",
+    "build*",
+    "lib"
+  ],
   "homepage": "http://github.com/soldair/node-qrcode",
   "license": "MIT",
   "scripts": {
