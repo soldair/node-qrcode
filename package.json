@@ -12,7 +12,10 @@
     "barcode"
   ],
   "main": "./lib/index.js",
-  "browser": "./lib/browser.js",
+  "browser": {
+    "./lib/index.js": "./lib/browser.js",
+    "./lib/utils/buffer.js": "./lib/utils/typedarray-buffer.js"
+  },
   "homepage": "http://github.com/soldair/node-qrcode",
   "license": "MIT",
   "scripts": {
