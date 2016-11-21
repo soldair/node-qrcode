@@ -13,7 +13,8 @@ var q = [
   function () {
     var browserify = spawn('node', [
       'node_modules/.bin/browserify',
-      'lib/browser.js',
+      'lib/index.js',
+      '-s', 'qrcodelib',
       '-d',
       '-o', 'build/qrcode.js'
     ])
