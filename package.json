@@ -28,7 +28,7 @@
     "pretest": "npm run lint",
     "test": "tap --cov --coverage-report=text --reporter classic 'lib/**/*.test.js'",
     "build": "node build.js",
-    "prepublish": "npm run test && npm run build"
+    "prepublish": "npm run build"
   },
   "bin": {
     "qrcode": "./bin/qrcode"
