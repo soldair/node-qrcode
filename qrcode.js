@@ -149,7 +149,7 @@ function savePng(path,text,options,cb){
 
 		var fd,buf,fdAndBuf = function(){
 			fs.write(fd, buf, 0, buf.length, 0, function(fsErr, written){
-				fs.close(fd);
+				fs.close(fd, function(err) {});
 				if(cb) cb(fsErr, written);
 			});
 		};
