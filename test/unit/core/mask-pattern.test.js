@@ -1,6 +1,6 @@
 var test = require('tap').test
-var BitMatrix = require('../bit-matrix')
-var MaskPattern = require('../mask-pattern')
+var BitMatrix = require('core/bit-matrix')
+var MaskPattern = require('core/mask-pattern')
 
 test('Mask pattern - Pattern references', function (t) {
   var patternsCount = Object.keys(MaskPattern.Patterns).length

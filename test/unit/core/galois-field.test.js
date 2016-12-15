@@ -1,5 +1,5 @@
 var test = require('tap').test
-var GF = require('../galois-field')
+var GF = require('core/galois-field')
 
 test('Galois Field', function (t) {
   t.throw(function () { GF.log(0) }, 'Should throw for log(n) with n < 1')

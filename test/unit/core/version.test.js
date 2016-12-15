@@ -1,7 +1,7 @@
 var test = require('tap').test
-var Version = require('../version')
-var ECLevel = require('../error-correction-level')
-var ByteData = require('../byte-data')
+var Version = require('core/version')
+var ECLevel = require('core/error-correction-level')
+var ByteData = require('core/byte-data')
 
 var EXPECTED_CAPACITY = [
   [17, 14, 11, 7],

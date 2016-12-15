@@ -18,7 +18,7 @@
   },
   "files": [
     "bin",
-    "build*",
+    "dist",
     "lib"
   ],
   "homepage": "http://github.com/soldair/node-qrcode",
@@ -26,7 +26,7 @@
   "scripts": {
     "lint": "standard",
     "pretest": "npm run lint",
-    "test": "tap --cov --coverage-report=text --reporter classic 'lib/**/*.test.js'",
+    "test": "node test.js",
     "build": "node build.js",
     "prepublish": "npm run build"
   },

@@ -1,5 +1,5 @@
 var test = require('tap').test
-var BitBuffer = require('../bit-buffer')
+var BitBuffer = require('core/bit-buffer')
 
 test('Bit Buffer', function (t) {
   var testData = 0x41 // 'A'

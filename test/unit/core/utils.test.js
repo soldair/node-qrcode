@@ -1,5 +1,5 @@
 var test = require('tap').test
-var utils = require('../utils')
+var utils = require('core/utils')
 
 /**
  * QR Code sizes. Each element refers to a version

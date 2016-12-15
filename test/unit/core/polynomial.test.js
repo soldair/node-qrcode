@@ -1,5 +1,5 @@
 var test = require('tap').test
-var Poly = require('../polynomial')
+var Poly = require('core/polynomial')
 
 test('Generator polynomial', function (t) {
   var result = Poly.generateECPolynomial(0)

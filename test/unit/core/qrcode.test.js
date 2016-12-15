@@ -1,8 +1,8 @@
 var test = require('tap').test
-var ByteData = require('../byte-data')
-var ECLevel = require('../error-correction-level')
-var Version = require('../version')
-var QRCode = require('../qrcode')
+var ByteData = require('core/byte-data')
+var ECLevel = require('core/error-correction-level')
+var Version = require('core/version')
+var QRCode = require('core/qrcode')
 
 test('QRCode interface', function (t) {
   var qr

@@ -1,5 +1,5 @@
 var test = require('tap').test
-var pattern = require('../alignment-pattern')
+var pattern = require('core/alignment-pattern')
 
 /**
  * Row/column coordinates of the center module of each alignment pattern.

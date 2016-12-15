@@ -1,5 +1,5 @@
 var test = require('tap').test
-var RS = require('../reed-solomon-encoder')
+var RS = require('core/reed-solomon-encoder')
 
 test('Reed-Solomon encoder', function (t) {
   var enc = new RS()

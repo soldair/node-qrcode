@@ -1,5 +1,5 @@
 var test = require('tap').test
-var BitMatrix = require('../bit-matrix')
+var BitMatrix = require('core/bit-matrix')
 
 test('Bit Matrix', function (t) {
   t.throw(function () { BitMatrix(0) }, 'Should throw if size is 0')

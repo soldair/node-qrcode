@@ -1,9 +1,9 @@
 var test = require('tap').test
-var Utils = require('../utils')
-var Version = require('../version')
-var ECLevel = require('../error-correction-level')
-var ECCode = require('../error-correction-code')
-var ByteData = require('../byte-data')
+var Utils = require('core/utils')
+var Version = require('core/version')
+var ECLevel = require('core/error-correction-level')
+var ECCode = require('core/error-correction-code')
+var ByteData = require('core/byte-data')
 
 test('Error correction codewords', function (t) {
   var levels = [ECLevel.L, ECLevel.M, ECLevel.Q, ECLevel.H]

@@ -1,5 +1,5 @@
 var test = require('tap').test
-var pattern = require('../finder-pattern')
+var pattern = require('core/finder-pattern')
 
 test('Finder pattern', function (t) {
   for (var i = 1; i <= 40; i++) {

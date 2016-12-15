@@ -1,7 +1,7 @@
 var test = require('tap').test
-var FormatInfo = require('../format-info')
-var ECLevel = require('../error-correction-level')
-var MaskPattern = require('../mask-pattern')
+var FormatInfo = require('core/format-info')
+var ECLevel = require('core/error-correction-level')
+var MaskPattern = require('core/mask-pattern')
 
 var EXPECTED_FORMAT_BITS = [
   [0x77c4, 0x72f3, 0x7daa, 0x789d, 0x662f, 0x6318, 0x6c41, 0x6976],

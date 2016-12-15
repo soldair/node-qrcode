@@ -1,6 +1,6 @@
 var test = require('tap').test
 var libxml = require('libxmljs')
-var svgRender = require('../svg')
+var svgRender = require('renderer/svg')
 
 test('svgrender interface', function (t) {
   t.ok(svgRender.hasOwnProperty('renderBits'), 'function "renderBits" should be defined')

@@ -1,7 +1,7 @@
 var test = require('tap').test
-var BitBuffer = require('../bit-buffer')
-var ByteData = require('../byte-data')
-var Mode = require('../mode')
+var BitBuffer = require('core/bit-buffer')
+var ByteData = require('core/byte-data')
+var Mode = require('core/mode')
 
 test('Byte Data', function (t) {
   var text = '1234'

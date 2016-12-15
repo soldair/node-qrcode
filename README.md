@@ -55,7 +55,7 @@ qrcode "I also like to save them as a SVG" qr.svg
 
 ## Client side
 `node-qrcode` can be used in browser through [Browserify](https://github.com/substack/node-browserify), [Webpack](https://github.com/webpack/webpack) or by including the precompiled
-bundle present in `build/` folder.
+bundle present in `dist/` folder.
 
 #### Browserify or Webpack
 
@@ -97,7 +97,7 @@ QRCodeDraw.draw(canvas, 'sample text', function (error, canvas) {
 </script>
 ```
 
-Precompiled files are generated in `build/` folder during installation.  
+Precompiled files are generated in `dist/` folder during installation.  
 To manually rebuild the lib run:
 ```shell
 npm run build
