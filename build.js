@@ -3,8 +3,8 @@ var fs = require('fs')
 
 var q = [
   function () {
-    if (!fs.existsSync('./dist')) {
-      fs.mkdirSync('./dist')
+    if (!fs.existsSync('./build')) {
+      fs.mkdirSync('./build')
     }
 
     done()
@@ -16,7 +16,7 @@ var q = [
       'lib/index.js',
       '-s', 'qrcodelib',
       '-d',
-      '-o', 'dist/qrcode.js'
+      '-o', 'build/qrcode.js'
     ])
 
     browserify.stdin.end()
@@ -35,17 +35,17 @@ var q = [
     var uglify = spawn('node', [
       'node_modules/.bin/uglifyjs',
       '--compress', '--mangle',
-      '--source-map', 'dist/qrcode.min.js.map',
+      '--source-map', 'build/qrcode.min.js.map',
       '--source-map-url', 'qrcode.min.js.map',
-      '--', 'dist/qrcode.js'])
+      '--', 'build/qrcode.js'])
 
-    var minStream = fs.createWriteStream('dist/qrcode.min.js')
+    var minStream = fs.createWriteStream('build/qrcode.min.js')
     uglify.stdout.pipe(minStream)
     uglify.stdin.end()
     uglify.on('exit', function (code) {
       if (code) {
         console.error('uglify failed!')
-        fs.unlink('dist/qrcode.min.js', function () {
+        fs.unlink('build/qrcode.min.js', function () {
           process.exit(code)
         })
       }

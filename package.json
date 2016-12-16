@@ -18,7 +18,7 @@
   },
   "files": [
     "bin",
-    "dist",
+    "build",
     "lib"
   ],
   "homepage": "http://github.com/soldair/node-qrcode",
