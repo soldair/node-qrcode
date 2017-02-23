@@ -7,7 +7,7 @@ var shouldBe =
 var lShouldBe = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHwAAAB8CAYAAACrHtS+AAAABmJLR0QA/wD/AP+gvaeTAAACVUlEQVR4nO3dy27rMAwA0bro//+yu/cihEBSVDxztr15YSDw2rKT677v+0cYv9NvQHsZHMbgMAaHMTiMwWEMDmNwGIPDGBzG4DAGhzE4jMFhDA5jcBiDwxgcxuAwf9VPeF1X9VN+tHpJ3vP9PR+/+vdu1ZccusJhDA5jcJjyGf5UPYOyM7T6/Zz2+SKucBiDwxgcpn2GP63OqN3H2dmZ3P35slzhMAaHMTjM9hneLZqJ0d+jGf/tXOEwBocxOMzrZvjTafvb01zhMAaHMTjM9hk+fVwbzezs+5v+fBFXOIzBYQwO0z7Ddx/nVl93vnru/XSucBiDwxgcpnyGn34cGsnup5/OFQ5jcBiDw4zfH37a/vT0dfPdXOEwBocxOEz7cXj3ue3szN99bn31/fsdL0oxOIzBYY67Lr17pmZnaPV5ht3nIVzhMAaHMTjM+He8TB+XPq1+B8zq/ymm99td4TAGhzE4zPH3lmWPk1dfL/vvp/e7I65wGIPDGBzmuk8bMknd36de/fzuh6uVwWEMDjN+XXpW9bnp7EyNHj993b0rHMbgMAaHef3vlq3O5N3f07b73LsrHMbgMAaHGb+mLbL7t0KzM9X9cB3F4DAGhznu3rKsaL+5+n7y3Y/PcoXDGBzG4DCvm+Hd+9mr16Ttvq4+4gqHMTiMwWGOv7es+vVW7//ufj33w9XK4DAGh3nd75ZFqve3q2eyx+EqZXAYg8O87v5wfeYKhzE4jMFhDA5jcBiDwxgcxuAwBocxOIzBYQwOY3AYg8MYHMbgMAaHMTiMwWH+AWVFEfpSXe+vAAAAAElFTkSuQmCC'
 
 test('qrcode to data uri should be correct.', function (t) {
-  QRCode.toDataURL('i am a pony!', function (err, url) {
+  QRCode.toDataURL('i am a pony!', { errorCorrectionLevel: 'H' }, function (err, url) {
     if (err) console.log(err)
     t.ok(!err, 'there should be no error ' + err)
     t.equals(url, shouldBe, 'url generated should match expected value')
@@ -16,7 +16,7 @@ test('qrcode to data uri should be correct.', function (t) {
 })
 
 test('qrcode generated with changed error correction should be expected value', function (t) {
-  QRCode.toDataURL('i am a pony!', {errorCorrectLevel: 'minimum'}, function (err, url) {
+  QRCode.toDataURL('i am a pony!', { errorCorrectLevel: 'minimum' }, function (err, url) {
     t.ok(!err, 'there should be no error ' + err)
     t.equals(url, lShouldBe, 'url should match expected value for error correction L')
     t.end()

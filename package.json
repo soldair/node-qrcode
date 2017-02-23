@@ -19,7 +19,8 @@
   "files": [
     "bin",
     "build",
-    "lib"
+    "lib",
+    "helper"
   ],
   "homepage": "http://github.com/soldair/node-qrcode",
   "license": "MIT",
@@ -35,7 +36,8 @@
   },
   "dependencies": {
     "canvas": "~1.3.4",
-    "colors": "*"
+    "colors": "*",
+    "dijkstrajs": "^1.0.1"
   },
   "devDependencies": {
     "browserify": "^13.1.1",

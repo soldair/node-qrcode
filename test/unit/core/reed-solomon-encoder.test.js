@@ -25,5 +25,9 @@ test('Reed-Solomon encoder', function (t) {
   enc = new RS(0)
   t.notOk(enc.genPoly, 'Should not create a generator polynomial if degree is 0')
 
+  enc = new RS(1)
+  t.deepEqual(enc.encode(new Buffer([0])), new Buffer([0]),
+    'Should return correct buffer')
+
   t.end()
 })
