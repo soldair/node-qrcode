@@ -40,13 +40,13 @@
     "dijkstrajs": "^1.0.1"
   },
   "devDependencies": {
-    "browserify": "^13.1.1",
+    "browserify": "^14.1.0",
     "canvasutil": "*",
     "express": "2.5.x",
     "libxmljs": "^0.18.0",
     "standard": "*",
     "tap": "*",
-    "uglify-js": "^2.7.4"
+    "uglify-js": "^2.7.5"
   },
   "repository": {
     "type": "git",
