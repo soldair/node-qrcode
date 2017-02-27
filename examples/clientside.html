@@ -1,62 +1,137 @@
 <!doctype html>
 <html>
 	<head>
+    <meta charset="UTF-8">
 		<title>client side test for node-qrcode</title>
     <!--[if ie]><script type="text/javascript" src="vendors/excanvas/excanvas.js"></script><![endif]-->
-		<script src="../build/qrcode.js"></script>
-		<style>.b{display:block;}</style>
+    <script src="../build/qrcode.js"></script>
+		<script src="../build/qrcode.tosjis.js"></script>
+		<style>
+      .container { display: flex; }
+      .controls {
+        display: flex; flex-direction: column;
+        padding: 0 5px 0 5px; min-width: 150px;
+        background-color: ghostwhite;
+      }
+      .controls > label { margin-bottom: 5px; margin-top: 10px; }
+      .controls > textarea { flex: 1; margin-bottom: 10px; }
+      .qrcode-container {
+        display: flex; align-items: center; justify-content: center;
+        min-height: 300px; min-width: 300px; padding: 10px;
+        background-color: ghostwhite;
+      }
+      .qrcode-image { box-shadow: 2px 2px 12px lightgray; }
+      .error { color: red; max-width: 280px; }
+    </style>
 	</head>
 	<body>
+    <div class="container">
+      <div class="controls">
+        <div class="container" style="justify-content: space-between;">
+          <div class="controls">
+            <label for="version">Version:</label>
+            <select id="version" name="version">
+              <option>Auto</option>
+            </select>
+          </div>
+          <div class="controls">
+            <label for="mode">Mode:</label>
+            <select id="mode" name="mode">
+              <option>Auto</option>
+              <option>Numeric</option>
+              <option>Alphanumeric</option>
+              <option>Byte</option>
+              <option>Kanji</option>
+            </select>
+          </div>
+        </div>
 
-		<canvas id="test"></canvas>
-		<label for="test-text" class="b">type here and watch it update!:</label>
-		<textarea id="test-text" class="b"></textarea>
-		<small style="color:#d4d4d4;" class="b">* i did not include jquery on purpose</small>
+        <div class="controls">
+          <label for="errorLevel">Error Correction Level:</label>
+          <select id="errorLevel" name="errorLevel">
+            <option>Default</option>
+            <option>Low</option>
+            <option>Medium</option>
+            <option>Quartile</option>
+            <option>High</option>
+          </select>
+        </div>
+
+        <div class="controls" style="height: 100%">
+          <label for="input-text">Text:</label>
+          <textarea id="input-text">https://github.com/soldair/node-qrcode</textarea>
+        </div>
+
+      </div>
+      <div class="qrcode-container">
+        <p id="error" class="error"></p>
+        <canvas id="canvas" class="qrcode-image"></canvas>
+      </div>
+    </div>
+
 		<script>
-      if (!window.console) {
-        window.console = {
-          log: function () {},
-          warn: function () {}
-        }
-      }
+      var errorEl = document.getElementById('error')
+      var versionEl = document.getElementById('version')
+      var errorLevelEl = document.getElementById('errorLevel')
+      var modeEl = document.getElementById('mode')
+      var canvasEl = document.getElementById('canvas')
+      var textEl = document.getElementById('input-text')
 
       var qrcodedraw = new qrcodelib.qrcodedraw()
 
-      var drawQR = function (text) {
-        qrcodedraw.draw(document.getElementById('test'), text, {
-          version: 0,
-          errorCorrectLevel: qrcodedraw.QRErrorCorrectLevel.L
+      function debounce (func, wait, immediate) {
+        var timeout
+        return function () {
+          var context = this, args = arguments
+          var later = function () {
+            timeout = null
+            if (!immediate) func.apply(context, args)
+          }
+
+          var callNow = immediate && !timeout
+          clearTimeout(timeout)
+          timeout = setTimeout(later, wait)
+          if (callNow) func.apply(context, args)
+        }
+      }
+
+      function drawQR (text) {
+        errorEl.style.display = 'none'
+        canvasEl.style.display = 'block'
+
+        qrcodedraw.draw(canvasEl, text, {
+          version: versionEl.value,
+          errorCorrectionLevel: errorLevelEl.options[errorLevelEl.selectedIndex].text,
+          toSJISFunc: qrcodelib.toSJIS
         }, function (error, canvas) {
           if (error) {
-            if (window.console && window.console.warn) {
-              console.warn(error)
-            } else {
-              window.alert(error)
-            }
+            canvasEl.style.display = 'none'
+            errorEl.style.display = 'inline'
+            errorEl.textContent = error
           }
         })
       }
 
-      var ta = document.getElementById('test-text')
-      var last = 0
-      var lastTime = 1
-      ta.addEventListener('keyup', function () {
-        var l = Date.now()
-        var z = this
-        last = l
-        setTimeout(function () {
-          // this will kinda lock the browsers event loop for a sec.
-          // it could have some setTimeout within processing to make it more client side friendly. or web workers...
-          if (l === last) {
-            var s = Date.now()
-            drawQR(z.value)
-            lastTime = Date.now() - s
-          }
-        }, lastTime + (lastTime / 2))
-      }, false)
+      var updateQR = debounce(function () {
+        var mode = modeEl.options[modeEl.selectedIndex].text
+        if (mode !== 'Auto') {
+          drawQR([{ data: textEl.value, mode: mode }])
+        } else {
+          drawQR(textEl.value)
+        }
+      }, 250)
 
-      ta.value = 'i work client side too?'
-      drawQR('i work client side too?')
+      versionEl.addEventListener('change', updateQR, false)
+      errorLevelEl.addEventListener('change', updateQR, false)
+      modeEl.addEventListener('change', updateQR, false)
+      textEl.addEventListener('keyup', updateQR, false)
+
+      for (var i = 1; i <= 40; i++) {
+        versionEl.options[versionEl.options.length] = new Option(i.toString(), i);
+      }
+
+      // textEl.value = 'i work client side too?'
+      drawQR(textEl.value)
 
 		</script>
 
