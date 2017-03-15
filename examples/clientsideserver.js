@@ -271,7 +271,6 @@ effectHandlers.image = function (args, cb) {
           if (codeLuma > pixelCore.threshold) {
             if (luma < bottomThreshold) {
               yuv = convert.rgbToYuv(px.r, px.g, px.b)
-              rgb
 
               rgb = convert.yuvToRgb(bottomThreshold, yuv[1], yuv[2])
 

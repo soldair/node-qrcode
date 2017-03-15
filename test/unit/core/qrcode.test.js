@@ -121,4 +121,3 @@ test('QRCode capacity', function (t) {
 
   t.end()
 })
-

@@ -125,4 +125,3 @@ test('To string', function (t) {
 
   t.end()
 })
-
