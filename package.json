@@ -38,6 +38,7 @@
     "canvas": "~1.3.4",
     "colors": "*",
     "dijkstrajs": "^1.0.1"
+    "isarray": "^2.0.1",
   },
   "devDependencies": {
     "browserify": "^14.1.0",
