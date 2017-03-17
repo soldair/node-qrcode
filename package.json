@@ -35,13 +35,14 @@
     "qrcode": "./bin/qrcode"
   },
   "dependencies": {
-    "canvas": "~1.3.4",
     "colors": "*",
-    "dijkstrajs": "^1.0.1"
+    "dijkstrajs": "^1.0.1",
     "isarray": "^2.0.1",
+    "pngjs": "^2.3.0"
   },
   "devDependencies": {
     "browserify": "^14.1.0",
+    "canvas": "^1.6.4",
     "canvasutil": "*",
     "express": "2.5.x",
     "libxmljs": "^0.18.0",
