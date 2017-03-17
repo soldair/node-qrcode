@@ -35,7 +35,7 @@
     "qrcode": "./bin/qrcode"
   },
   "dependencies": {
-    "canvas": "~1.3.4",
+    "canvas": "~1.3.16",
     "colors": "*",
     "dijkstrajs": "^1.0.1"
   },
