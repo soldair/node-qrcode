@@ -45,6 +45,7 @@
     "canvasutil": "*",
     "express": "2.5.x",
     "libxmljs": "^0.18.0",
+    "sinon": "^1.17.7",
     "standard": "*",
     "tap": "*",
     "uglify-js": "^2.7.5"
