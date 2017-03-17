@@ -11,7 +11,7 @@ var file = process.argv[3]
 
 if (text && text.length) {
   if (file && file.length) {
-    qr.save(file, text, function (err, data) {
+    qr.toFile(file, text, function (err, data) {
       if (!err) {
         process.stdout.write('saved qrcode to: ' + file + '\n')
       } else {
@@ -20,7 +20,7 @@ if (text && text.length) {
       }
     })
   } else {
-    qr.drawText(text, function (error, text) {
+    qr.toString(text, { type: 'terminal' }, function (error, text) {
       if (error) {
         throw new Error(error)
       }
