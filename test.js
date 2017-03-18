@@ -12,6 +12,6 @@ var opt = {
 
 spawn('node', [
   'node_modules/.bin/tap',
-  '--cov',
+  '--cov', '--100',
   process.argv[2] || 'test/**/*.test.js'
 ], opt)
