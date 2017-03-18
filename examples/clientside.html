@@ -10,11 +10,13 @@
       .container { display: flex; }
       .controls {
         display: flex; flex-direction: column;
-        padding: 0 5px 0 5px; min-width: 150px;
+        width: 100%;
+        padding: 0 5px 0 5px;
         background-color: ghostwhite;
       }
       .controls > label { margin-bottom: 5px; margin-top: 10px; }
       .controls > textarea { flex: 1; margin-bottom: 10px; }
+      .controls > input { width: 100%; margin: 0; padding: 0; flex: 1; }
       .qrcode-container {
         display: flex; align-items: center; justify-content: center;
         min-height: 300px; min-width: 300px; padding: 10px;
@@ -26,8 +28,8 @@
 	</head>
 	<body>
     <div class="container">
-      <div class="controls">
-        <div class="container" style="justify-content: space-between;">
+      <div class="controls" style="max-width: 320px;">
+        <div class="container">
           <div class="controls">
             <label for="version">Version:</label>
             <select id="version" name="version">
@@ -57,7 +59,22 @@
           </select>
         </div>
 
-        <div class="controls" style="height: 100%">
+        <div class="container">
+          <div class="controls">
+            <label for="margin">Margin:</label>
+            <input id="margin" type="number" name="margin" min="4" value="4" />
+          </div>
+          <div class="controls">
+            <label for="lightColor">Light color:</label>
+            <input id="lightColor" type="color" name="light" value="#ffffff" />
+          </div>
+          <div class="controls">
+            <label for="darkColor">Dark color:</label>
+            <input id="darkColor" type="color" name="dark" value="#000000" />
+          </div>
+        </div>
+
+        <div class="controls" style="flex: 1;">
           <label for="input-text">Text:</label>
           <textarea id="input-text">https://github.com/soldair/node-qrcode</textarea>
         </div>
@@ -74,15 +91,17 @@
       var versionEl = document.getElementById('version')
       var errorLevelEl = document.getElementById('errorLevel')
       var modeEl = document.getElementById('mode')
+      var marginEl = document.getElementById('margin')
+      var lightColorEl = document.getElementById('lightColor')
+      var darkColorEl = document.getElementById('darkColor')
       var canvasEl = document.getElementById('canvas')
       var textEl = document.getElementById('input-text')
-
-      var qrcodedraw = new qrcodelib.qrcodedraw()
 
       function debounce (func, wait, immediate) {
         var timeout
         return function () {
-          var context = this, args = arguments
+          var context = this
+          var args = arguments
           var later = function () {
             timeout = null
             if (!immediate) func.apply(context, args)
@@ -99,9 +118,14 @@
         errorEl.style.display = 'none'
         canvasEl.style.display = 'block'
 
-        qrcodedraw.draw(canvasEl, text, {
+        qrcodelib.toCanvas(canvasEl, text, {
           version: versionEl.value,
           errorCorrectionLevel: errorLevelEl.options[errorLevelEl.selectedIndex].text,
+          margin: marginEl.value,
+          color: {
+            light: lightColorEl.value,
+            dark: darkColorEl.value
+          },
           toSJISFunc: qrcodelib.toSJIS
         }, function (error, canvas) {
           if (error) {
@@ -124,15 +148,16 @@
       versionEl.addEventListener('change', updateQR, false)
       errorLevelEl.addEventListener('change', updateQR, false)
       modeEl.addEventListener('change', updateQR, false)
+      marginEl.addEventListener('change', updateQR, false)
+      lightColorEl.addEventListener('change', updateQR, false)
+      darkColorEl.addEventListener('change', updateQR, false)
       textEl.addEventListener('keyup', updateQR, false)
 
       for (var i = 1; i <= 40; i++) {
-        versionEl.options[versionEl.options.length] = new Option(i.toString(), i);
+        versionEl.options[versionEl.options.length] = new Option(i.toString(), i)
       }
 
-      // textEl.value = 'i work client side too?'
       drawQR(textEl.value)
-
 		</script>
 
 	</body>
