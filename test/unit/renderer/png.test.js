@@ -1,10 +1,10 @@
 var test = require('tap').test
 var sinon = require('sinon')
 var fs = require('fs')
-var stream = require('stream')
 var QRCode = require('core/qrcode')
 var PngRenderer = require('renderer/png')
 var PNG = require('pngjs').PNG
+var StreamMock = require('../../mocks/writable-stream')
 
 test('PNG renderer interface', function (t) {
   t.type(PngRenderer.render, 'function',
@@ -58,104 +58,88 @@ test('PNG render', function (t) {
 
 test('PNG renderToDataURL', function (t) {
   var sampleQrData = QRCode.create('sample text', { version: 2 })
-  var url
 
-  t.notThrow(function () { url = PngRenderer.renderToDataURL(sampleQrData) },
-    'Should not throw with only qrData param')
+  t.plan(6)
 
-  t.notThrow(function () {
-    url = PngRenderer.renderToDataURL(sampleQrData, {
-      margin: 10,
-      scale: 1
-    })
-  }, 'Should not throw with options param')
+  PngRenderer.renderToDataURL(sampleQrData, function (err, url) {
+    t.ok(!err,
+      'Should not generate errors with only qrData param')
 
-  t.type(url, 'string',
-    'Should return a string')
+    t.type(url, 'string',
+      'Should return a string')
+  })
 
-  t.equal(url.split(',')[0], 'data:image/png;base64',
-    'Should have correct header')
+  PngRenderer.renderToDataURL(sampleQrData, { margin: 10, scale: 1 },
+    function (err, url) {
+      t.ok(!err, 'Should not generate errors with options param')
 
-  var b64png = url.split(',')[1]
-  t.equal(b64png.length % 4, 0,
-    'Should have a correct length')
+      t.type(url, 'string',
+        'Should return a string')
 
-  t.end()
+      t.equal(url.split(',')[0], 'data:image/png;base64',
+        'Should have correct header')
+
+      var b64png = url.split(',')[1]
+      t.equal(b64png.length % 4, 0,
+        'Should have a correct length')
+    }
+  )
 })
 
 test('PNG renderToFile', function (t) {
   var sampleQrData = QRCode.create('sample text', { version: 2 })
   var fileName = 'qrimage.png'
+  var fsStub = sinon.stub(fs, 'createWriteStream')
+  fsStub.returns(new StreamMock())
+  fsStub.reset()
 
-  var fsStub = sinon.stub(fs, 'writeFileSync', function (path, buffer) {
-    t.equal(path, fileName,
+  t.plan(6)
+
+  PngRenderer.renderToFile(fileName, sampleQrData, function (err) {
+    t.ok(!err,
+      'Should not generate errors with only qrData param')
+
+    t.equal(fsStub.getCall(0).args[0], fileName,
       'Should save file with correct file name')
   })
 
-  fsStub.reset()
+  PngRenderer.renderToFile(fileName, sampleQrData, {
+    margin: 10,
+    scale: 1
+  }, function (err) {
+    t.ok(!err,
+      'Should not generate errors with options param')
 
-  t.notThrow(function () { PngRenderer.renderToFile(fileName, sampleQrData) },
-    'Should not throw with only qrData param')
-
-  t.notThrow(function () {
-    PngRenderer.renderToFile(fileName, sampleQrData, {
-      margin: 10,
-      scale: 1
-    })
-  }, 'Should not throw with options param')
-
-  fsStub.restore()
-  fsStub = sinon.stub(fs, 'writeFileSync').throws()
-  fsStub.reset()
-
-  t.throw(function () { PngRenderer.renderToFile(fileName, sampleQrData) },
-    'Should throw if error occurs during save')
+    t.equal(fsStub.getCall(0).args[0], fileName,
+      'Should save file with correct file name')
+  })
 
   fsStub.restore()
-  t.end()
+  fsStub = sinon.stub(fs, 'createWriteStream')
+  fsStub.returns(new StreamMock().forceErrorOnWrite())
+  fsStub.reset()
+
+  PngRenderer.renderToFile(fileName, sampleQrData, function (err) {
+    t.ok(err,
+      'Should fail if error occurs during save')
+  })
+
+  fsStub.restore()
 })
 
 test('PNG renderToFileStream', function (t) {
   var sampleQrData = QRCode.create('sample text', { version: 2 })
-  var fileName = 'qrimage.png'
-  var fileStream
-
-  var fsStub = sinon.stub(fs, 'createWriteStream', function (path) {
-    t.equal(path, fileName,
-      'Should save file with correct file name')
-
-    var mockStream = new stream.Writable()
-    mockStream._write = function () {}
-
-    return mockStream
-  })
-
-  fsStub.reset()
 
   t.notThrow(function () {
-    fileStream = PngRenderer.renderToFileStream(fileName, sampleQrData)
+    PngRenderer.renderToFileStream(new StreamMock(), sampleQrData)
   }, 'Should not throw with only qrData param')
 
-  t.ok(fileStream instanceof stream.Writable,
-    'Should return a writable stream')
-
   t.notThrow(function () {
-    fileStream = PngRenderer.renderToFileStream(fileName, sampleQrData, {
+    PngRenderer.renderToFileStream(new StreamMock(), sampleQrData, {
       margin: 10,
       scale: 1
     })
   }, 'Should not throw with options param')
 
-  t.ok(fileStream instanceof stream.Writable,
-    'Should return a writable stream')
-
-  fsStub.restore()
-  fsStub = sinon.stub(fs, 'createWriteStream').throws()
-  fsStub.reset()
-
-  t.throw(function () { PngRenderer.renderToFileStream(fileName, sampleQrData) },
-    'Should throw if error occurs during stream creation')
-
-  fsStub.restore()
   t.end()
 })

@@ -5,13 +5,22 @@ var QRCode = require('lib')
 
 test('toString svg', function (t) {
   var file = path.join(__dirname, '/fixtures/expected-output.svg')
-  t.plan(4)
+  t.plan(6)
 
   t.throw(function () { QRCode.toString() },
     'Should throw if text is not provided')
 
   t.throw(function () { QRCode.toString('some text') },
     'Should throw if a callback is not provided')
+
+  QRCode.toString('http://www.google.com', {
+    version: 1, // force version=1 to trigger an error
+    errorCorrectionLevel: 'H',
+    type: 'svg'
+  }, function (err, code) {
+    t.ok(err, 'there should be an error ')
+    t.notOk(code, 'string should be null')
+  })
 
   fs.readFile(file, 'utf8', function (err, expectedSvg) {
     if (err) throw err
@@ -46,13 +55,22 @@ test('toString utf8', function (t) {
     '                                 ',
     '                                 '].join('\n')
 
-  t.plan(6)
+  t.plan(8)
 
   t.throw(function () { QRCode.toString() },
     'Should throw if text is not provided')
 
   t.throw(function () { QRCode.toString('some text') },
     'Should throw if a callback is not provided')
+
+  QRCode.toString('http://www.google.com', {
+    version: 1, // force version=1 to trigger an error
+    errorCorrectionLevel: 'H',
+    type: 'utf8'
+  }, function (err, code) {
+    t.ok(err, 'there should be an error ')
+    t.notOk(code, 'string should be null')
+  })
 
   QRCode.toString('http://www.google.com', {
     errorCorrectionLevel: 'M',

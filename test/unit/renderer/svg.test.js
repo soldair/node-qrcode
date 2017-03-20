@@ -17,9 +17,7 @@ test('svgrender interface', function (t) {
 
 test('Svg render', function (t) {
   var sampleQrData = QRCode.create('sample text', { version: 2 })
-  var expectedTrueBitNumber = sampleQrData.modules.data.filter(function (b) {
-    return b
-  }).length
+  var expectedTrueBitNumber = 324
 
   var margin = 8
   var expectedMargin = 40
@@ -92,31 +90,38 @@ test('Svg render', function (t) {
 test('Svg renderToFile', function (t) {
   var sampleQrData = QRCode.create('sample text', { version: 2 })
   var fileName = 'qrimage.svg'
+  var fsStub = sinon.stub(fs, 'writeFile').callsArg(2)
+  fsStub.reset()
 
-  var fsStub = sinon.stub(fs, 'writeFileSync', function (path, buffer) {
-    t.equal(path, fileName,
+  t.plan(5)
+
+  SvgRenderer.renderToFile(fileName, sampleQrData, function (err) {
+    t.ok(!err,
+      'Should not generate errors with only qrData param')
+
+    t.equal(fsStub.getCall(0).args[0], fileName,
       'Should save file with correct file name')
   })
 
-  fsStub.reset()
+  SvgRenderer.renderToFile(fileName, sampleQrData, {
+    margin: 10,
+    scale: 1
+  }, function (err) {
+    t.ok(!err,
+      'Should not generate errors with options param')
 
-  t.notThrow(function () { SvgRenderer.renderToFile(fileName, sampleQrData) },
-    'Should not throw with only qrData param')
-
-  t.notThrow(function () {
-    SvgRenderer.renderToFile(fileName, sampleQrData, {
-      margin: 10,
-      scale: 1
-    })
-  }, 'Should not throw with options param')
-
-  fsStub.restore()
-  fsStub = sinon.stub(fs, 'writeFileSync').throws()
-  fsStub.reset()
-
-  t.throw(function () { SvgRenderer.renderToFile(fileName, sampleQrData) },
-    'Should throw if error occurs during save')
+    t.equal(fsStub.getCall(0).args[0], fileName,
+      'Should save file with correct file name')
+  })
 
   fsStub.restore()
-  t.end()
+  fsStub = sinon.stub(fs, 'writeFile').callsArgWith(2, new Error())
+  fsStub.reset()
+
+  SvgRenderer.renderToFile(fileName, sampleQrData, function (err) {
+    t.ok(err,
+      'Should fail if error occurs during save')
+  })
+
+  fsStub.restore()
 })

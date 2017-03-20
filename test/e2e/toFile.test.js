@@ -1,7 +1,7 @@
 var test = require('tap').test
-var sinon = require('sinon')
 var fs = require('fs')
 var path = require('path')
+var tmpDir = require('os-tmpdir')
 var QRCode = require('lib')
 
 test('toFile', function (t) {
@@ -20,38 +20,42 @@ test('toFile', function (t) {
 })
 
 test('toFile png', function (t) {
-  var fileName = 'qrimage.png'
+  var fileName = path.join(tmpDir(), 'qrimage.png')
   var expectedBase64Output = [
-    'iVBORw0KGgoAAAANSUhEUgAAAHQAAAB0CAYAAABUmhYnAAACtUlEQVR4Ae3BQW7kQAwEwS',
-    'xC//9y7h55akCQxvYQjIj/scYo1ijFGqVYoxRrlGKNUqxRijVKsUYp1ijFGqVYoxRrlGKN',
-    'UqxRijXKxUNJ+EkqdyShU+mS0Kl0SfhJKk8Ua5RijVKsUS5epvKmJDyh8iaVNyXhTcUapV',
-    'ijFGuUiw9Lwh0qdyShU+mS0Kl0Kk8k4Q6VTyrWKMUapVijXHw5lROVkyR0Kt+sWKMUa5Ri',
-    'jXIxTBI6lS4JkxVrlGKNUqxRLj5M5Tcl4UTlCZW/pFijFGuUYo1y8bIk/KQkdCpdEjqVLg',
-    'mdykkS/rJijVKsUYo1ysVDKt9M5UTlmxRrlGKNUqxRLh5Kwh0qXRJ+UxLuULkjCZ3KJxVr',
-    'lGKNUqxRLh5S6ZLQqXRJ6FS6JHQqXRKeSEKn0iWhUzlJwolKl4QTlSeKNUqxRinWKBe/LA',
-    'mdSpeETuUkCZ1Kl4QTlS4Jd6h0SehUuiS8qVijFGuUYo1y8WFJ6FS6JJyofFISOpVOpUtC',
-    'p3KicqLypmKNUqxRijXKxYep3JGEE5UuCZ3KHSp3qHRJ6FR+U7FGKdYoxRol/scXS8ITKi',
-    'dJeEKlS8KJyhPFGqVYoxRrlIuHkvCTVE5U7kjCicpJEk6S8JOKNUqxRinWKBcvU3lTEu5I',
-    'wolKp/KEyh1J6FTeVKxRijVKsUa5+LAk3KHyJpWTJHQqdyShU/lNxRqlWKMUa5SLL6fSJa',
-    'FLwhNJeCIJP6lYoxRrlGKNcvHlknCicpKEE5UuCSdJOFHpktCpPFGsUYo1SrFGufgwlZ+k',
-    '0iWhU+lUnlDpktCpdEnoVN5UrFGKNUqxRrl4WRL+EpU7ktCpdCpdEjqVO5LQqTxRrFGKNU',
-    'qxRon/scYo1ijFGqVYoxRrlGKNUqxRijVKsUYp1ijFGqVYoxRrlGKNUqxRijXKP0OHEeqM',
-    'EzpFAAAAAElFTkSuQmCC'].join('')
+    'iVBORw0KGgoAAAANSUhEUgAAAHQAAAB0CAYAAABUmhYnAAAAAklEQVR4AewaftIAAAKzSU',
+    'RBVO3BQW7kQAwEwSxC//9y7h55akCQxvYQjIj/scYo1ijFGqVYoxRrlGKNUqxRijVKsUYp',
+    '1ijFGqVYoxRrlGKNUqxRijXKxUNJ+EkqdyShU+mS0Kl0SfhJKk8Ua5RijVKsUS5epvKmJD',
+    'yh8iaVNyXhTcUapVijFGuUiw9Lwh0qdyShU+mS0Kl0Kk8k4Q6VTyrWKMUapVijXHw5lROV',
+    'kyR0Kt+sWKMUa5RijXIxTBI6lS4JkxVrlGKNUqxRLj5M5Tcl4UTlCZW/pFijFGuUYo1y8b',
+    'Ik/KQkdCpdEjqVLgmdykkS/rJijVKsUYo1ysVDKt9M5UTlmxRrlGKNUqxRLh5Kwh0qXRJ+',
+    'UxLuULkjCZ3KJxVrlGKNUqxRLh5S6ZLQqXRJ6FS6JHQqXRKeSEKn0iWhUzlJwolKl4QTlS',
+    'eKNUqxRinWKBe/LAmdSpeETuUkCZ1Kl4QTlS4Jd6h0SehUuiS8qVijFGuUYo1y8WFJ6FS6',
+    'JJyofFISOpVOpUtCp3KicqLypmKNUqxRijXKxYep3JGEE5UuCZ3KHSp3qHRJ6FR+U7FGKd',
+    'YoxRol/scXS8ITKidJeEKlS8KJyhPFGqVYoxRrlIuHkvCTVE5U7kjCicpJEk6S8JOKNUqx',
+    'RinWKBcvU3lTEu5IwolKp/KEyh1J6FTeVKxRijVKsUa5+LAk3KHyJpWTJHQqdyShU/lNxR',
+    'qlWKMUa5SLL6fSJaFLwhNJeCIJP6lYoxRrlGKNcvHlknCicpKEE5UuCSdJOFHpktCpPFGs',
+    'UYo1SrFGufgwlZ+k0iWhU+lUnlDpktCpdEnoVN5UrFGKNUqxRrl4WRL+EpU7ktCpdCpdEj',
+    'qVO5LQqTxRrFGKNUqxRon/scYo1ijFGqVYoxRrlGKNUqxRijVKsUYp1ijFGqVYoxRrlGKN',
+    'UqxRijXKP0OHEepgrecVAAAAAElFTkSuQmCC'].join('')
 
-  t.plan(6)
-
-  var fsStub = sinon.stub(fs, 'writeFileSync', function (path, buffer) {
-    t.equal(path, fileName,
-      'Should save file with correct file name')
-
-    t.equal(buffer.toString('base64'), expectedBase64Output,
-      'Should write correct content')
-  }).reset()
+  t.plan(4)
 
   QRCode.toFile(fileName, 'i am a pony!', {
     errorCorrectionLevel: 'L'
   }, function (err) {
-    t.ok(!err, 'There should be no error ' + err)
+    t.ok(!err, 'There should be no error')
+
+    fs.stat(fileName, function (err) {
+      t.ok(!err,
+        'Should save file with correct file name')
+    })
+
+    fs.readFile(fileName, function (err, buffer) {
+      if (err) throw err
+
+      t.equal(buffer.toString('base64'), expectedBase64Output,
+        'Should write correct content')
+    })
   })
 
   QRCode.toFile(fileName, 'i am a pony!', {
@@ -60,31 +64,32 @@ test('toFile png', function (t) {
   }, function (err) {
     t.ok(!err, 'There should be no errors if file type is specified')
   })
-
-  fsStub.restore()
 })
 
 test('toFile svg', function (t) {
-  var fileName = 'qrimage.svg'
+  var fileName = path.join(tmpDir(), 'qrimage.svg')
   var expectedOutput = fs.readFileSync(
     path.join(__dirname,
     '/fixtures/expected-output.svg'),
     'UTF-8')
 
-  t.plan(6)
-
-  var fsStub = sinon.stub(fs, 'writeFileSync', function (path, buffer) {
-    t.equal(path, fileName,
-      'Should save file with correct file name')
-
-    t.equal(buffer, expectedOutput,
-      'Should write correct content')
-  }).reset()
+  t.plan(4)
 
   QRCode.toFile(fileName, 'http://www.google.com', {
     errorCorrectionLevel: 'H'
   }, function (err) {
-    t.ok(!err, 'There should be no error ' + err)
+    t.ok(!err, 'There should be no error')
+
+    fs.stat(fileName, function (err) {
+      t.ok(!err,
+        'Should save file with correct file name')
+    })
+
+    fs.readFile(fileName, 'utf8', function (err, content) {
+      if (err) throw err
+      t.equal(content, expectedOutput,
+        'Should write correct content')
+    })
   })
 
   QRCode.toFile(fileName, 'http://www.google.com', {
@@ -93,12 +98,10 @@ test('toFile svg', function (t) {
   }, function (err) {
     t.ok(!err, 'There should be no errors if file type is specified')
   })
-
-  fsStub.restore()
 })
 
 test('toFile utf8', function (t) {
-  var fileName = 'qrimage.txt'
+  var fileName = path.join(tmpDir(), 'qrimage.txt')
   var expectedOutput = [
     '                                 ',
     '                                 ',
@@ -118,18 +121,21 @@ test('toFile utf8', function (t) {
     '                                 ',
     '                                 '].join('\n')
 
-  t.plan(6)
-
-  var fsStub = sinon.stub(fs, 'writeFileSync', function (path, buffer) {
-    t.equal(path, fileName,
-      'Should save file with correct file name')
-
-    t.equal(buffer, expectedOutput,
-      'Should write correct content')
-  }).reset()
+  t.plan(4)
 
   QRCode.toFile(fileName, 'http://www.google.com', function (err) {
-    t.ok(!err, 'There should be no error ' + err)
+    t.ok(!err, 'There should be no error')
+
+    fs.stat(fileName, function (err) {
+      t.ok(!err,
+        'Should save file with correct file name')
+    })
+
+    fs.readFile(fileName, 'utf8', function (err, content) {
+      if (err) throw err
+      t.equal(content, expectedOutput,
+        'Should write correct content')
+    })
   })
 
   QRCode.toFile(fileName, 'http://www.google.com', {
@@ -138,6 +144,4 @@ test('toFile utf8', function (t) {
   }, function (err) {
     t.ok(!err, 'There should be no errors if file type is specified')
   })
-
-  fsStub.restore()
 })

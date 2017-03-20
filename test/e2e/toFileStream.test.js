@@ -1,47 +1,43 @@
 var test = require('tap').test
 var sinon = require('sinon')
-var fs = require('fs')
-var stream = require('stream')
 var QRCode = require('lib')
+var StreamMock = require('../mocks/writable-stream')
 
 test('toFileStream png', function (t) {
-  var fileName = 'qrimage.png'
+  t.throw(function () { QRCode.toFileStream('some text') },
+    'Should throw if stream is not provided')
 
-  t.plan(8)
-
-  t.throw(function () { QRCode.toFileStream('some text', function () {}) },
-    'Should throw if path is not provided')
-
-  t.throw(function () { QRCode.toFileStream(fileName) },
+  t.throw(function () { QRCode.toFileStream(new StreamMock()) },
     'Should throw if text is not provided')
 
-  t.throw(function () { QRCode.toFileStream(fileName, 'some text') },
-    'Should throw if a callback is not provided')
+  var fstream = new StreamMock()
+  var spy = sinon.spy(fstream, 'emit')
 
-  var fsStub = sinon.stub(fs, 'createWriteStream', function (path) {
-    t.equal(path, fileName,
-      'Should save file with correct file name')
-
-    var mockStream = new stream.Writable()
-    mockStream._write = function () {}
-
-    return mockStream
+  QRCode.toFileStream(fstream, 'i am a pony!', {
+    version: 1, // force version=1 to trigger an error
+    errorCorrectionLevel: 'H'
   })
 
-  QRCode.toFileStream(fileName, 'i am a pony!', function (err, fstream) {
-    t.ok(!err, 'There should be no error')
-    t.ok(fstream instanceof stream.Writable,
-    'Should return a writable stream')
+  QRCode.toFileStream(fstream, 'i am a pony!')
+
+  QRCode.toFileStream(fstream, 'i am a pony!', {
+    type: 'image/png'
   })
 
-  fsStub.restore()
-  fsStub = sinon.stub(fs, 'createWriteStream').throws()
-  fsStub.reset()
+  t.ok(spy.neverCalledWith('error'),
+    'There should be no error')
 
-  QRCode.toFileStream(fileName, 'i am a pony!', function (err, fstream) {
-    t.ok(err, 'There should be an error ')
-    t.ok(!fstream, 'Should not return a stream')
+  spy.restore()
+  t.end()
+})
+
+test('toFileStream png with write error', function (t) {
+  var fstreamErr = new StreamMock().forceErrorOnWrite()
+  QRCode.toFileStream(fstreamErr, 'i am a pony!')
+
+  t.plan(2)
+
+  fstreamErr.on('error', function (e) {
+    t.ok(e)
   })
-
-  fsStub.restore()
 })
