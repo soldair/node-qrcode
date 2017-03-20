@@ -9,7 +9,8 @@ test('Utils getOptions', function (t) {
       dark: { r: 0, g: 0, b: 0, a: 255 },
       light: { r: 255, g: 255, b: 255, a: 255 }
     },
-    type: undefined
+    type: undefined,
+    rendererOpts: {}
   }
 
   t.ok(Utils.getOptions,
