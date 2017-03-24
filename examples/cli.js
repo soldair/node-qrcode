@@ -1,6 +1,6 @@
 var QRCode = require('../lib')
 
-QRCode.drawText('yo yo yo', function (error, data) {
+QRCode.toString('yo yo yo', function (error, data) {
   if (error) {
     throw new Error(error)
   }

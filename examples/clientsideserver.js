@@ -27,14 +27,6 @@ var effectHandlers = {}
 app.get('/generate', function (req, res) {
   var q = req.query || {}
 
-  QRCode.QRCodeDraw.color.light = q.lightColor || '#ffffff'
-  QRCode.QRCodeDraw.color.dark = q.darkColor || '#000000'
-  QRCode.QRCodeDraw.scale = +(q.scale)
-
-  if (isNaN(QRCode.QRCodeDraw.scale)) QRCode.QRCodeDraw.scale = 4
-  // NOTE when i set scale to 500 something seg faulted
-  if (QRCode.QRCodeDraw.scale > 50) QRCode.QRCodeDraw.scale = 50
-
   var effect = q.effect || 'plain'
   if (!effectHandlers[effect]) {
     effect = 'plain'
@@ -78,7 +70,8 @@ effectHandlers.baconBikini = function (args, cb) {
 }
 
 effectHandlers.rounded = function (args, cb) {
-  QRCode.draw(args.text || '', function (err, canvas) {
+  var canvas = new Canvas(200, 200)
+  QRCode.toCanvas(canvas, args.text || '', function (err) {
     if (err) {
       cb(err, canvas)
       return
@@ -232,7 +225,8 @@ effectHandlers.image = function (args, cb) {
   var img = new Image()
   var convert = canvasutil.conversionLib
   img.onload = function () {
-    QRCode.draw(args.text || '', function (err, canvas) {
+    var canvas = new Canvas(200, 200)
+    QRCode.toCanvas(canvas, args.text || '', function (err) {
       if (err) {
         cb(err, false)
         return
@@ -308,8 +302,9 @@ effectHandlers.image = function (args, cb) {
 }
 
 effectHandlers.plain = function (args, cb) {
+  var canvas = new Canvas(200, 200)
   var text = args.text || ''
-  QRCode.draw(text || '', function (err, canvas) {
+  QRCode.toCanvas(canvas, text || '', function (err) {
     cb(err, canvas)
   })
 }
