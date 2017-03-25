@@ -22,8 +22,11 @@ test('Utils getOptions', function (t) {
   t.equal(Utils.getOptions({ scale: 8 }).scale, 8,
     'Should return correct scale value')
 
-  t.equal(Utils.getOptions({ margin: 1 }).margin, 4,
-    'Should return default margin if specified value is < 4')
+  t.equal(Utils.getOptions({ margin: null }).margin, 4,
+    'Should return default margin if specified value is null')
+
+  t.equal(Utils.getOptions({ margin: -1 }).margin, 4,
+    'Should return default margin if specified value is < 0')
 
   t.equal(Utils.getOptions({ margin: 20 }).margin, 20,
     'Should return correct margin value')
