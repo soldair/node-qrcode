@@ -108,16 +108,166 @@ test('Mask pattern - Apply mask', function (t) {
   t.end()
 })
 
-test('Mask pattern - Best mask', function (t) {
-  var matrix = new BitMatrix(7)
-  // Draw a pattern with ratio 1:1:3:1:1 to test penality N3
-  matrix.set(0, 1, true)
-  matrix.set(0, 5, true)
-  matrix.set(1, 0, true)
-  matrix.set(5, 0, true)
+test('Mask pattern - Penalty N1', function (t) {
+  var matrix = new BitMatrix(11)
+  matrix.data = [
+    1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1,
+    1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
+    0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1,
+    1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
+    1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0,
+    1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1,
+    1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
+    1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1,
+    0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1
+  ]
 
-  var mask = MaskPattern.getBestMask(matrix)
+  t.equals(MaskPattern.getPenaltyN1(matrix), 59,
+    'Should return correct penalty points')
+
+  matrix = new BitMatrix(6)
+  matrix.data = expectedPattern000
+
+  t.equals(MaskPattern.getPenaltyN1(matrix), 0,
+    'Should return correct penalty points')
+
+  matrix.data = expectedPattern001
+
+  t.equals(MaskPattern.getPenaltyN1(matrix), 24,
+    'Should return correct penalty points')
+
+  matrix.data = expectedPattern010
+
+  t.equals(MaskPattern.getPenaltyN1(matrix), 24,
+    'Should return correct penalty points')
+
+  matrix.data = expectedPattern101
+
+  t.equals(MaskPattern.getPenaltyN1(matrix), 20,
+    'Should return correct penalty points')
+
+  t.end()
+})
+
+test('Mask pattern - Penalty N2', function (t) {
+  var matrix = new BitMatrix(8)
+  matrix.data = [
+    1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 0, 0, 0, 1, 1,
+    0, 1, 1, 1, 0, 0, 1, 1,
+    1, 0, 0, 0, 1, 1, 0, 1,
+    0, 0, 0, 0, 0, 0, 0, 0,
+    1, 0, 1, 1, 0, 0, 0, 0,
+    1, 1, 1, 1, 1, 0, 0, 0,
+    1, 1, 0, 0, 1, 0, 1, 1
+  ]
+
+  t.equals(MaskPattern.getPenaltyN2(matrix), 45,
+    'Should return correct penalty points')
+
+  matrix = new BitMatrix(6)
+  matrix.data = expectedPattern000
+
+  t.equals(MaskPattern.getPenaltyN2(matrix), 0,
+    'Should return correct penalty points')
+
+  matrix.data = expectedPattern010
+
+  t.equals(MaskPattern.getPenaltyN2(matrix), 30,
+    'Should return correct penalty points')
+
+  matrix.data = expectedPattern100
+
+  t.equals(MaskPattern.getPenaltyN2(matrix), 36,
+    'Should return correct penalty points')
+
+  t.end()
+})
+
+test('Mask pattern - Penalty N3', function (t) {
+  var matrix = new BitMatrix(11)
+  matrix.data = [
+    0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1,
+    0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1,
+    0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1,
+    0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
+    1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1,
+    0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1,
+    1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1,
+    1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0,
+    1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0
+  ]
+
+  t.equals(MaskPattern.getPenaltyN3(matrix), 160,
+    'Should return correct penalty points')
+
+  matrix.data = [
+    1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0,
+    1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0,
+    1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0,
+    1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0,
+    1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1,
+    1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0,
+    0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1,
+    1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1,
+    0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1,
+    1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0,
+    1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1
+  ]
+
+  t.equals(MaskPattern.getPenaltyN3(matrix), 280,
+    'Should return correct penalty points')
+
+  t.end()
+})
+
+test('Mask pattern - Penalty N4', function (t) {
+  var matrix = new BitMatrix(10)
+  matrix.data = new Array(50).fill(1).concat(new Array(50).fill(0))
+
+  t.equals(MaskPattern.getPenaltyN4(matrix), 0,
+    'Should return correct penalty points')
+
+  var matrix2 = new BitMatrix(21)
+  matrix2.data = new Array(190).fill(1).concat(new Array(251).fill(0))
+
+  t.equals(MaskPattern.getPenaltyN4(matrix2), 10,
+    'Should return correct penalty points')
+
+  var matrix3 = new BitMatrix(10)
+  matrix3.data = new Array(22).fill(1).concat(new Array(78).fill(0))
+
+  t.equals(MaskPattern.getPenaltyN4(matrix3), 50,
+    'Should return correct penalty points')
+
+  t.end()
+})
+
+test('Mask pattern - Best mask', function (t) {
+  var matrix = new BitMatrix(11)
+  matrix.data = [
+    0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1,
+    0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1,
+    0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1,
+    0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
+    1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1,
+    0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1,
+    1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1,
+    1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0,
+    1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0
+  ]
+
+  var mask = MaskPattern.getBestMask(matrix, function () {})
   t.ok(!isNaN(mask), 'Should return a number')
+
+  t.ok(mask >= 0 && mask < 8,
+    'Should return a number in range 0,7')
 
   t.end()
 })
