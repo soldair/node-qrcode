@@ -41,16 +41,6 @@ or, install it globally to use `qrcode` from the command line to save qrcode ima
 npm install -g qrcode
 ```
 
-### Dependencies
-`node-canvas` is required.<br>
-(note: this dependency is only needed for server side use and will be likely removed in the future)
-
-#### Install node-canvas dependencies
-`node-canvas` is a native module and requires dev packages of `Cairo` and `Pango` to compile.<br>
-Make sure to have these libs available on your system before run `npm install qrcode`
-
-Installation instructions are available on [node-canvas](https://github.com/Automattic/node-canvas#installation) page.
-
 ## Usage
 ### CLI
 
@@ -58,7 +48,7 @@ Installation instructions are available on [node-canvas](https://github.com/Auto
 qrcode <text> [output file]
 ```
 Output image format is detected from file extension.<br>
-Only `png` and `svg` format are supported for now.
+Supported format are `png`, `svg` and `txt`.
 
 If no output file is specified, the QR Code will be rendered directly in the terminal.
 
@@ -91,10 +81,9 @@ qrcode "I also like to save them as a SVG" qr.svg
 ```javascript
 // index.js -> bundle.js
 var QRCode = require('qrcode')
-var QRCodeDraw = new QRCode.QRCodeDraw()
 var canvas = document.getElementById('canvas')
 
-QRCodeDraw.draw(canvas, 'sample text', function (error, canvas) {
+QRCode.toCanvas(canvas, 'sample text', function (error) {
   if (error) console.error(error)
   console.log('success!');
 })
@@ -106,21 +95,14 @@ QRCodeDraw.draw(canvas, 'sample text', function (error, canvas) {
 
 <script src="/build/qrcode.min.js"></script>
 <script>
-  var qrcodedraw = new qrcodelib.qrcodedraw()
-
-  qrcodedraw.draw(document.getElementById('canvas'), 'sample text', function (error, canvas) {
+  qrcodelib.toCanvas(document.getElementById('canvas'), 'sample text', function (error) {
     if (error) console.error(error)
     console.log('success!');
   })
 </script>
 ```
 
-Precompiled files are generated in `build/` folder during installation.<br>
-To manually rebuild the lib run:
-
-```shell
-npm run build
-```
+If you install through `npm`, precompiled files will be available in `node_modules/qrcode/build/` folder.<br>
 
 ### NodeJS
 Simply require the module `qrcode`
@@ -272,12 +254,10 @@ With precompiled bundle:
 <script src="/build/qrcode.min.js"></script>
 <script src="/build/qrcode.tosjis.min.js"></script>
 <script>
-  var qrcodedraw = new qrcodelib.qrcodedraw()
-
-  qrcodedraw.draw(document.getElementById('canvas'),
-    'sample text', { toSJISFunc: qrcodelib.toSJIS }, function (error, canvas) {
+  qrcodelib.toCanvas(document.getElementById('canvas'),
+    'sample text', { toSJISFunc: qrcodelib.toSJIS }, function (error) {
     if (error) console.error(error)
-    console.log('success!');
+    console.log('success!')
   })
 </script>
 ```
@@ -292,97 +272,343 @@ Most QR Code readers, however, are able to recognize multibyte characters even w
 Note that a single Kanji/Kana or Emoji can take up to 4 bytes.
 
 ## API
-### Browser
+Browser:
+- [create()](#createtext-options)
+- [toCanvas()](#tocanvascanvaselement-text-options-cberror)
+- [toDataURL()](#todataurltext-options-cberror-url)
 
-#### draw(canvasElement, text, [options], cb(error, canvas))
-Draws qr code symbol to canvas
+Server:
+- [create()](#createtext-options)
+- [toCanvas()](#tocanvascanvas-text-options-cberror)
+- [toDataURL()](todataurltext-options-cberror-url-1)
+- [toString()](#tostringtext-options-cberror-string)
+- [toFile()](#tofilepath-text-options-cberror)
+- [toFileStream()](#tofilestreamstream-text-options-cberror)
 
-##### canvasElement
+### Browser API
+#### `create(text, [options])`
+Creates QR Code symbol and returns a qrcode object.
+
+##### `text`
+Type: `String|Array`
+
+Text to encode or a list of objects describing segments.
+
+##### `options`
+See [QR Code options](#qr-code-options).
+
+##### `returns`
+Type: `Object`
+
+```javascript
+// QRCode object
+{
+  modules,              // Bitmatrix class with modules data
+  version,              // Calculated QR Code version
+  errorCorrectionLevel, // Error Correction Level
+  maskPattern,          // Calculated Mask pattern
+  segments              // Generated segments
+}
+```
+
+<br>
+
+#### `toCanvas(canvasElement, text, [options], cb(error))`
+#### `toCanvas(text, [options], cb(error, canvas))`
+Draws qr code symbol to canvas.<br>
+If `canvasElement` is omitted a new canvas is returned.
+
+##### `canvasElement`
 Type: `DOMElement`
 
-Canvas where to draw QR Code
+Canvas where to draw QR Code.
 
-##### text
+##### `text`
 Type: `String|Array`
 
-Text to encode or a list of objects describing segments
+Text to encode or a list of objects describing segments.
 
-##### options
-- ###### version
+##### `options`
+See [Options](#options).
+
+##### `cb`
+Type: `Function`
+
+Callback function called on finish.
+
+##### Example
+```javascript
+QRCode.toCanvas('text', { errorCorrectionLevel: 'H' }, function (err, canvas) {
+  if (err) throw err
+
+  var container = document.getElementById('container')
+  container.appendChild(canvas)
+})
+```
+
+<br>
+
+#### `toDataURL(text, [options], cb(error, url))`
+#### `toDataURL(canvasElement, text, [options], cb(error, url))`
+Returns a Data URI containing a representation of the QR Code image.<br>
+If provided, `canvasElement` will be used as canvas to generate the data URI.
+
+##### `canvasElement`
+Type: `DOMElement`
+
+Canvas where to draw QR Code.
+
+##### `text`
+Type: `String|Array`
+
+Text to encode or a list of objects describing segments.
+
+##### `options`
+- ###### `type`
+  Type: `String`<br>
+  Default: `image/png`
+
+  Data URI format.<br>
+  Possible values are: `image/png`, `image/jpeg`, `image/webp`.<br>
+  **Note: `image/webp` only works in Chrome browser.**
+
+- ###### `rendererOpts.quality`
+  Type: `Number`<br>
+  Default: `0.92`
+
+  A Number between `0` and `1` indicating image quality if the requested type is `image/jpeg` or `image/webp`.
+
+See [Options](#options) for other settings.
+
+##### `cb`
+Type: `Function`
+
+Callback function called on finish.
+
+##### Example
+```javascript
+var opts = {
+  errorCorrectionLevel: 'H',
+  type: 'image/jpeg',
+  rendererOpts: {
+    quality: 0.3
+  }
+}
+
+QRCode.toDataURL('text', opts, function (err, url) {
+  if (err) throw err
+
+  var img = document.getElementById('image')
+  img.src = url
+})
+```
+
+
+### Server API
+#### `create(text, [options])`
+See [create](#createtext-options).
+
+<br>
+
+#### `toCanvas(canvas, text, [options], cb(error))`
+Draws qr code symbol to [node canvas](https://github.com/Automattic/node-canvas).
+
+##### `text`
+Type: `String|Array`
+
+Text to encode or a list of objects describing segments.
+
+##### `options`
+See [Options](#options).
+
+##### `cb`
+Type: `Function`
+
+Callback function called on finish.
+
+<br>
+
+#### `toDataURL(text, [options], cb(error, url))`
+Returns a Data URI containing a representation of the QR Code image.<br>
+Only works with `image/png` type for now.
+
+##### `text`
+Type: `String|Array`
+
+Text to encode or a list of objects describing segments.
+
+##### `options`
+See [Options](#options) for other settings.
+
+##### `cb`
+Type: `Function`
+
+Callback function called on finish.
+
+<br>
+
+#### `toString(text, [options], cb(error, string))`
+Returns a string representation of the QR Code.<br>
+If choosen output format is `svg` it will returns a string containing xml code.
+
+##### `text`
+Type: `String|Array`
+
+Text to encode or a list of objects describing segments.
+
+##### `options`
+- ###### `type`
+  Type: `String`<br>
+  Default: `utf8`
+
+  Output format.<br>
+  Possible values are: `utf8`, `svg`, `terminal`.
+
+See [Options](#options) for other settings.
+
+##### `cb`
+Type: `Function`
+
+Callback function called on finish.
+
+##### Example
+```javascript
+QRCode.toString('http://www.google.com', function (err, string) {
+  if (err) throw err
+  console.log(string)
+})
+```
+
+<br>
+
+#### `toFile(path, text, [options], cb(error))`
+Saves QR Code to image file.<br>
+If `options.type` is not specified, the format will be guessed from file extension.<br>
+Recognized extensions are `png`, `svg`, `txt`.
+
+##### `path`
+Type: `String`
+
+Path where to save the file.
+
+##### `text`
+Type: `String|Array`
+
+Text to encode or a list of objects describing segments.
+
+##### `options`
+- ###### `type`
+  Type: `String`<br>
+  Default: `png`
+
+  Output format.<br>
+  Possible values are: `png`, `svg`, `utf8`.
+
+- ###### `rendererOpts.deflateLevel` **(png only)**
+  Type: `Number`<br>
+  Default: `9`
+
+  Compression level for deflate.
+
+- ###### `rendererOpts.deflateStrategy` **(png only)**
+  Type: `Number`<br>
+  Default: `3`
+
+  Compression strategy for deflate.
+
+See [Options](#options) for other settings.
+
+##### `cb`
+Type: `Function`
+
+Callback function called on finish.
+
+##### Example
+```javascript
+QRCode.toFile('path/to/filename.png', 'Some text', {
+  color: {
+    dark: '#00F',  // Blue dots
+    light: '#0000' // Transparent background
+  }
+}, function (err) {
+  if (err) throw err
+  console.log('done')
+})
+```
+
+<br>
+
+#### `toFileStream(stream, text, [options], cb(error))`
+Writes QR Code image to stream. Only works with `png` format for now.
+
+##### `stream`
+Type: `stream.Writable`
+
+Node stream.
+
+##### `text`
+Type: `String|Array`
+
+Text to encode or a list of objects describing segments.
+
+##### `options`
+See [Options](#options).
+
+##### `cb`
+Type: `Function`
+
+Callback function called on finish.
+
+<br>
+
+### Options
+
+#### QR Code options
+##### `version`
   Type: `Number`<br>
 
   QR Code version. If not specified the more suitable value will be calculated.
 
-- ###### errorCorrectionLevel
+##### `errorCorrectionLevel`
   Type: `String`<br>
   Default: `M`
 
-  Error correction level.
+  Error correction level.<br>
   Possible values are `low, medium, quartile, high` or `L, M, Q, H`.
 
-- ###### toSJISFunc
+##### `toSJISFunc`
   Type: `Function`<br>
 
   Helper function used internally to convert a kanji to its Shift JIS value.<br>
   Provide this function if you need support for Kanji mode.
 
-##### cb
-Type: `Function`
-
-Callback function called on finish
-
-
-
-### Server
-#### draw(text, [options], cb(error, canvas))
-Draws qr code symbol to canvas
-Returns a node canvas object. See https://github.com/Automattic/node-canvas
-
-#### QRCode.toDataURL(text, [optional options], cb(error, dataURL));
-Returns mime image/png data url for the 2d barcode.
-
-#### QRCode.drawSvg(text, [optional options], cb(error, svgString));
-SVG output!
-
-#### QRCode.save(path, text, [optional options], cb(error, written));
-Saves png to the path specified returns bytes written.
-
-#### QRCode.drawText(text, [optional options], cb)
-Returns an ascii representation of the qrcode using unicode characters and ansi control codes for background control.
-
-#### QRCode.drawBitArray(text, [optional options], cb(error, bits, width));
-Returns an array with each value being either 0 light or 1 dark and the width of each row.
-This is enough info to render a qrcode any way you want. =)
-
-##### text
-Type: `String|Array`
-
-Text to encode or a list of objects describing segments
-
-##### options
-- ###### version
+#### Renderers options
+##### `margin`
   Type: `Number`<br>
+  Default: `4`
 
-  QR Code version. If not specified the more suitable value will be calculated.
+  Define how much wide the quiet zone should be.
 
-- ###### errorCorrectionLevel
-  Type: `String`<br>
-  Default: `M`
+##### `scale`
+  Type: `Number`<br>
+  Default: `4`
 
-  Error correction level.
-  Possible values are `low, medium, quartile, high` or `L, M, Q, H`.
+  Scale factor. A value of `1` means 1px per modules (black dots).
 
-- ###### toSJISFunc
-  Type: `Function`<br>
+##### `color.dark`
+Type: `String`<br>
+Default: `#000000ff`
 
-  Helper function used internally to convert a kanji to its Shift JIS value.<br>
-  Provide this function if you need support for Kanji mode.
+Color of dark module. Value must be in hex format (RGBA).<br>
+Note: dark color should always be darker than `color.light`.
 
-##### cb
-Type: `Function`
+##### `color.light`
+Type: `String`<br>
+Default: `#ffffffff`
 
-Callback function called on finish
+Color of light module. Value must be in hex format (RGBA).<br>
 
+<br>
 
 ## GS1 QR Codes
 There was a real good discussion here about them. but in short any qrcode generator will make gs1 compatible qrcodes, but what defines a gs1 qrcode is a header with metadata that describes your gs1 information.
