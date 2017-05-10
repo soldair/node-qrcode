@@ -2,6 +2,7 @@ var test = require('tap').test
 var fs = require('fs')
 var path = require('path')
 var QRCode = require('lib')
+var browser = require('lib/browser')
 
 test('toString svg', function (t) {
   var file = path.join(__dirname, '/fixtures/expected-output.svg')
@@ -31,6 +32,22 @@ test('toString svg', function (t) {
     }, function (err, code) {
       t.ok(!err, 'There should be no error')
       t.equal(code, expectedSvg, 'should output a valid svg')
+    })
+  })
+})
+
+test('toString browser svg', function (t) {
+  var file = path.join(__dirname, '/fixtures/expected-output.svg')
+  fs.readFile(file, 'utf8', function (err, expectedSvg) {
+    if (err) throw err
+
+    browser.toString('http://www.google.com', {
+      errorCorrectionLevel: 'H',
+      type: 'svg'
+    }, function (err, code) {
+      t.ok(!err, 'There should be no error')
+      t.equal(code, expectedSvg, 'should output a valid svg')
+      t.end()
     })
   })
 })
