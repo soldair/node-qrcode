@@ -14,7 +14,8 @@
   "main": "./lib/index.js",
   "browser": {
     "./lib/index.js": "./lib/browser.js",
-    "./lib/utils/buffer.js": "./lib/utils/typedarray-buffer.js"
+    "./lib/utils/buffer.js": "./lib/utils/typedarray-buffer.js",
+    "fs":false
   },
   "files": [
     "bin",
@@ -48,8 +49,8 @@
     "libxmljs": "^0.18.0",
     "os-tmpdir": "^1.0.2",
     "sinon": "^1.17.7",
-    "standard": "*",
-    "tap": "*",
+    "standard": "^9.0.2",
+    "tap": "^10.3.1",
     "uglify-js": "^2.7.5"
   },
   "repository": {
