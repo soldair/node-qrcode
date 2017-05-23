@@ -1,7 +1,7 @@
 {
   "name": "qrcode",
   "description": "QRCode / 2d Barcode api with both server side and client side support using canvas",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "author": "Ryan Day <soldair@gmail.com>",
   "contributors": [
     "Vincenzo Greco <greco.vincenzo@gmail.com>"
@@ -15,7 +15,7 @@
   "browser": {
     "./lib/index.js": "./lib/browser.js",
     "./lib/utils/buffer.js": "./lib/utils/typedarray-buffer.js",
-    "fs":false
+    "fs": false
   },
   "files": [
     "bin",
