@@ -276,12 +276,13 @@ Browser:
 - [create()](#createtext-options)
 - [toCanvas()](#tocanvascanvaselement-text-options-cberror)
 - [toDataURL()](#todataurltext-options-cberror-url)
+- [toString()](#tostringtext-options-cberror-string)
 
 Server:
 - [create()](#createtext-options)
 - [toCanvas()](#tocanvascanvas-text-options-cberror)
 - [toDataURL()](todataurltext-options-cberror-url-1)
-- [toString()](#tostringtext-options-cberror-string)
+- [toString()](#tostringtext-options-cberror-string-1)
 - [toFile()](#tofilepath-text-options-cberror)
 - [toFileStream()](#tofilestreamstream-text-options-cberror)
 
@@ -402,6 +403,40 @@ QRCode.toDataURL('text', opts, function (err, url) {
   img.src = url
 })
 ```
+<br>
+#### `toString(text, [options], cb(error, string))`
+Returns a string representation of the QR Code.<br>
+If choosen output format is `svg` it will returns a string containing xml code.
+
+##### `text`
+Type: `String|Array`
+
+Text to encode or a list of objects describing segments.
+
+##### `options`
+- ###### `type`
+  Type: `String`<br>
+  Default: `utf8`
+
+  Output format.<br>
+  Possible values are: `utf8`, `svg`, `terminal`.
+
+See [Options](#options) for other settings.
+
+##### `cb`
+Type: `Function`
+
+Callback function called on finish.
+
+##### Example
+```javascript
+QRCode.toString('http://www.google.com', function (err, string) {
+  if (err) throw err
+  console.log(string)
+})
+```
+
+<br>
 
 
 ### Server API
