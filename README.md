@@ -276,13 +276,13 @@ Browser:
 - [create()](#createtext-options)
 - [toCanvas()](#tocanvascanvaselement-text-options-cberror)
 - [toDataURL()](#todataurltext-options-cberror-url)
-- [toString()](#tostringtext-options-cberror-string)
+- [toString()](#tostringtext-options-cberror-string-1)
 
 Server:
 - [create()](#createtext-options)
 - [toCanvas()](#tocanvascanvas-text-options-cberror)
 - [toDataURL()](todataurltext-options-cberror-url-1)
-- [toString()](#tostringtext-options-cberror-string-1)
+- [toString()](#tostringtext-options-cberror-string)
 - [toFile()](#tofilepath-text-options-cberror)
 - [toFileStream()](#tofilestreamstream-text-options-cberror)
 
@@ -405,8 +405,9 @@ QRCode.toDataURL('text', opts, function (err, url) {
 ```
 <br>
 #### `toString(text, [options], cb(error, string))`
+
 Returns a string representation of the QR Code.<br>
-If choosen output format is `svg` it will returns a string containing xml code.
+Currently only works for SVG.
 
 ##### `text`
 Type: `String|Array`
@@ -416,10 +417,10 @@ Text to encode or a list of objects describing segments.
 ##### `options`
 - ###### `type`
   Type: `String`<br>
-  Default: `utf8`
+  Default: `svg`
 
   Output format.<br>
-  Possible values are: `utf8`, `svg`, `terminal`.
+  Possible values are: `svg`.
 
 See [Options](#options) for other settings.
 
