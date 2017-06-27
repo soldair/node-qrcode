@@ -404,7 +404,8 @@ QRCode.toDataURL('text', opts, function (err, url) {
 })
 ```
 <br>
-#### `toString(text, [options], cb(error, string))`
+
+#### `toString(text, [options], cb(error, url))`
 
 Returns a string representation of the QR Code.<br>
 Currently only works for SVG.
