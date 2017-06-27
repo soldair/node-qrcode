@@ -276,13 +276,13 @@ Browser:
 - [create()](#createtext-options)
 - [toCanvas()](#tocanvascanvaselement-text-options-cberror)
 - [toDataURL()](#todataurltext-options-cberror-url)
-- [toString()](#tostringtext-options-cberror-string-1)
+- [toString()](#tostringtext-options-cberror-string)
 
 Server:
 - [create()](#createtext-options)
 - [toCanvas()](#tocanvascanvas-text-options-cberror)
 - [toDataURL()](todataurltext-options-cberror-url-1)
-- [toString()](#tostringtext-options-cberror-string)
+- [toString()](#tostringtext-options-cberror-string-1)
 - [toFile()](#tofilepath-text-options-cberror)
 - [toFileStream()](#tofilestreamstream-text-options-cberror)
 
@@ -405,7 +405,7 @@ QRCode.toDataURL('text', opts, function (err, url) {
 ```
 <br>
 
-#### `toString(text, [options], cb(error, url))`
+#### `toString(text, [options], cb(error, string))`
 
 Returns a string representation of the QR Code.<br>
 Currently only works for SVG.
