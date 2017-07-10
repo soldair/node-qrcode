@@ -19,7 +19,7 @@
 - [License](#license)
 
 ## Highlights
-- Works on server and client
+- Works on server and client (and react native with svg)
 - CLI utility
 - Save QR code as image
 - Support for Numeric, Alphanumeric, Kanji and Byte mode
