@@ -105,24 +105,7 @@ test('toString utf8', function (t) {
 })
 
 test('toString terminal', function (t) {
-  var expectedTerminal = [
-    '                                 ',
-    '                                 ',
-    '    █▀▀▀▀▀█ █ ▄█  ▀ █ █▀▀▀▀▀█    ',
-    '    █ ███ █ ▀█▄▀▄█ ▀▄ █ ███ █    ',
-    '    █ ▀▀▀ █ ▀▄ ▄ ▄▀ █ █ ▀▀▀ █    ',
-    '    ▀▀▀▀▀▀▀ ▀ ▀ █▄▀ █ ▀▀▀▀▀▀▀    ',
-    '    ▀▄ ▀▀▀▀█▀▀█▄ ▄█▄▀█ ▄█▄██▀    ',
-    '    █▄ ▄▀▀▀▄▄█ █▀▀▄█▀ ▀█ █▄▄█    ',
-    '    █▄ ▄█▄▀█▄▄  ▀ ▄██▀▀ ▄  ▄▀    ',
-    '    █▀▄▄▄▄▀▀█▀▀█▀▀▀█ ▀ ▄█▀█▀█    ',
-    '    ▀ ▀▀▀▀▀▀███▄▄▄▀ █▀▀▀█ ▀█     ',
-    '    █▀▀▀▀▀█ █▀█▀▄ ▄▄█ ▀ █▀ ▄█    ',
-    '    █ ███ █ █ █ ▀▀██▀███▀█ ██    ',
-    '    █ ▀▀▀ █  █▀ ▀ █ ▀▀▄██ ███    ',
-    '    ▀▀▀▀▀▀▀ ▀▀▀  ▀▀ ▀    ▀  ▀    ',
-    '                                 ',
-    '                                 '].join('\n')
+  var expectedTerminal = fs.readFileSync(path.join(__dirname, '/terminal.expected.out')) + ''
 
   t.plan(4)
 
@@ -137,6 +120,6 @@ test('toString terminal', function (t) {
     type: 'terminal'
   }, function (err, code) {
     t.ok(!err, 'There should be no error')
-    t.equal(code, expectedTerminal, 'should output a valid symbol')
+    t.equal(code + '\n', expectedTerminal, 'should output a valid symbol')
   })
 })
