@@ -284,7 +284,7 @@ Server:
 - [toDataURL()](todataurltext-options-cberror-url-1)
 - [toString()](#tostringtext-options-cberror-string-1)
 - [toFile()](#tofilepath-text-options-cberror)
-- [toFileStream()](#tofilestreamstream-text-options-cberror)
+- [toFileStream()](#tofilestreamstream-text-options)
 
 ### Browser API
 #### `create(text, [options])`
@@ -575,7 +575,7 @@ QRCode.toFile('path/to/filename.png', 'Some text', {
 
 <br>
 
-#### `toFileStream(stream, text, [options], cb(error))`
+#### `toFileStream(stream, text, [options])`
 Writes QR Code image to stream. Only works with `png` format for now.
 
 ##### `stream`
@@ -590,11 +590,6 @@ Text to encode or a list of objects describing segments.
 
 ##### `options`
 See [Options](#options).
-
-##### `cb`
-Type: `Function`
-
-Callback function called on finish.
 
 <br>
 
