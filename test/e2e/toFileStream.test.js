@@ -13,11 +13,6 @@ test('toFileStream png', function (t) {
   var fstream = new StreamMock()
   var spy = sinon.spy(fstream, 'emit')
 
-  QRCode.toFileStream(fstream, 'i am a pony!', {
-    version: 1, // force version=1 to trigger an error
-    errorCorrectionLevel: 'H'
-  })
-
   QRCode.toFileStream(fstream, 'i am a pony!')
 
   QRCode.toFileStream(fstream, 'i am a pony!', {
@@ -38,6 +33,23 @@ test('toFileStream png with write error', function (t) {
   t.plan(2)
 
   fstreamErr.on('error', function (e) {
-    t.ok(e)
+    t.ok(e, 'Should return an error')
+  })
+})
+
+test('toFileStream png with qrcode error', function (t) {
+  var fstreamErr = new StreamMock()
+  var bigString = Array(200).join('i am a pony!')
+
+  t.plan(2)
+
+  fstreamErr.on('error', function (e) {
+    t.ok(e, 'Should return an error')
+  })
+
+  QRCode.toFileStream(fstreamErr, bigString)
+  QRCode.toFileStream(fstreamErr, 'i am a pony!', {
+    version: 1, // force version=1 to trigger an error
+    errorCorrectionLevel: 'H'
   })
 })
