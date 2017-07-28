@@ -608,6 +608,13 @@ See [Options](#options).
   Error correction level.<br>
   Possible values are `low, medium, quartile, high` or `L, M, Q, H`.
 
+##### `maskPattern`
+  Type: `Number`<br>
+
+  Mask pattern used to mask the symbol.<br>
+  Possible values are `0`, `1`, `2`, `3`, `4`, `5`, `6`, `7`.<br>
+  If not specified the more suitable value will be calculated.
+
 ##### `toSJISFunc`
   Type: `Function`<br>
 
