@@ -9,8 +9,13 @@ test('QRCode interface', function (t) {
   t.throw(function () { QRCode.create() }, 'Should throw if no data is provided')
   t.notThrow(function () { QRCode.create('1234567') }, 'Should not throw')
 
-  var qr = QRCode.create('a123456A', { version: 1, errorCorrectionLevel: 'H' })
+  var qr = QRCode.create('a123456A', {
+    version: 1,
+    maskPattern: 1,
+    errorCorrectionLevel: 'H'
+  })
   t.equal(qr.modules.size, 21, 'Should return correct modules count')
+  t.equal(qr.maskPattern, 1, 'Should return correct mask pattern')
 
   var darkModule = qr.modules.get(qr.modules.size - 8, 8)
   t.ok(darkModule, 'Should have a dark module at coords [size-8][8]')

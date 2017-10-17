@@ -81,6 +81,24 @@ var expectedPattern111 = [
   0, 1, 1, 1, 0, 0
 ]
 
+test('MaskPattern validity', function (t) {
+  t.notOk(MaskPattern.isValid(), 'Should return false if no input')
+  t.notOk(MaskPattern.isValid(''), 'Should return false if value is not a number')
+  t.notOk(MaskPattern.isValid(-1), 'Should return false if value is not in range')
+  t.notOk(MaskPattern.isValid(8), 'Should return false if value is not in range')
+
+  t.end()
+})
+
+test('MaskPattern from value', function (t) {
+  t.equal(MaskPattern.from(5), 5, 'Should return correct mask pattern from a number')
+  t.equal(MaskPattern.from('5'), 5, 'Should return correct mask pattern from a string')
+  t.equal(MaskPattern.from(-1), undefined, 'Should return undefined if value is invalid')
+  t.equal(MaskPattern.from(null), undefined, 'Should return undefined if value is null')
+
+  t.end()
+})
+
 test('Mask pattern - Apply mask', function (t) {
   var patterns = Object.keys(MaskPattern.Patterns).length
   var expectedPatterns = [
