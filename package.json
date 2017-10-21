@@ -39,7 +39,8 @@
     "colors": "*",
     "dijkstrajs": "^1.0.1",
     "isarray": "^2.0.1",
-    "pngjs": "^2.3.1"
+    "pngjs": "^2.3.1",
+    "yargs": "^8.0.2"
   },
   "devDependencies": {
     "browserify": "^14.1.0",

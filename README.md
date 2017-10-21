@@ -44,25 +44,32 @@ npm install -g qrcode
 ## Usage
 ### CLI
 
-```shell
-qrcode <text> [output file]
 ```
-Output image format is detected from file extension.<br>
-Supported format are `png`, `svg` and `txt`.
+Usage: qrcode [options] <input string>
 
-If no output file is specified, the QR Code will be rendered directly in the terminal.
+QR Code options:
+  -v, --version  QR Code symbol version (1 - 40)
+  -e, --error    Error correction level            [choices: "L", "M", "Q", "H"]
+  -m, --mask     Mask pattern (0 - 7)
 
-#### Example
+Renderer options:
+  -t, --type        Output type                  [choices: "png", "svg", "utf8"]
+  -s, --scale       Scale factor
+  -q, --qzone       Quiet zone size
+  -l, --lightcolor  Light RGBA hex color
+  -d, --darkcolor   Dark RGBA hex color
 
-```shell
-qrcode "Draw a QR Code in my terminal"
+Options:
+  -o, --output  Output file
+  -h, --help    Show help                                              [boolean]
+
+Examples:
+  qrcode "some text"                    Draw in terminal window
+  qrcode -o out.png "some text"         Save as png image
+  qrcode -d F00 -o out.png "some text"  Use red as foreground color
 ```
-```shell
-qrcode "I like to save qrs as a PNG" qr.png
-```
-```shell
-qrcode "I also like to save them as a SVG" qr.svg
-```
+If not specified, output type is guessed from file extension.<br>
+Recognized extensions are `png`, `svg` and `txt`.
 
 ### Browser
 `node-qrcode` can be used in browser through module bundlers like [Browserify](https://github.com/substack/node-browserify) and [Webpack](https://github.com/webpack/webpack) or by including the precompiled bundle present in `build/` folder.
