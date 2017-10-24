@@ -1,9 +1,9 @@
 language: node_js
 
 node_js:
-  - "0.10"
-  - "0.12"
-  - "4.2.1"
+  - '4'
+  - '6'
+  - 'node'
 
 env:
   - CXX=g++-4.8
