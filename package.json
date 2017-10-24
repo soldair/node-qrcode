@@ -36,7 +36,6 @@
     "qrcode": "./bin/qrcode"
   },
   "dependencies": {
-    "colors": "*",
     "dijkstrajs": "^1.0.1",
     "isarray": "^2.0.1",
     "pngjs": "^2.3.1",
@@ -46,6 +45,7 @@
     "browserify": "^14.1.0",
     "canvas": "^1.6.4",
     "canvasutil": "*",
+    "colors": "*",
     "express": "2.5.x",
     "libxmljs": "^0.18.0",
     "os-tmpdir": "^1.0.2",
