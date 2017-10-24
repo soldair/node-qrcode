@@ -118,7 +118,7 @@
         errorEl.style.display = 'none'
         canvasEl.style.display = 'block'
 
-        qrcodelib.toCanvas(canvasEl, text, {
+        QRCode.toCanvas(canvasEl, text, {
           version: versionEl.value,
           errorCorrectionLevel: errorLevelEl.options[errorLevelEl.selectedIndex].text,
           margin: marginEl.value,
@@ -126,7 +126,7 @@
             light: lightColorEl.value,
             dark: darkColorEl.value
           },
-          toSJISFunc: qrcodelib.toSJIS
+          toSJISFunc: QRCode.toSJIS
         }, function (error, canvas) {
           if (error) {
             canvasEl.style.display = 'none'

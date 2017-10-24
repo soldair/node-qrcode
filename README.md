@@ -102,7 +102,7 @@ QRCode.toCanvas(canvas, 'sample text', function (error) {
 
 <script src="/build/qrcode.min.js"></script>
 <script>
-  qrcodelib.toCanvas(document.getElementById('canvas'), 'sample text', function (error) {
+  QRCode.toCanvas(document.getElementById('canvas'), 'sample text', function (error) {
     if (error) console.error(error)
     console.log('success!');
   })
@@ -261,8 +261,8 @@ With precompiled bundle:
 <script src="/build/qrcode.min.js"></script>
 <script src="/build/qrcode.tosjis.min.js"></script>
 <script>
-  qrcodelib.toCanvas(document.getElementById('canvas'),
-    'sample text', { toSJISFunc: qrcodelib.toSJIS }, function (error) {
+  QRCode.toCanvas(document.getElementById('canvas'),
+    'sample text', { toSJISFunc: QRCode.toSJIS }, function (error) {
     if (error) console.error(error)
     console.log('success!')
   })
