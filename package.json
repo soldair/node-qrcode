@@ -59,7 +59,7 @@
     "url": "git://github.com/soldair/node-qrcode.git"
   },
   "engines": {
-    "node": ">= 0.10"
+    "node": ">=4"
   },
   "standard": {
     "ignore": [
