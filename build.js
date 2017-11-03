@@ -66,8 +66,8 @@ function minify (inputFile, outputFile, onDone) {
 
 var q = [
   createFolder.bind(null, './build', done),
-  bundle.bind(null, 'lib/index.js', 'qrcodelib', 'build/qrcode.js', done),
-  bundle.bind(null, 'helper/to-sjis.js', 'qrcodelib.toSJIS', 'build/qrcode.tosjis.js', done),
+  bundle.bind(null, 'lib/index.js', 'QRCode', 'build/qrcode.js', done),
+  bundle.bind(null, 'helper/to-sjis.js', 'QRCode.toSJIS', 'build/qrcode.tosjis.js', done),
   minify.bind(null, 'build/qrcode.js', 'build/qrcode.min.js', done),
   minify.bind(null, 'build/qrcode.tosjis.js', 'build/qrcode.tosjis.min.js', done)
 ]

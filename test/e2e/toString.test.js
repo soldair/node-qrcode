@@ -2,6 +2,7 @@ var test = require('tap').test
 var fs = require('fs')
 var path = require('path')
 var QRCode = require('lib')
+var browser = require('lib/browser')
 
 test('toString svg', function (t) {
   var file = path.join(__dirname, '/fixtures/expected-output.svg')
@@ -31,6 +32,22 @@ test('toString svg', function (t) {
     }, function (err, code) {
       t.ok(!err, 'There should be no error')
       t.equal(code, expectedSvg, 'should output a valid svg')
+    })
+  })
+})
+
+test('toString browser svg', function (t) {
+  var file = path.join(__dirname, '/fixtures/expected-output.svg')
+  fs.readFile(file, 'utf8', function (err, expectedSvg) {
+    if (err) throw err
+
+    browser.toString('http://www.google.com', {
+      errorCorrectionLevel: 'H',
+      type: 'svg'
+    }, function (err, code) {
+      t.ok(!err, 'There should be no error')
+      t.equal(code, expectedSvg, 'should output a valid svg')
+      t.end()
     })
   })
 })
@@ -88,24 +105,7 @@ test('toString utf8', function (t) {
 })
 
 test('toString terminal', function (t) {
-  var expectedTerminal = [
-    '                                 ',
-    '                                 ',
-    '    █▀▀▀▀▀█ █ ▄█  ▀ █ █▀▀▀▀▀█    ',
-    '    █ ███ █ ▀█▄▀▄█ ▀▄ █ ███ █    ',
-    '    █ ▀▀▀ █ ▀▄ ▄ ▄▀ █ █ ▀▀▀ █    ',
-    '    ▀▀▀▀▀▀▀ ▀ ▀ █▄▀ █ ▀▀▀▀▀▀▀    ',
-    '    ▀▄ ▀▀▀▀█▀▀█▄ ▄█▄▀█ ▄█▄██▀    ',
-    '    █▄ ▄▀▀▀▄▄█ █▀▀▄█▀ ▀█ █▄▄█    ',
-    '    █▄ ▄█▄▀█▄▄  ▀ ▄██▀▀ ▄  ▄▀    ',
-    '    █▀▄▄▄▄▀▀█▀▀█▀▀▀█ ▀ ▄█▀█▀█    ',
-    '    ▀ ▀▀▀▀▀▀███▄▄▄▀ █▀▀▀█ ▀█     ',
-    '    █▀▀▀▀▀█ █▀█▀▄ ▄▄█ ▀ █▀ ▄█    ',
-    '    █ ███ █ █ █ ▀▀██▀███▀█ ██    ',
-    '    █ ▀▀▀ █  █▀ ▀ █ ▀▀▄██ ███    ',
-    '    ▀▀▀▀▀▀▀ ▀▀▀  ▀▀ ▀    ▀  ▀    ',
-    '                                 ',
-    '                                 '].join('\n')
+  var expectedTerminal = fs.readFileSync(path.join(__dirname, '/terminal.expected.out')) + ''
 
   t.plan(4)
 
@@ -120,6 +120,6 @@ test('toString terminal', function (t) {
     type: 'terminal'
   }, function (err, code) {
     t.ok(!err, 'There should be no error')
-    t.equal(code, expectedTerminal, 'should output a valid symbol')
+    t.equal(code + '\n', expectedTerminal, 'should output a valid symbol')
   })
 })

@@ -19,7 +19,7 @@
 - [License](#license)
 
 ## Highlights
-- Works on server and client
+- Works on server and client (and react native with svg)
 - CLI utility
 - Save QR code as image
 - Support for Numeric, Alphanumeric, Kanji and Byte mode
@@ -44,25 +44,32 @@ npm install -g qrcode
 ## Usage
 ### CLI
 
-```shell
-qrcode <text> [output file]
 ```
-Output image format is detected from file extension.<br>
-Supported format are `png`, `svg` and `txt`.
+Usage: qrcode [options] <input string>
 
-If no output file is specified, the QR Code will be rendered directly in the terminal.
+QR Code options:
+  -v, --version  QR Code symbol version (1 - 40)
+  -e, --error    Error correction level            [choices: "L", "M", "Q", "H"]
+  -m, --mask     Mask pattern (0 - 7)
 
-#### Example
+Renderer options:
+  -t, --type        Output type                  [choices: "png", "svg", "utf8"]
+  -s, --scale       Scale factor
+  -q, --qzone       Quiet zone size
+  -l, --lightcolor  Light RGBA hex color
+  -d, --darkcolor   Dark RGBA hex color
 
-```shell
-qrcode "Draw a QR Code in my terminal"
+Options:
+  -o, --output  Output file
+  -h, --help    Show help                                              [boolean]
+
+Examples:
+  qrcode "some text"                    Draw in terminal window
+  qrcode -o out.png "some text"         Save as png image
+  qrcode -d F00 -o out.png "some text"  Use red as foreground color
 ```
-```shell
-qrcode "I like to save qrs as a PNG" qr.png
-```
-```shell
-qrcode "I also like to save them as a SVG" qr.svg
-```
+If not specified, output type is guessed from file extension.<br>
+Recognized extensions are `png`, `svg` and `txt`.
 
 ### Browser
 `node-qrcode` can be used in browser through module bundlers like [Browserify](https://github.com/substack/node-browserify) and [Webpack](https://github.com/webpack/webpack) or by including the precompiled bundle present in `build/` folder.
@@ -95,7 +102,7 @@ QRCode.toCanvas(canvas, 'sample text', function (error) {
 
 <script src="/build/qrcode.min.js"></script>
 <script>
-  qrcodelib.toCanvas(document.getElementById('canvas'), 'sample text', function (error) {
+  QRCode.toCanvas(document.getElementById('canvas'), 'sample text', function (error) {
     if (error) console.error(error)
     console.log('success!');
   })
@@ -254,8 +261,8 @@ With precompiled bundle:
 <script src="/build/qrcode.min.js"></script>
 <script src="/build/qrcode.tosjis.min.js"></script>
 <script>
-  qrcodelib.toCanvas(document.getElementById('canvas'),
-    'sample text', { toSJISFunc: qrcodelib.toSJIS }, function (error) {
+  QRCode.toCanvas(document.getElementById('canvas'),
+    'sample text', { toSJISFunc: QRCode.toSJIS }, function (error) {
     if (error) console.error(error)
     console.log('success!')
   })
@@ -276,14 +283,15 @@ Browser:
 - [create()](#createtext-options)
 - [toCanvas()](#tocanvascanvaselement-text-options-cberror)
 - [toDataURL()](#todataurltext-options-cberror-url)
+- [toString()](#tostringtext-options-cberror-string)
 
 Server:
 - [create()](#createtext-options)
 - [toCanvas()](#tocanvascanvas-text-options-cberror)
 - [toDataURL()](todataurltext-options-cberror-url-1)
-- [toString()](#tostringtext-options-cberror-string)
+- [toString()](#tostringtext-options-cberror-string-1)
 - [toFile()](#tofilepath-text-options-cberror)
-- [toFileStream()](#tofilestreamstream-text-options-cberror)
+- [toFileStream()](#tofilestreamstream-text-options)
 
 ### Browser API
 #### `create(text, [options])`
@@ -402,6 +410,42 @@ QRCode.toDataURL('text', opts, function (err, url) {
   img.src = url
 })
 ```
+<br>
+
+#### `toString(text, [options], cb(error, string))`
+
+Returns a string representation of the QR Code.<br>
+Currently only works for SVG.
+
+##### `text`
+Type: `String|Array`
+
+Text to encode or a list of objects describing segments.
+
+##### `options`
+- ###### `type`
+  Type: `String`<br>
+  Default: `svg`
+
+  Output format.<br>
+  Possible values are: `svg`.
+
+See [Options](#options) for other settings.
+
+##### `cb`
+Type: `Function`
+
+Callback function called on finish.
+
+##### Example
+```javascript
+QRCode.toString('http://www.google.com', function (err, string) {
+  if (err) throw err
+  console.log(string)
+})
+```
+
+<br>
 
 
 ### Server API
@@ -538,7 +582,7 @@ QRCode.toFile('path/to/filename.png', 'Some text', {
 
 <br>
 
-#### `toFileStream(stream, text, [options], cb(error))`
+#### `toFileStream(stream, text, [options])`
 Writes QR Code image to stream. Only works with `png` format for now.
 
 ##### `stream`
@@ -553,11 +597,6 @@ Text to encode or a list of objects describing segments.
 
 ##### `options`
 See [Options](#options).
-
-##### `cb`
-Type: `Function`
-
-Callback function called on finish.
 
 <br>
 
@@ -575,6 +614,13 @@ Callback function called on finish.
 
   Error correction level.<br>
   Possible values are `low, medium, quartile, high` or `L, M, Q, H`.
+
+##### `maskPattern`
+  Type: `Number`<br>
+
+  Mask pattern used to mask the symbol.<br>
+  Possible values are `0`, `1`, `2`, `3`, `4`, `5`, `6`, `7`.<br>
+  If not specified the more suitable value will be calculated.
 
 ##### `toSJISFunc`
   Type: `Function`<br>
