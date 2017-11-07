@@ -38,7 +38,7 @@
   "dependencies": {
     "dijkstrajs": "^1.0.1",
     "isarray": "^2.0.1",
-    "pngjs": "^2.3.1",
+    "pngjs": "^3.3.0",
     "yargs": "^8.0.2"
   },
   "devDependencies": {
