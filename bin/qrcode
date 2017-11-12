@@ -41,6 +41,19 @@ function parseOptions (args) {
   }
 }
 
+function processInputs (text, opts) {
+  if (!text.length) {
+    yargs.showHelp()
+    process.exit(1)
+  }
+
+  if (opts.output) {
+    save(opts.output, text, parseOptions(opts))
+  } else {
+    print(text, parseOptions(opts))
+  }
+}
+
 var argv = yargs
   .detectLocale(false)
   .usage('Usage: $0 [options] <input string>')
@@ -98,13 +111,20 @@ var argv = yargs
   .example('$0 -d F00 -o out.png "some text"', 'Use red as foreground color')
   .argv
 
-if (!argv._.length) {
-  yargs.showHelp()
-  process.exit(1)
-}
-
-if (argv.output) {
-  save(argv.output, argv._.join(' '), parseOptions(argv))
+if (process.stdin.isTTY) {
+  processInputs(argv._.join(' '), argv)
 } else {
-  print(argv._.join(' '), parseOptions(argv))
+  var text = ''
+  process.stdin.setEncoding('utf8')
+  process.stdin.on('readable', function () {
+    var chunk = process.stdin.read()
+    if (chunk !== null) {
+      text += chunk
+    }
+  })
+
+  process.stdin.on('end', function () {
+    text = text.replace(/\n$/, '')
+    processInputs(text, argv)
+  })
 }
