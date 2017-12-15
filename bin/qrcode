@@ -124,7 +124,6 @@ if (process.stdin.isTTY) {
   })
 
   process.stdin.on('end', function () {
-    text = text.replace(/\n$/, '')
     processInputs(text, argv)
   })
 }
