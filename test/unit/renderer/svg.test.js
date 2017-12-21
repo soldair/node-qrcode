@@ -1,9 +1,48 @@
 var test = require('tap').test
 var sinon = require('sinon')
 var fs = require('fs')
-var libxml = require('libxmljs')
+var htmlparser = require('htmlparser2')
 var QRCode = require('core/qrcode')
 var SvgRenderer = require('renderer/svg')
+
+function getExpectedViewbox (size, margin) {
+  var expectedQrCodeSize = size + margin * 2
+  return '0 0 ' + expectedQrCodeSize + ' ' + expectedQrCodeSize
+}
+
+function testSvgFragment (t, svgFragment, expectedTags) {
+  return new Promise(function (resolve, reject) {
+    var parser = new htmlparser.Parser({
+      onopentag: function (name, attribs) {
+        var tag = expectedTags.shift()
+
+        t.equal(tag.name, name,
+          'Should have a ' + tag.name + ' tag')
+
+        tag.attribs.forEach(function (attr) {
+          t.equal(attribs[attr.name], attr.value.toString(),
+            'Should have attrib ' + attr.name + ' with value ' + attr.value)
+        })
+      },
+
+      onend: function () {
+        resolve()
+      },
+
+      onerror: function (e) {
+        reject(e)
+      }
+    }, { decodeEntities: true })
+
+    parser.write(svgFragment)
+    parser.end()
+  })
+}
+
+function buildTest (t, data, opts, expectedTags) {
+  var svg = SvgRenderer.render(data, opts)
+  return testSvgFragment(t, svg, expectedTags.slice())
+}
 
 test('svgrender interface', function (t) {
   t.type(SvgRenderer.render, 'function',
@@ -16,75 +55,75 @@ test('svgrender interface', function (t) {
 })
 
 test('Svg render', function (t) {
-  var sampleQrData = QRCode.create('sample text', { version: 2 })
-  var expectedTrueBitNumber = 324
+  var tests = []
 
-  var margin = 8
-  var expectedMargin = 40
-  var expectedScale = 5
-  var expectedQrCodeSize = (25 + margin * 2) * expectedScale
-  var expectedLightColor = 'rgb(255,255,255)'
-  var expectedDarkColor = 'rgb(0,0,0)'
+  var data = QRCode.create('sample text', { version: 2 })
+  var size = data.modules.size
 
-  var xml = SvgRenderer.render(sampleQrData, {
-    scale: expectedScale,
-    margin: margin
+  tests.push(buildTest(t, data, {
+    scale: 4,
+    margin: 4,
+    color: {
+      light: '#ffffff80'
+    }
+  }, [
+    { name: 'svg',
+      attribs: [
+        { name: 'viewbox', value: getExpectedViewbox(size, 4) }
+      ]},
+    { name: 'path',
+      attribs: [
+        { name: 'fill', value: '#ffffff' },
+        { name: 'fill-opacity', value: '.50' }
+      ]},
+    { name: 'path',
+      attribs: [
+        { name: 'stroke', value: '#000000' }
+      ]}
+  ]))
+
+  tests.push(buildTest(t, data, {
+    scale: 0,
+    margin: 8,
+    color: {
+      light: '#0000',
+      dark: '#00000080'
+    }
+  }, [
+    { name: 'svg',
+      attribs: [
+        { name: 'viewbox', value: getExpectedViewbox(size, 8) }
+      ]},
+    { name: 'path',
+      attribs: [
+        { name: 'stroke', value: '#000000' },
+        { name: 'stroke-opacity', value: '.50' }
+      ]}
+  ]))
+
+  tests.push(buildTest(t, data, {}, [
+    { name: 'svg',
+      attribs: [
+        { name: 'viewbox', value: getExpectedViewbox(size, 4) }
+      ]},
+    { name: 'path', attribs: [{ name: 'fill', value: '#ffffff' }] },
+    { name: 'path', attribs: [{ name: 'stroke', value: '#000000' }] }
+  ]))
+
+  tests.push(buildTest(t, data, { width: 250 }, [
+    { name: 'svg',
+      attribs: [
+        { name: 'width', value: '250' },
+        { name: 'height', value: '250' },
+        { name: 'viewbox', value: getExpectedViewbox(size, 4) }
+      ]},
+    { name: 'path', attribs: [{ name: 'fill', value: '#ffffff' }] },
+    { name: 'path', attribs: [{ name: 'stroke', value: '#000000' }] }
+  ]))
+
+  Promise.all(tests).then(function () {
+    t.end()
   })
-
-  var xmlDoc = libxml.parseXml(xml)
-
-  t.equal(xmlDoc.errors.length, 0, 'should output a valid xml')
-
-  var rootElem = xmlDoc.root()
-  t.equal('svg', rootElem.name(), 'should have <svg> has root element')
-
-  t.equal(rootElem.attr('width').value(), expectedQrCodeSize.toString(),
-    'should have a valid width')
-
-  t.equal(rootElem.attr('height').value(), expectedQrCodeSize.toString(),
-    'should have a valid height')
-
-  var rectElem = rootElem.child(1)
-  t.equal(rectElem.name(), 'rect', 'should have <rect> as first child element')
-
-  t.equal(rectElem.attr('width').value(), expectedQrCodeSize.toString(),
-    'should have a valid rect width')
-
-  t.equal(rectElem.attr('height').value(), expectedQrCodeSize.toString(),
-    'should have a valid rect height')
-
-  t.equal(rectElem.attr('fill').value(), expectedLightColor,
-    'should have the background color specified in options')
-
-  var dotDef = rectElem.nextElement()
-  t.equal(dotDef.name(), 'defs', 'should have a <defs> element')
-
-  var dotRect = dotDef.child(0)
-  t.equal(dotRect.name(), 'rect', 'should have a <rect> definition')
-
-  t.equal(dotRect.attr('width').value(), expectedScale.toString(),
-    'should have a valid rect width')
-
-  t.equal(dotRect.attr('height').value(), expectedScale.toString(),
-    'should have a valid rect height')
-
-  var gElem = dotDef.nextElement()
-  t.equal(gElem.name(), 'g', 'should have a <g> element')
-
-  t.equal(gElem.attr('fill').value(), expectedDarkColor,
-    'should have the color specified in options')
-
-  var useElems = gElem.find('*')
-  t.equal(useElems.length, expectedTrueBitNumber,
-    'should have one element for each "true" bit')
-
-  t.equal(useElems[0].attr('x').value(), expectedMargin.toString(),
-    'should have a left margin as specified in options')
-
-  t.equal(useElems[0].attr('y').value(), expectedMargin.toString(),
-    'should have a top margin as specified in options')
-
-  t.end()
 })
 
 test('Svg renderToFile', function (t) {

@@ -70,7 +70,7 @@ test('toFile svg', function (t) {
   var fileName = path.join(tmpDir(), 'qrimage.svg')
   var expectedOutput = fs.readFileSync(
     path.join(__dirname,
-    '/fixtures/expected-output.svg'),
+    '/svg.expected.out'),
     'UTF-8')
 
   t.plan(4)
