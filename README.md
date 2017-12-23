@@ -27,6 +27,7 @@
 - Support for chinese, cyrillic, greek and japanese characters
 - Support for multibyte characters (like emojis :smile:)
 - Auto generates optimized segments for best data compression and smallest QR Code size
+- App agnostic readability, QR Codes by definition are app agnostic
 
 ## Installation
 Inside your project folder do:
