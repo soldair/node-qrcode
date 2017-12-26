@@ -2,10 +2,28 @@ var test = require('tap').test
 var fs = require('fs')
 var path = require('path')
 var tmpDir = require('os-tmpdir')
+var sinon = require('sinon')
 var QRCode = require('lib')
+var Helpers = require('test/helpers')
+var StreamMock = require('test/mocks/writable-stream')
+
+test('toFile - no promise available', function (t) {
+  Helpers.removeNativePromise()
+  var fileName = path.join(tmpDir(), 'qrimage.png')
+
+  t.throw(function () { QRCode.toFile(fileName, 'some text') },
+    'Should throw if a callback is not provided')
+
+  t.throw(function () { QRCode.toFile(fileName, 'some text', {}) },
+    'Should throw if a callback is not a function')
+
+  t.end()
+
+  Helpers.restoreNativePromise()
+})
 
 test('toFile', function (t) {
-  var fileName = 'qrimage.png'
+  var fileName = path.join(tmpDir(), 'qrimage.png')
 
   t.throw(function () { QRCode.toFile('some text', function () {}) },
     'Should throw if path is not provided')
@@ -13,8 +31,8 @@ test('toFile', function (t) {
   t.throw(function () { QRCode.toFile(fileName) },
     'Should throw if text is not provided')
 
-  t.throw(function () { QRCode.toFile(fileName, 'some text') },
-    'Should throw if a callback is not provided')
+  t.equal(typeof QRCode.toFile(fileName, 'some text').then, 'function',
+    'Should return a promise')
 
   t.end()
 })
@@ -38,7 +56,7 @@ test('toFile png', function (t) {
     'qVO5LQqTxRrFGKNUqxRon/scYo1ijFGqVYoxRrlGKNUqxRijVKsUYp1ijFGqVYoxRrlGKN',
     'UqxRijXKP0OHEepgrecVAAAAAElFTkSuQmCC'].join('')
 
-  t.plan(4)
+  t.plan(9)
 
   QRCode.toFile(fileName, 'i am a pony!', {
     errorCorrectionLevel: 'L'
@@ -64,6 +82,40 @@ test('toFile png', function (t) {
   }, function (err) {
     t.ok(!err, 'There should be no errors if file type is specified')
   })
+
+  QRCode.toFile(fileName, 'i am a pony!', {
+    errorCorrectionLevel: 'L'
+  }).then(function () {
+    fs.stat(fileName, function (err) {
+      t.ok(!err,
+        'Should save file with correct file name (promise)')
+    })
+
+    fs.readFile(fileName, function (err, buffer) {
+      if (err) throw err
+
+      t.equal(buffer.toString('base64'), expectedBase64Output,
+        'Should write correct content (promise)')
+    })
+  })
+
+  var fsStub = sinon.stub(fs, 'createWriteStream')
+  fsStub.returns(new StreamMock().forceErrorOnWrite())
+  fsStub.reset()
+
+  QRCode.toFile(fileName, 'i am a pony!', {
+    errorCorrectionLevel: 'L'
+  }, function (err) {
+    t.ok(err, 'There should be an error')
+  })
+
+  QRCode.toFile(fileName, 'i am a pony!', {
+    errorCorrectionLevel: 'L'
+  }).catch(function (err) {
+    t.ok(err, 'Should catch an error (promise)')
+  })
+
+  fsStub.restore()
 })
 
 test('toFile svg', function (t) {
@@ -73,7 +125,7 @@ test('toFile svg', function (t) {
     '/svg.expected.out'),
     'UTF-8')
 
-  t.plan(4)
+  t.plan(6)
 
   QRCode.toFile(fileName, 'http://www.google.com', {
     errorCorrectionLevel: 'H'
@@ -98,6 +150,21 @@ test('toFile svg', function (t) {
   }, function (err) {
     t.ok(!err, 'There should be no errors if file type is specified')
   })
+
+  QRCode.toFile(fileName, 'http://www.google.com', {
+    errorCorrectionLevel: 'H'
+  }).then(function () {
+    fs.stat(fileName, function (err) {
+      t.ok(!err,
+        'Should save file with correct file name (promise)')
+    })
+
+    fs.readFile(fileName, 'utf8', function (err, content) {
+      if (err) throw err
+      t.equal(content, expectedOutput,
+        'Should write correct content (promise)')
+    })
+  })
 })
 
 test('toFile utf8', function (t) {
@@ -121,7 +188,7 @@ test('toFile utf8', function (t) {
     '                                 ',
     '                                 '].join('\n')
 
-  t.plan(4)
+  t.plan(6)
 
   QRCode.toFile(fileName, 'http://www.google.com', function (err) {
     t.ok(!err, 'There should be no error')
@@ -144,4 +211,18 @@ test('toFile utf8', function (t) {
   }, function (err) {
     t.ok(!err, 'There should be no errors if file type is specified')
   })
+
+  QRCode.toFile(fileName, 'http://www.google.com')
+    .then(function () {
+      fs.stat(fileName, function (err) {
+        t.ok(!err,
+          'Should save file with correct file name (promise)')
+      })
+
+      fs.readFile(fileName, 'utf8', function (err, content) {
+        if (err) throw err
+        t.equal(content, expectedOutput,
+          'Should write correct content (promise)')
+      })
+    })
 })
