@@ -33,6 +33,7 @@ function parseOptions (args) {
     type: args.type,
     maskPattern: args.mask,
     margin: args.qzone,
+    width: args.width,
     scale: args.scale,
     color: {
       light: args.lightcolor,
@@ -80,9 +81,16 @@ var argv = yargs
     implies: 'output',
     group: 'Renderer options:'
   })
+  .option('w', {
+    alias: 'width',
+    description: 'Image width (px)',
+    conflicts: 'scale',
+    group: 'Renderer options:'
+  })
   .option('s', {
     alias: 'scale',
     description: 'Scale factor',
+    conflicts: 'width',
     group: 'Renderer options:'
   })
   .option('q', {

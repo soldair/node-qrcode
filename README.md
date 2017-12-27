@@ -54,6 +54,7 @@ QR Code options:
 
 Renderer options:
   -t, --type        Output type                  [choices: "png", "svg", "utf8"]
+  -w, --width       Image width (px)
   -s, --scale       Scale factor
   -q, --qzone       Quiet zone size
   -l, --lightcolor  Light RGBA hex color
@@ -640,6 +641,13 @@ See [Options](#options).
   Default: `4`
 
   Scale factor. A value of `1` means 1px per modules (black dots).
+
+##### `width`
+  Type: `Number`<br>
+
+  Forces a specific width for the output image.<br>
+  If width is too small to contain the qr symbol, this option will be ignored.<br>
+  Takes precedence over `scale`.
 
 ##### `color.dark`
 Type: `String`<br>
