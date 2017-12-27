@@ -7,8 +7,8 @@ test('Utils getOptions', function (t) {
     scale: 4,
     margin: 4,
     color: {
-      dark: { r: 0, g: 0, b: 0, a: 255 },
-      light: { r: 255, g: 255, b: 255, a: 255 }
+      dark: { r: 0, g: 0, b: 0, a: 255, hex: '#000000' },
+      light: { r: 255, g: 255, b: 255, a: 255, hex: '#ffffff' }
     },
     type: undefined,
     rendererOpts: {}
@@ -37,8 +37,8 @@ test('Utils getOptions', function (t) {
 
   t.deepEqual(Utils.getOptions({ color: { dark: '#fff', light: '#000000' } }).color,
     {
-      dark: { r: 255, g: 255, b: 255, a: 255 },
-      light: { r: 0, g: 0, b: 0, a: 255 }
+      dark: { r: 255, g: 255, b: 255, a: 255, hex: '#ffffff' },
+      light: { r: 0, g: 0, b: 0, a: 255, hex: '#000000' }
     },
     'Should return correct colors value')
 

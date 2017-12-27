@@ -47,7 +47,7 @@
     "canvasutil": "*",
     "colors": "*",
     "express": "2.5.x",
-    "libxmljs": "^0.18.0",
+    "htmlparser2": "^3.9.2",
     "os-tmpdir": "^1.0.2",
     "sinon": "^1.17.7",
     "standard": "^9.0.2",

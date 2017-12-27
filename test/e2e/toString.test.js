@@ -5,7 +5,7 @@ var QRCode = require('lib')
 var browser = require('lib/browser')
 
 test('toString svg', function (t) {
-  var file = path.join(__dirname, '/fixtures/expected-output.svg')
+  var file = path.join(__dirname, '/svgtag.expected.out')
   t.plan(6)
 
   t.throw(function () { QRCode.toString() },
@@ -37,7 +37,7 @@ test('toString svg', function (t) {
 })
 
 test('toString browser svg', function (t) {
-  var file = path.join(__dirname, '/fixtures/expected-output.svg')
+  var file = path.join(__dirname, '/svgtag.expected.out')
   fs.readFile(file, 'utf8', function (err, expectedSvg) {
     if (err) throw err
 
