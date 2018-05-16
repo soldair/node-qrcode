@@ -1,5 +1,6 @@
 var test = require('tap').test
 var Version = require('core/version')
+var VersionCheck = require('core/version-check')
 var ECLevel = require('core/error-correction-level')
 var Mode = require('core/mode')
 var NumericData = require('core/numeric-data')
@@ -70,10 +71,10 @@ var EXPECTED_VERSION_BITS = [
 ]
 
 test('Version validity', function (t) {
-  t.notOk(Version.isValid(), 'Should return false if no input')
-  t.notOk(Version.isValid(''), 'Should return false if version is not a number')
-  t.notOk(Version.isValid(0), 'Should return false if version is not in range')
-  t.notOk(Version.isValid(41), 'Should return false if version is not in range')
+  t.notOk(VersionCheck.isValid(), 'Should return false if no input')
+  t.notOk(VersionCheck.isValid(''), 'Should return false if version is not a number')
+  t.notOk(VersionCheck.isValid(0), 'Should return false if version is not in range')
+  t.notOk(VersionCheck.isValid(41), 'Should return false if version is not in range')
 
   t.end()
 })
