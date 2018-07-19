@@ -44,7 +44,7 @@
   },
   "devDependencies": {
     "browserify": "^14.1.0",
-    "canvas": "^1.6.4",
+    "canvas": "^1.6.11",
     "canvasutil": "*",
     "colors": "*",
     "express": "2.5.x",
