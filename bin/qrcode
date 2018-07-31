@@ -132,6 +132,8 @@ if (process.stdin.isTTY) {
   })
 
   process.stdin.on('end', function () {
-    processInputs(text, argv)
+    // this process can be run as a command outside of a tty so if there was no
+    // data on stdin read from argv
+    processInputs(text.length?text:argv._.join(' '), argv)
   })
 }
