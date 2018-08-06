@@ -126,6 +126,12 @@ var testData = [
       {data: 'Aa', mode: Mode.BYTE},
       {data: '12345A', mode: Mode.ALPHANUMERIC}
     ]
+  },
+  {
+    input: 'ABC\nDEF',
+    result: [
+      {data: 'ABC\nDEF', mode: Mode.BYTE}
+    ]
   }
 ]
 
@@ -142,6 +148,13 @@ var kanjiTestData = [
     input: '皿a晒三',
     result: [
       {data: '皿a', mode: Mode.BYTE},
+      {data: '晒三', mode: Mode.KANJI}
+    ]
+  },
+  {
+    input: '皿a\n晒三',
+    result: [
+      {data: '皿a\n', mode: Mode.BYTE},
       {data: '晒三', mode: Mode.KANJI}
     ]
   }
