@@ -226,3 +226,45 @@ test('toFile utf8', function (t) {
       })
     })
 })
+
+test('toFile manual segments', function (t) {
+  var fileName = path.join(tmpDir(), 'qrimage.txt')
+  var segs = [
+    { data: 'ABCDEFG', mode: 'alphanumeric' },
+    { data: '0123456', mode: 'numeric' }
+  ]
+  var expectedOutput = [
+    '                             ',
+    '                             ',
+    '    █▀▀▀▀▀█ ██▀██ █▀▀▀▀▀█    ',
+    '    █ ███ █  █▀█▄ █ ███ █    ',
+    '    █ ▀▀▀ █ █ ▄ ▀ █ ▀▀▀ █    ',
+    '    ▀▀▀▀▀▀▀ █▄█▄▀ ▀▀▀▀▀▀▀    ',
+    '    ▀██ ▄▀▀▄█▀▀▀▀██▀▀▄ █▀    ',
+    '     ▀█▀▀█▀█▄ ▄ ▄█▀▀▀█▀      ',
+    '    ▀ ▀▀▀ ▀ ▄▀ ▄ ▄▀▄  ▀▄     ',
+    '    █▀▀▀▀▀█ ▄  █▀█ ▀▀▀▄█▄    ',
+    '    █ ███ █  █▀▀▀ ██▀▀ ▀▀    ',
+    '    █ ▀▀▀ █ ██  ▄▀▀▀▀▄▀▀█    ',
+    '    ▀▀▀▀▀▀▀ ▀    ▀▀▀▀ ▀▀▀    ',
+    '                             ',
+    '                             '].join('\n')
+  t.plan(3)
+
+  QRCode.toFile(fileName, segs, {
+    errorCorrectionLevel: 'L'
+  }, function (err) {
+    t.ok(!err, 'There should be no errors if text is not string')
+
+    fs.stat(fileName, function (err) {
+      t.ok(!err,
+        'Should save file with correct file name')
+    })
+
+    fs.readFile(fileName, 'utf8', function (err, content) {
+      if (err) throw err
+      t.equal(content, expectedOutput,
+        'Should write correct content')
+    })
+  })
+})
