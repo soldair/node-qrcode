@@ -40,9 +40,16 @@ test('Utils getOptions', function (t) {
       dark: { r: 255, g: 255, b: 255, a: 255, hex: '#ffffff' },
       light: { r: 0, g: 0, b: 0, a: 255, hex: '#000000' }
     },
-    'Should return correct colors value')
+    'Should return correct colors value from strings')
 
-  t.throw(function () { Utils.getOptions({ color: { dark: 1234 } }) },
+  t.deepEqual(Utils.getOptions({ color: { dark: 111, light: 999 } }).color,
+    {
+      dark: { r: 17, g: 17, b: 17, a: 255, hex: '#111111' },
+      light: { r: 153, g: 153, b: 153, a: 255, hex: '#999999' }
+    },
+    'Should return correct colors value from numbers')
+
+  t.throw(function () { Utils.getOptions({ color: { dark: true } }) },
     'Should throw if color is not a string')
 
   t.throw(function () { Utils.getOptions({ color: { dark: '#aa' } }) },
