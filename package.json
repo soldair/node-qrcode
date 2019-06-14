@@ -9,13 +9,8 @@
   "keywords": [
     "qr",
     "code",
-    "scan",
-    "scanner",
-    "upc",
-    "bar",
     "canvas",
-    "qrcode",
-    "barcode"
+    "qrcode"
   ],
   "main": "./lib/index.js",
   "browser": {
