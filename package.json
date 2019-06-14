@@ -7,6 +7,12 @@
     "Vincenzo Greco <greco.vincenzo@gmail.com>"
   ],
   "keywords": [
+    "qr",
+    "code",
+    "scan",
+    "scanner",
+    "upc",
+    "bar",
     "canvas",
     "qrcode",
     "barcode"
