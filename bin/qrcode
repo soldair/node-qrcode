@@ -22,7 +22,6 @@ function print (text, options) {
     }
 
     console.log(text)
-    console.log('\n')
   })
 }
 
@@ -117,6 +116,7 @@ var argv = yargs
   .example('$0 "some text"', 'Draw in terminal window')
   .example('$0 -o out.png "some text"', 'Save as png image')
   .example('$0 -d F00 -o out.png "some text"', 'Use red as foreground color')
+  .parserConfiguration({'parse-numbers': false})
   .argv
 
 if (process.stdin.isTTY) {
