@@ -405,7 +405,6 @@ Text to encode or a list of objects describing segments.
 
   Data URI format.<br>
   Possible values are: `image/png`, `image/jpeg`, `image/webp`.<br>
-  **Note: `image/webp` only works in Chrome browser.**
 
 - ###### `rendererOpts.quality`
   Type: `Number`<br>
