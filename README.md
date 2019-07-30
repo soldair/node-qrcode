@@ -114,12 +114,21 @@ QRCode.toCanvas(canvas, 'sample text', function (error) {
 If you install through `npm`, precompiled files will be available in `node_modules/qrcode/build/` folder.<br>
 
 ### NodeJS
-Simply require the module `qrcode`
+Require the module `qrcode`
 
 ```javascript
 var QRCode = require('qrcode')
 
 QRCode.toDataURL('I am a pony!', function (err, url) {
+  console.log(url)
+})
+```
+
+render a qrcode for the terminal
+```js
+var QRCode = require('qrcode')
+
+QRCode.toString('I am a pony!',{type:'terminal'}, function (err, url) {
   console.log(url)
 })
 ```
@@ -441,7 +450,7 @@ QRCode.toDataURL('text', opts, function (err, url) {
 #### `toString(text, [options], [cb(error, string)])`
 
 Returns a string representation of the QR Code.<br>
-Currently only works for SVG.
+
 
 ##### `text`
 Type: `String|Array`
@@ -451,10 +460,10 @@ Text to encode or a list of objects describing segments.
 ##### `options`
 - ###### `type`
   Type: `String`<br>
-  Default: `svg`
+  Default: `utf8`
 
   Output format.<br>
-  Possible values are: `svg`.
+  Possible values are: `terminal`,`utf8`, and `svg`.
 
 See [Options](#options) for other settings.
 
