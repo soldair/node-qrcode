@@ -324,7 +324,7 @@ Browser:
 Server:
 - [create()](#createtext-options)
 - [toCanvas()](#tocanvascanvas-text-options-cberror)
-- [toDataURL()](todataurltext-options-cberror-url-1)
+- [toDataURL()](#todataurltext-options-cberror-url-1)
 - [toString()](#tostringtext-options-cberror-string-1)
 - [toFile()](#tofilepath-text-options-cberror)
 - [toFileStream()](#tofilestreamstream-text-options)
