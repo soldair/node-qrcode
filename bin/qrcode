@@ -57,8 +57,8 @@ function processInputs (text, opts) {
 var argv = yargs
   .detectLocale(false)
   .usage('Usage: $0 [options] <input string>')
-  .option('v', {
-    alias: 'version',
+  .option('qv', {
+    alias: 'qversion',
     description: 'QR Code symbol version (1 - 40)',
     group: 'QR Code options:'
   })
