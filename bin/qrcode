@@ -60,7 +60,8 @@ var argv = yargs
   .option('v', {
     alias: 'qversion',
     description: 'QR Code symbol version (1 - 40)',
-    group: 'QR Code options:'
+    group: 'QR Code options:',
+    type: 'number'
   })
   .option('e', {
     alias: 'error',
@@ -71,7 +72,8 @@ var argv = yargs
   .option('m', {
     alias: 'mask',
     description: 'Mask pattern (0 - 7)',
-    group: 'QR Code options:'
+    group: 'QR Code options:',
+    type: 'number'
   })
   .option('t', {
     alias: 'type',
@@ -84,18 +86,21 @@ var argv = yargs
     alias: 'width',
     description: 'Image width (px)',
     conflicts: 'scale',
-    group: 'Renderer options:'
+    group: 'Renderer options:',
+    type: 'number'
   })
   .option('s', {
     alias: 'scale',
     description: 'Scale factor',
     conflicts: 'width',
-    group: 'Renderer options:'
+    group: 'Renderer options:',
+    type: 'number'
   })
   .option('q', {
     alias: 'qzone',
     description: 'Quiet zone size',
-    group: 'Renderer options:'
+    group: 'Renderer options:',
+    type: 'number'
   })
   .option('l', {
     alias: 'lightcolor',
