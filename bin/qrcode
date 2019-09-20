@@ -27,7 +27,7 @@ function print (text, options) {
 
 function parseOptions (args) {
   return {
-    version: args.version,
+    version: args.qversion,
     errorCorrectionLevel: args.error,
     type: args.type,
     maskPattern: args.mask,
@@ -57,7 +57,7 @@ function processInputs (text, opts) {
 var argv = yargs
   .detectLocale(false)
   .usage('Usage: $0 [options] <input string>')
-  .option('qv', {
+  .option('v', {
     alias: 'qversion',
     description: 'QR Code symbol version (1 - 40)',
     group: 'QR Code options:'
@@ -113,6 +113,7 @@ var argv = yargs
   })
   .help('h')
   .alias('h', 'help')
+  .version()
   .example('$0 "some text"', 'Draw in terminal window')
   .example('$0 -o out.png "some text"', 'Save as png image')
   .example('$0 -d F00 -o out.png "some text"', 'Use red as foreground color')
