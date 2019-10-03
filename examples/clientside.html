@@ -1,164 +1,241 @@
 <!doctype html>
 <html>
-	<head>
-    <meta charset="UTF-8">
-		<title>client side test for node-qrcode</title>
-    <!--[if ie]><script type="text/javascript" src="vendors/excanvas/excanvas.js"></script><![endif]-->
-    <script src="../build/qrcode.js"></script>
-		<script src="../build/qrcode.tosjis.js"></script>
-		<style>
-      .container { display: flex; }
-      .controls {
-        display: flex; flex-direction: column;
-        width: 100%;
-        padding: 0 5px 0 5px;
-        background-color: ghostwhite;
-      }
-      .controls > label { margin-bottom: 5px; margin-top: 10px; }
-      .controls > textarea { flex: 1; margin-bottom: 10px; }
-      .controls > input { width: 100%; margin: 0; padding: 0; flex: 1; }
-      .qrcode-container {
-        display: flex; align-items: center; justify-content: center;
-        min-height: 300px; min-width: 300px; padding: 10px;
-        background-color: ghostwhite;
-      }
-      .qrcode-image { box-shadow: 2px 2px 12px lightgray; }
-      .error { color: red; max-width: 280px; }
-    </style>
-	</head>
-	<body>
-    <div class="container">
-      <div class="controls" style="max-width: 320px;">
-        <div class="container">
-          <div class="controls">
-            <label for="version">Version:</label>
-            <select id="version" name="version">
-              <option>Auto</option>
-            </select>
-          </div>
-          <div class="controls">
-            <label for="mode">Mode:</label>
-            <select id="mode" name="mode">
-              <option>Auto</option>
-              <option>Numeric</option>
-              <option>Alphanumeric</option>
-              <option>Byte</option>
-              <option>Kanji</option>
-            </select>
-          </div>
-        </div>
 
-        <div class="controls">
-          <label for="errorLevel">Error Correction Level:</label>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <title>client side test for node-qrcode</title>
+  <!--[if ie]><script type="text/javascript" src="vendors/excanvas/excanvas.js"></script><![endif]-->
+  <script src="qrcode.js"></script> <!-- This doesn't exist in the examples, you'll need to supply this. -->
+  <script src="qrcode.tosjis.js"></script> <!-- This doesn't exist in the examples, you'll need to supply. -->
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    html,
+    body {
+      margin: 0;
+      background-color: ghostwhite;
+    }
+
+    input,
+    textarea {
+      font-size: 14px;
+      padding: 2px;
+    }
+
+    textarea {
+      resize: none;
+    }
+
+    .container {
+      display: flex;
+      margin: 0 auto;
+      padding: 16px;
+      justify-content: center;
+    }
+
+    .controls {
+      flex: 2;
+      display: flex;
+      flex-direction: column;
+      min-width: 400px;
+      max-width: 400px;
+    }
+
+    .qrcode-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .qrcode-image {
+      border: 1px solid #ccc;
+    }
+
+    .container>*+* {
+      margin-left: 40px;
+    }
+
+    .title {
+      text-align: center;
+    }
+
+    .control-group {
+      display: flex;
+    }
+
+    .control-group+.control-group {
+      margin-top: 16px;
+    }
+
+    .control {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .control+.control {
+      margin-left: 16px;
+    }
+
+    .control>input {
+      width: 100%;
+    }
+
+    .control>textarea {
+      width: 100%;
+      flex-grow: 1;
+    }
+
+    .expand {
+      flex-grow: 1;
+    }
+  </style>
+</head>
+
+<body>
+  <h1 class="title">node-qrcode</h1>
+  <div class="container">
+    <div class="controls">
+
+      <div class="control-group">
+        <div class="control">
+          <label for="version">Version:</label>
+          <select id="version" name="version">
+            <option>Auto</option>
+          </select>
+        </div>
+        <div class="control">
+          <label for="mode">Mode:</label>
+          <select id="mode" name="mode">
+            <option>Auto</option>
+            <option>Numeric</option>
+            <option>Alphanumeric</option>
+            <option>Byte</option>
+            <option>Kanji</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <div class="control">
+          <label for="margin">Margin:</label>
+          <input id="margin" type="number" name="margin" min="4" value="4" />
+        </div>
+        <div class="control">
+          <label for="errorLevel">Error Correction:</label>
           <select id="errorLevel" name="errorLevel">
-            <option>Default</option>
+            <option>Default (Medium)</option>
             <option>Low</option>
             <option>Medium</option>
             <option>Quartile</option>
             <option>High</option>
           </select>
         </div>
+      </div>
 
-        <div class="container">
-          <div class="controls">
-            <label for="margin">Margin:</label>
-            <input id="margin" type="number" name="margin" min="4" value="4" />
-          </div>
-          <div class="controls">
-            <label for="lightColor">Light color:</label>
-            <input id="lightColor" type="color" name="light" value="#ffffff" />
-          </div>
-          <div class="controls">
-            <label for="darkColor">Dark color:</label>
-            <input id="darkColor" type="color" name="dark" value="#000000" />
-          </div>
+      <div class="control-group">
+        <div class="control color-control">
+          <label for="lightColor">Light color:</label>
+          <input id="lightColor" type="color" name="light" value="#ffffff" />
         </div>
+        <div class="control color-control">
+          <label for="darkColor">Dark color:</label>
+          <input id="darkColor" type="color" name="dark" value="#000000" />
+        </div>
+      </div>
 
-        <div class="controls" style="flex: 1;">
+      <div class="control-group expand">
+        <div class="control">
           <label for="input-text">Text:</label>
           <textarea id="input-text">https://github.com/soldair/node-qrcode</textarea>
         </div>
-
-      </div>
-      <div class="qrcode-container">
-        <p id="error" class="error"></p>
-        <canvas id="canvas" class="qrcode-image"></canvas>
       </div>
     </div>
 
-		<script>
-      var errorEl = document.getElementById('error')
-      var versionEl = document.getElementById('version')
-      var errorLevelEl = document.getElementById('errorLevel')
-      var modeEl = document.getElementById('mode')
-      var marginEl = document.getElementById('margin')
-      var lightColorEl = document.getElementById('lightColor')
-      var darkColorEl = document.getElementById('darkColor')
-      var canvasEl = document.getElementById('canvas')
-      var textEl = document.getElementById('input-text')
+    <div class="qrcode-container">
+      <p id="error" class="error"></p>
+      <canvas id="canvas" class="qrcode-image"></canvas>
+    </div>
+  </div>
 
-      function debounce (func, wait, immediate) {
-        var timeout
-        return function () {
-          var context = this
-          var args = arguments
-          var later = function () {
-            timeout = null
-            if (!immediate) func.apply(context, args)
-          }
+  <script>
+    var errorEl = document.getElementById('error')
+    var versionEl = document.getElementById('version')
+    var errorLevelEl = document.getElementById('errorLevel')
+    var modeEl = document.getElementById('mode')
+    var marginEl = document.getElementById('margin')
+    var lightColorEl = document.getElementById('lightColor')
+    var darkColorEl = document.getElementById('darkColor')
+    var canvasEl = document.getElementById('canvas')
+    var textEl = document.getElementById('input-text')
 
-          var callNow = immediate && !timeout
-          clearTimeout(timeout)
-          timeout = setTimeout(later, wait)
-          if (callNow) func.apply(context, args)
+    function debounce(func, wait, immediate) {
+      var timeout
+      return function () {
+        var context = this
+        var args = arguments
+        var later = function () {
+          timeout = null
+          if (!immediate) func.apply(context, args)
         }
+
+        var callNow = immediate && !timeout
+        clearTimeout(timeout)
+        timeout = setTimeout(later, wait)
+        if (callNow) func.apply(context, args)
       }
+    }
 
-      function drawQR (text) {
-        errorEl.style.display = 'none'
-        canvasEl.style.display = 'block'
+    function drawQR(text) {
+      errorEl.style.display = 'none'
+      canvasEl.style.display = 'block'
 
-        QRCode.toCanvas(canvasEl, text, {
-          version: versionEl.value,
-          errorCorrectionLevel: errorLevelEl.options[errorLevelEl.selectedIndex].text,
-          margin: marginEl.value,
-          color: {
-            light: lightColorEl.value,
-            dark: darkColorEl.value
-          },
-          toSJISFunc: QRCode.toSJIS
-        }, function (error, canvas) {
-          if (error) {
-            canvasEl.style.display = 'none'
-            errorEl.style.display = 'inline'
-            errorEl.textContent = error
-          }
-        })
-      }
-
-      var updateQR = debounce(function () {
-        var mode = modeEl.options[modeEl.selectedIndex].text
-        if (mode !== 'Auto') {
-          drawQR([{ data: textEl.value, mode: mode }])
-        } else {
-          drawQR(textEl.value)
+      QRCode.toCanvas(canvasEl, text, {
+        version: versionEl.value,
+        errorCorrectionLevel: errorLevelEl.options[errorLevelEl.selectedIndex].text,
+        margin: marginEl.value,
+        color: {
+          light: lightColorEl.value,
+          dark: darkColorEl.value
+        },
+        toSJISFunc: QRCode.toSJIS
+      }, function (error, canvas) {
+        if (error) {
+          canvasEl.style.display = 'none'
+          errorEl.style.display = 'inline'
+          errorEl.textContent = error
         }
-      }, 250)
+      })
+    }
 
-      versionEl.addEventListener('change', updateQR, false)
-      errorLevelEl.addEventListener('change', updateQR, false)
-      modeEl.addEventListener('change', updateQR, false)
-      marginEl.addEventListener('change', updateQR, false)
-      lightColorEl.addEventListener('change', updateQR, false)
-      darkColorEl.addEventListener('change', updateQR, false)
-      textEl.addEventListener('keyup', updateQR, false)
-
-      for (var i = 1; i <= 40; i++) {
-        versionEl.options[versionEl.options.length] = new Option(i.toString(), i)
+    var updateQR = debounce(function () {
+      var mode = modeEl.options[modeEl.selectedIndex].text
+      if (mode !== 'Auto') {
+        drawQR([{ data: textEl.value, mode: mode }])
+      } else {
+        drawQR(textEl.value)
       }
+    }, 250)
 
-      drawQR(textEl.value)
-		</script>
+    versionEl.addEventListener('change', updateQR, false)
+    errorLevelEl.addEventListener('change', updateQR, false)
+    modeEl.addEventListener('change', updateQR, false)
+    marginEl.addEventListener('change', updateQR, false)
+    lightColorEl.addEventListener('change', updateQR, false)
+    darkColorEl.addEventListener('change', updateQR, false)
+    textEl.addEventListener('keyup', updateQR, false)
 
-	</body>
+    for (var i = 1; i <= 40; i++) {
+      versionEl.options[versionEl.options.length] = new Option(i.toString(), i)
+    }
+
+    drawQR(textEl.value)
+  </script>
+
+</body>
+
 </html>
