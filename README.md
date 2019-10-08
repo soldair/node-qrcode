@@ -347,8 +347,6 @@ QRCode.toFile(
 )
 ```
 
-Note: binary encoding is only available on the server due to this library using Node `Buffer` internally.
-
 TypeScript users: if you are using [@types/qrcode](https://www.npmjs.com/package/@types/qrcode), you will need to add a `// @ts-ignore` above the data segment because it expects `data: string`. 
 
 ## Multibyte characters
