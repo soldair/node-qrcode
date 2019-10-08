@@ -12,6 +12,7 @@
 - [Error correction level](#error-correction-level)
 - [QR Code capacity](#qr-code-capacity)
 - [Encoding Modes](#encoding-modes)
+- [Binary data](#binary-data)
 - [Multibyte characters](#multibyte-characters)
 - [API](#api)
 - [GS1 QR Codes](#gs1)
@@ -305,6 +306,27 @@ With precompiled bundle:
   })
 </script>
 ```
+
+## Binary data
+QR Codes can hold arbitrary byte-based binary data. If you attempt to create a binary QR Code by first converting the data to a JavaScript string, it will fail to encode propery because string encoding adds additional bytes. Instead, you must use a Node [Buffer](https://nodejs.org/api/buffer.html), as follows:
+
+```javascript
+const { Buffer } = require('buffer')
+const QRCode = require('qrcode')
+
+const data = Buffer.from([253,254,255])
+
+QRCode.toFile(
+  'foo.png',
+  [{ data, mode: 'byte' }],
+  ...options...,
+  ...callback...
+)
+```
+
+Note: binary encoding is only available on the server due to requiring a Node `Buffer`.
+
+TypeScript users: if you are using [@types/qrcode](https://www.npmjs.com/package/@types/qrcode), you will need to add a `// @ts-ignore` above the data segment because it expects `data: string`. 
 
 ## Multibyte characters
 Support for multibyte characters isn't present in the initial QR Code standard, but is possible to encode UTF-8 characters in Byte mode.
