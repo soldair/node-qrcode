@@ -308,23 +308,46 @@ With precompiled bundle:
 ```
 
 ## Binary data
-QR Codes can hold arbitrary byte-based binary data. If you attempt to create a binary QR Code by first converting the data to a JavaScript string, it will fail to encode propery because string encoding adds additional bytes. Instead, you must use a Node [Buffer](https://nodejs.org/api/buffer.html), as follows:
+QR Codes can hold arbitrary byte-based binary data. If you attempt to create a binary QR Code by first converting the data to a JavaScript string, it will fail to encode propery because string encoding adds additional bytes. Instead, you must pass a [`Uint8ClampedArray`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8ClampedArray) or compatible array, or a Node [Buffer](https://nodejs.org/api/buffer.html), as follows:
 
 ```javascript
-const { Buffer } = require('buffer')
+// Regular array example
+// WARNING: Element values will be clamped to 0-255 even if your data contains higher values.
 const QRCode = require('qrcode')
-
-const data = Buffer.from([253,254,255])
-
 QRCode.toFile(
   'foo.png',
-  [{ data, mode: 'byte' }],
+  [{ data: [253,254,255], mode: 'byte' }],
   ...options...,
   ...callback...
 )
 ```
 
-Note: binary encoding is only available on the server due to requiring a Node `Buffer`.
+```javascript
+// Uint8ClampedArray example
+const QRCode = require('qrcode')
+
+QRCode.toFile(
+  'foo.png',
+  [{ data: new Uint8ClampedArray([253,254,255]), mode: 'byte' }],
+  ...options...,
+  ...callback...
+)
+```
+
+```javascript
+// Node Buffer example
+// WARNING: Element values will be clamped to 0-255 even if your data contains higher values.
+const QRCode = require('qrcode')
+
+QRCode.toFile(
+  'foo.png',
+  [{ data: Buffer.from([253,254,255]), mode: 'byte' }],
+  ...options...,
+  ...callback...
+)
+```
+
+Note: binary encoding is only available on the server due to this library using Node `Buffer` internally.
 
 TypeScript users: if you are using [@types/qrcode](https://www.npmjs.com/package/@types/qrcode), you will need to add a `// @ts-ignore` above the data segment because it expects `data: string`. 
 
