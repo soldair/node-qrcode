@@ -12,6 +12,7 @@
 - [Error correction level](#error-correction-level)
 - [QR Code capacity](#qr-code-capacity)
 - [Encoding Modes](#encoding-modes)
+- [Binary data](#binary-data)
 - [Multibyte characters](#multibyte-characters)
 - [API](#api)
 - [GS1 QR Codes](#gs1)
@@ -305,6 +306,50 @@ With precompiled bundle:
   })
 </script>
 ```
+
+## Binary data
+QR Codes can hold arbitrary byte-based binary data. If you attempt to create a binary QR Code by first converting the data to a JavaScript string, it will fail to encode propery because string encoding adds additional bytes. Instead, you must pass a [`Uint8ClampedArray`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8ClampedArray) or compatible array, or a Node [Buffer](https://nodejs.org/api/buffer.html), as follows:
+
+```javascript
+// Regular array example
+// WARNING: Element values will be clamped to 0-255 even if your data contains higher values.
+const QRCode = require('qrcode')
+QRCode.toFile(
+  'foo.png',
+  [{ data: [253,254,255], mode: 'byte' }],
+  ...options...,
+  ...callback...
+)
+```
+
+```javascript
+// Uint8ClampedArray example
+const QRCode = require('qrcode')
+
+QRCode.toFile(
+  'foo.png',
+  [{ data: new Uint8ClampedArray([253,254,255]), mode: 'byte' }],
+  ...options...,
+  ...callback...
+)
+```
+
+```javascript
+// Node Buffer example
+// WARNING: Element values will be clamped to 0-255 even if your data contains higher values.
+const QRCode = require('qrcode')
+
+QRCode.toFile(
+  'foo.png',
+  [{ data: Buffer.from([253,254,255]), mode: 'byte' }],
+  ...options...,
+  ...callback...
+)
+```
+
+Note: binary encoding is only available on the server due to this library using Node `Buffer` internally.
+
+TypeScript users: if you are using [@types/qrcode](https://www.npmjs.com/package/@types/qrcode), you will need to add a `// @ts-ignore` above the data segment because it expects `data: string`. 
 
 ## Multibyte characters
 Support for multibyte characters isn't present in the initial QR Code standard, but is possible to encode UTF-8 characters in Byte mode.
