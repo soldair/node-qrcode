@@ -477,8 +477,11 @@ Callback function called on finish.
 var opts = {
   errorCorrectionLevel: 'H',
   type: 'image/jpeg',
-  rendererOpts: {
-    quality: 0.3
+  quality: 0.3,
+  margin: 1,
+  color: {
+    dark:"#010599FF",
+    light:"#FFBF60FF"
   }
 }
 
