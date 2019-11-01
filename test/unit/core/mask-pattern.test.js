@@ -1,6 +1,7 @@
 var test = require('tap').test
 var BitMatrix = require('core/bit-matrix')
 var MaskPattern = require('core/mask-pattern')
+var BufferUtil = require('utils/buffer')
 
 test('Mask pattern - Pattern references', function (t) {
   var patternsCount = Object.keys(MaskPattern.Patterns).length
@@ -109,7 +110,7 @@ test('Mask pattern - Apply mask', function (t) {
   for (var p = 0; p < patterns; p++) {
     var matrix = new BitMatrix(6)
     MaskPattern.applyMask(p, matrix)
-    t.deepEqual(matrix.data, new Buffer(expectedPatterns[p]), 'Should return correct pattern')
+    t.deepEqual(matrix.data, BufferUtil.from(expectedPatterns[p]), 'Should return correct pattern')
   }
 
   matrix = new BitMatrix(2)
@@ -119,7 +120,7 @@ test('Mask pattern - Apply mask', function (t) {
   matrix.set(1, 1, false, true)
   MaskPattern.applyMask(0, matrix)
 
-  t.deepEqual(matrix.data, new Buffer([false, false, false, false]), 'Should leave reserved bit unchanged')
+  t.deepEqual(matrix.data, BufferUtil.from([false, false, false, false]), 'Should leave reserved bit unchanged')
 
   t.throws(function () { MaskPattern.applyMask(-1, new BitMatrix(1)) }, 'Should throw if pattern is invalid')
 

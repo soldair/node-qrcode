@@ -29,7 +29,7 @@
   "scripts": {
     "lint": "standard",
     "pretest": "npm run lint",
-    "test": "node test.js",
+    "test": "node --throw-deprecation test.js",
     "build": "node build.js",
     "prepublish": "npm run build"
   },
@@ -37,6 +37,8 @@
     "qrcode": "./bin/qrcode"
   },
   "dependencies": {
+    "buffer-alloc": "^1.2.0",
+    "buffer-from": "^1.1.1",
     "dijkstrajs": "^1.0.1",
     "isarray": "^2.0.1",
     "pngjs": "^3.3.0",
