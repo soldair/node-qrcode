@@ -1,10 +1,11 @@
 var test = require('tap').test
 var Poly = require('core/polynomial')
+var BufferUtil = require('utils/buffer')
 
 test('Generator polynomial', function (t) {
   var result = Poly.generateECPolynomial(0)
   t.ok(Buffer.isBuffer(result), 'Should return a buffer')
-  t.deepEqual(result, new Buffer([1]), 'Should return coeff [1] for polynomial of degree 0')
+  t.deepEqual(result, BufferUtil.from([1]), 'Should return coeff [1] for polynomial of degree 0')
 
   for (var e = 2; e <= 68; e++) {
     t.equal(Poly.generateECPolynomial(e).length, e + 1, 'Should return a number of coefficients equal to (degree + 1)')
