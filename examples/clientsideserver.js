@@ -1,5 +1,5 @@
 var express = require('express')
-var app = express.createServer()
+var app = express();//.createServer()
 var http = require('http')
 var fs = require('fs')
 var QRCode = require('../lib')
@@ -9,11 +9,19 @@ var Image = Canvas.Image
 
 var path = require('path')
 
-app.configure(function () {
-  app.use(express.methodOverride())
-  app.use(express.bodyParser())
-  app.use(app.router)
-  app.use(express.static(path.resolve(__dirname, '..')))
+  //app.use(express.methodOverride())
+  //app.use(express.bodyParser())
+//  app.use(app.router)
+  //app.use(express.static(path.resolve(__dirname, '..')))
+
+app.get('/qrcode.js',(req,res)=>{
+  res.set('content-type','text/javascript');
+  fs.createReadStream(path.join(__dirname,'..','build','qrcode.js')).pipe(res)
+})
+
+app.get('/qrcode.tosjis.js',(req,res)=>{
+  res.set('content-type','text/javascript');
+  fs.createReadStream(path.join(__dirname,'..','build','qrcode.tosjis.js')).pipe(res)
 })
 
 app.get('/', function (req, res) {
@@ -61,11 +69,6 @@ effectHandlers.npm = function (args, cb) {
 
 effectHandlers.bacon = function (args, cb) {
   args.src = path.join(__dirname, 'images', 'bacon-love.png')
-  this.image(args, cb)
-}
-
-effectHandlers.baconBikini = function (args, cb) {
-  args.src = path.join(__dirname, 'images', 'bacon-bikini.png')
   this.image(args, cb)
 }
 

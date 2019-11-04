@@ -1,5 +1,5 @@
 var QRCode = require('../lib')
-var connect = require('express')
+var http = require('http')
 
 function testQRCode (req, res) {
   res.writeHead(200, { 'Content-Type': 'text/html' })
@@ -31,5 +31,5 @@ function testQRCode (req, res) {
   })
 }
 
-connect.createServer(testQRCode).listen(3030)
+http.createServer(testQRCode).listen(3030)
 console.log('test server started on port 3030')

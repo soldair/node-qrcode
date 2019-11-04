@@ -31,7 +31,8 @@
     "pretest": "npm run lint",
     "test": "node --throw-deprecation test.js",
     "build": "node build.js",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "browser":"node examples/clientsideserver.js"
   },
   "bin": {
     "qrcode": "./bin/qrcode"
