@@ -1,7 +1,7 @@
 {
   "name": "qrcode",
   "description": "QRCode / 2d Barcode api with both server side and client side support using canvas",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "author": "Ryan Day <soldair@gmail.com>",
   "contributors": [
     "Vincenzo Greco <greco.vincenzo@gmail.com>"
@@ -32,7 +32,7 @@
     "test": "node --throw-deprecation test.js",
     "build": "node build.js",
     "prepublish": "npm run build",
-    "browser":"node examples/clientsideserver.js"
+    "browser": "node examples/clientsideserver.js"
   },
   "bin": {
     "qrcode": "./bin/qrcode"
