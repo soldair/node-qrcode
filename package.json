@@ -38,6 +38,7 @@
     "qrcode": "./bin/qrcode"
   },
   "dependencies": {
+    "buffer": "^5.4.3",
     "buffer-alloc": "^1.2.0",
     "buffer-from": "^1.1.1",
     "dijkstrajs": "^1.0.1",
