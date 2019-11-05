@@ -1,5 +1,5 @@
 var express = require('express')
-var app = express();//.createServer()
+var app = express()// .createServer()
 var http = require('http')
 var fs = require('fs')
 var QRCode = require('../lib')
@@ -9,19 +9,19 @@ var Image = Canvas.Image
 
 var path = require('path')
 
-  //app.use(express.methodOverride())
-  //app.use(express.bodyParser())
+  // app.use(express.methodOverride())
+  // app.use(express.bodyParser())
 //  app.use(app.router)
-  //app.use(express.static(path.resolve(__dirname, '..')))
+  // app.use(express.static(path.resolve(__dirname, '..')))
 
-app.get('/qrcode.js',(req,res)=>{
-  res.set('content-type','text/javascript');
-  fs.createReadStream(path.join(__dirname,'..','build','qrcode.js')).pipe(res)
+app.get('/qrcode.js', (req, res) => {
+  res.set('content-type', 'text/javascript')
+  fs.createReadStream(path.join(__dirname, '..', 'build', 'qrcode.js')).pipe(res)
 })
 
-app.get('/qrcode.tosjis.js',(req,res)=>{
-  res.set('content-type','text/javascript');
-  fs.createReadStream(path.join(__dirname,'..','build','qrcode.tosjis.js')).pipe(res)
+app.get('/qrcode.tosjis.js', (req, res) => {
+  res.set('content-type', 'text/javascript')
+  fs.createReadStream(path.join(__dirname, '..', 'build', 'qrcode.tosjis.js')).pipe(res)
 })
 
 app.get('/', function (req, res) {
