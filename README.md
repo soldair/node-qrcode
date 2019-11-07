@@ -15,7 +15,7 @@
 - [Binary data](#binary-data)
 - [Multibyte characters](#multibyte-characters)
 - [API](#api)
-- [GS1 QR Codes](#gs1)
+- [GS1 QR Codes](#gs1-qr-codes)
 - [Credits](#credits)
 - [License](#license)
 
