@@ -67,19 +67,25 @@ test('Svg render', function (t) {
       light: '#ffffff80'
     }
   }, [
-    { name: 'svg',
+    {
+      name: 'svg',
       attribs: [
         { name: 'viewbox', value: getExpectedViewbox(size, 4) }
-      ]},
-    { name: 'path',
+      ]
+    },
+    {
+      name: 'path',
       attribs: [
         { name: 'fill', value: '#ffffff' },
         { name: 'fill-opacity', value: '.50' }
-      ]},
-    { name: 'path',
+      ]
+    },
+    {
+      name: 'path',
       attribs: [
         { name: 'stroke', value: '#000000' }
-      ]}
+      ]
+    }
   ]))
 
   tests.push(buildTest(t, data, {
@@ -90,33 +96,41 @@ test('Svg render', function (t) {
       dark: '#00000080'
     }
   }, [
-    { name: 'svg',
+    {
+      name: 'svg',
       attribs: [
         { name: 'viewbox', value: getExpectedViewbox(size, 8) }
-      ]},
-    { name: 'path',
+      ]
+    },
+    {
+      name: 'path',
       attribs: [
         { name: 'stroke', value: '#000000' },
         { name: 'stroke-opacity', value: '.50' }
-      ]}
+      ]
+    }
   ]))
 
   tests.push(buildTest(t, data, {}, [
-    { name: 'svg',
+    {
+      name: 'svg',
       attribs: [
         { name: 'viewbox', value: getExpectedViewbox(size, 4) }
-      ]},
+      ]
+    },
     { name: 'path', attribs: [{ name: 'fill', value: '#ffffff' }] },
     { name: 'path', attribs: [{ name: 'stroke', value: '#000000' }] }
   ]))
 
   tests.push(buildTest(t, data, { width: 250 }, [
-    { name: 'svg',
+    {
+      name: 'svg',
       attribs: [
         { name: 'width', value: '250' },
         { name: 'height', value: '250' },
         { name: 'viewbox', value: getExpectedViewbox(size, 4) }
-      ]},
+      ]
+    },
     { name: 'path', attribs: [{ name: 'fill', value: '#ffffff' }] },
     { name: 'path', attribs: [{ name: 'stroke', value: '#000000' }] }
   ]))

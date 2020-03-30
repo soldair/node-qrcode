@@ -124,7 +124,7 @@ test('Canvas toDataURL - image/png', function (t) {
     'Should throw if no arguments are provided')
 
   t.throw(function () { QRCodeBrowser.toDataURL(function () {}) },
-      'Should throw if text is not provided')
+    'Should throw if text is not provided')
 
   var canvas = new Canvas(200, 200)
   QRCodeBrowser.toDataURL(canvas, 'i am a pony!', {

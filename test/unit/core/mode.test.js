@@ -59,6 +59,7 @@ test('Char count bits', function (t) {
 })
 
 test('Best mode', function (t) {
+  /* eslint-disable quote-props */
   var EXPECTED_MODE = {
     '12345': Mode.NUMERIC,
     'abcde': Mode.BYTE,

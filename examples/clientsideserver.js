@@ -9,10 +9,10 @@ var Image = Canvas.Image
 
 var path = require('path')
 
-  // app.use(express.methodOverride())
-  // app.use(express.bodyParser())
-//  app.use(app.router)
-  // app.use(express.static(path.resolve(__dirname, '..')))
+// app.use(express.methodOverride())
+// app.use(express.bodyParser())
+// app.use(app.router)
+// app.use(express.static(path.resolve(__dirname, '..')))
 
 app.get('/qrcode.js', (req, res) => {
   res.set('content-type', 'text/javascript')
@@ -162,7 +162,7 @@ effectHandlers.rounded = function (args, cb) {
         }
       }
     })
-    cb(false, canvas)
+    cb(null, canvas)
   })
 }
 
@@ -210,7 +210,7 @@ effectHandlers.remoteImage = function (args, cb) {
     })
 
     res.on('complete', function () {
-      cb(false, data)
+      cb(null, data)
     })
 
     res.on('error', function (error) {
@@ -292,7 +292,7 @@ effectHandlers.image = function (args, cb) {
         cb(err, false)
       }
 
-      cb(false, baconCanvas)
+      cb(null, baconCanvas)
     })
   }
 
