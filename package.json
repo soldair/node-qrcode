@@ -15,7 +15,6 @@
   "main": "./lib/index.js",
   "browser": {
     "./lib/index.js": "./lib/browser.js",
-    "./lib/utils/buffer.js": "./lib/utils/typedarray-buffer.js",
     "fs": false
   },
   "files": [
@@ -38,10 +37,8 @@
     "qrcode": "./bin/qrcode"
   },
   "dependencies": {
-    "buffer": "^5.4.3",
-    "buffer-alloc": "^1.2.0",
-    "buffer-from": "^1.1.1",
     "dijkstrajs": "^1.0.1",
+    "encode-utf8": "^1.0.3",
     "isarray": "^2.0.1",
     "pngjs": "^3.3.0",
     "yargs": "^13.2.4"
