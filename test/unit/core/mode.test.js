@@ -7,6 +7,7 @@ test('Mode bits', function (t) {
     alphanumeric: 2,
     byte: 4,
     kanji: 8,
+    structuredappend: 3,
     mixed: -1
   }
 
@@ -14,6 +15,7 @@ test('Mode bits', function (t) {
   t.equal(Mode.ALPHANUMERIC.bit, EXPECTED_BITS.alphanumeric)
   t.equal(Mode.BYTE.bit, EXPECTED_BITS.byte)
   t.equal(Mode.KANJI.bit, EXPECTED_BITS.kanji)
+  t.equal(Mode.STRUCTURED_APPEND.bit, EXPECTED_BITS.structuredappend)
   t.equal(Mode.MIXED.bit, EXPECTED_BITS.mixed)
 
   t.end()
@@ -24,7 +26,8 @@ test('Char count bits', function (t) {
     numeric: [10, 12, 14],
     alphanumeric: [9, 11, 13],
     byte: [8, 16, 16],
-    kanji: [8, 10, 12]
+    kanji: [8, 10, 12],
+    structuredappend: [0, 0, 0]
   }
 
   var v
@@ -33,6 +36,7 @@ test('Char count bits', function (t) {
     t.equal(Mode.getCharCountIndicator(Mode.ALPHANUMERIC, v), EXPECTED_BITS.alphanumeric[0])
     t.equal(Mode.getCharCountIndicator(Mode.BYTE, v), EXPECTED_BITS.byte[0])
     t.equal(Mode.getCharCountIndicator(Mode.KANJI, v), EXPECTED_BITS.kanji[0])
+    t.equal(Mode.getCharCountIndicator(Mode.STRUCTURED_APPEND, v), EXPECTED_BITS.structuredappend[0])
   }
 
   for (v = 10; v < 27; v++) {
@@ -40,6 +44,7 @@ test('Char count bits', function (t) {
     t.equal(Mode.getCharCountIndicator(Mode.ALPHANUMERIC, v), EXPECTED_BITS.alphanumeric[1])
     t.equal(Mode.getCharCountIndicator(Mode.BYTE, v), EXPECTED_BITS.byte[1])
     t.equal(Mode.getCharCountIndicator(Mode.KANJI, v), EXPECTED_BITS.kanji[1])
+    t.equal(Mode.getCharCountIndicator(Mode.STRUCTURED_APPEND, v), EXPECTED_BITS.structuredappend[1])
   }
 
   for (v = 27; v <= 40; v++) {
@@ -47,6 +52,7 @@ test('Char count bits', function (t) {
     t.equal(Mode.getCharCountIndicator(Mode.ALPHANUMERIC, v), EXPECTED_BITS.alphanumeric[2])
     t.equal(Mode.getCharCountIndicator(Mode.BYTE, v), EXPECTED_BITS.byte[2])
     t.equal(Mode.getCharCountIndicator(Mode.KANJI, v), EXPECTED_BITS.kanji[2])
+    t.equal(Mode.getCharCountIndicator(Mode.STRUCTURED_APPEND, v), EXPECTED_BITS.structuredappend[2])
   }
 
   t.throw(function () { Mode.getCharCountIndicator({}, 1) },
@@ -84,6 +90,7 @@ test('Is valid', function (t) {
   t.ok(Mode.isValid(Mode.ALPHANUMERIC))
   t.ok(Mode.isValid(Mode.BYTE))
   t.ok(Mode.isValid(Mode.KANJI))
+  t.ok(Mode.isValid(Mode.STRUCTURED_APPEND))
 
   t.notOk(Mode.isValid(undefined))
   t.notOk(Mode.isValid({ bit: 1 }))
@@ -97,7 +104,8 @@ test('From value', function (t) {
     { name: 'numeric', mode: Mode.NUMERIC },
     { name: 'alphanumeric', mode: Mode.ALPHANUMERIC },
     { name: 'kanji', mode: Mode.KANJI },
-    { name: 'byte', mode: Mode.BYTE }
+    { name: 'byte', mode: Mode.BYTE },
+    { name: 'structuredappend', mode: Mode.STRUCTURED_APPEND }
   ]
 
   for (var m = 0; m < modes.length; m++) {
@@ -120,6 +128,7 @@ test('To string', function (t) {
   t.equal(Mode.toString(Mode.ALPHANUMERIC), 'Alphanumeric')
   t.equal(Mode.toString(Mode.BYTE), 'Byte')
   t.equal(Mode.toString(Mode.KANJI), 'Kanji')
+  t.equal(Mode.toString(Mode.STRUCTURED_APPEND), 'Structured Append')
 
   t.throw(function () { Mode.toString({}) }, 'Should throw if mode is invalid')
 
