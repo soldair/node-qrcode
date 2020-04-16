@@ -1,7 +1,7 @@
 var test = require('tap').test
 var fs = require('fs')
 var path = require('path')
-var tmpDir = require('os-tmpdir')
+var os = require('os')
 var sinon = require('sinon')
 var QRCode = require('lib')
 var Helpers = require('test/helpers')
@@ -9,7 +9,7 @@ var StreamMock = require('test/mocks/writable-stream')
 
 test('toFile - no promise available', function (t) {
   Helpers.removeNativePromise()
-  var fileName = path.join(tmpDir(), 'qrimage.png')
+  var fileName = path.join(os.tmpdir(), 'qrimage.png')
 
   t.throw(function () { QRCode.toFile(fileName, 'some text') },
     'Should throw if a callback is not provided')
@@ -23,7 +23,7 @@ test('toFile - no promise available', function (t) {
 })
 
 test('toFile', function (t) {
-  var fileName = path.join(tmpDir(), 'qrimage.png')
+  var fileName = path.join(os.tmpdir(), 'qrimage.png')
 
   t.throw(function () { QRCode.toFile('some text', function () {}) },
     'Should throw if path is not provided')
@@ -38,7 +38,7 @@ test('toFile', function (t) {
 })
 
 test('toFile png', function (t) {
-  var fileName = path.join(tmpDir(), 'qrimage.png')
+  var fileName = path.join(os.tmpdir(), 'qrimage.png')
   var expectedBase64Output = [
     'iVBORw0KGgoAAAANSUhEUgAAAHQAAAB0CAYAAABUmhYnAAAAAklEQVR4AewaftIAAAKzSU',
     'RBVO3BQW7kQAwEwSxC//9y7h55akCQxvYQjIj/scYo1ijFGqVYoxRrlGKNUqxRijVKsUYp',
@@ -101,7 +101,6 @@ test('toFile png', function (t) {
 
   var fsStub = sinon.stub(fs, 'createWriteStream')
   fsStub.returns(new StreamMock().forceErrorOnWrite())
-  fsStub.reset()
 
   QRCode.toFile(fileName, 'i am a pony!', {
     errorCorrectionLevel: 'L'
@@ -119,7 +118,7 @@ test('toFile png', function (t) {
 })
 
 test('toFile svg', function (t) {
-  var fileName = path.join(tmpDir(), 'qrimage.svg')
+  var fileName = path.join(os.tmpdir(), 'qrimage.svg')
   var expectedOutput = fs.readFileSync(
     path.join(__dirname, '/svg.expected.out'), 'UTF-8')
 
@@ -166,7 +165,7 @@ test('toFile svg', function (t) {
 })
 
 test('toFile utf8', function (t) {
-  var fileName = path.join(tmpDir(), 'qrimage.txt')
+  var fileName = path.join(os.tmpdir(), 'qrimage.txt')
   var expectedOutput = [
     '                                 ',
     '                                 ',
@@ -226,7 +225,7 @@ test('toFile utf8', function (t) {
 })
 
 test('toFile manual segments', function (t) {
-  var fileName = path.join(tmpDir(), 'qrimage.txt')
+  var fileName = path.join(os.tmpdir(), 'qrimage.txt')
   var segs = [
     { data: 'ABCDEFG', mode: 'alphanumeric' },
     { data: '0123456', mode: 'numeric' }

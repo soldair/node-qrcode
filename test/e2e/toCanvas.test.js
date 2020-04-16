@@ -1,5 +1,5 @@
 var test = require('tap').test
-var Canvas = require('canvas')
+var { Canvas, createCanvas } = require('canvas')
 var QRCode = require('lib')
 var Helpers = require('test/helpers')
 
@@ -10,11 +10,11 @@ test('toCanvas - no promise available', function (t) {
   global.document = {
     createElement: function (el) {
       if (el === 'canvas') {
-        return new Canvas(200, 200)
+        return createCanvas(200, 200)
       }
     }
   }
-  var canvasEl = new Canvas(200, 200)
+  var canvasEl = createCanvas(200, 200)
 
   t.throw(function () { QRCode.toCanvas() },
     'Should throw if no arguments are provided')
@@ -39,7 +39,7 @@ test('toCanvas', function (t) {
   global.document = {
     createElement: function (el) {
       if (el === 'canvas') {
-        return new Canvas(200, 200)
+        return createCanvas(200, 200)
       }
     }
   }
@@ -79,7 +79,7 @@ test('toCanvas', function (t) {
 })
 
 test('toCanvas with specified canvas element', function (t) {
-  var canvasEl = new Canvas(200, 200)
+  var canvasEl = createCanvas(200, 200)
 
   t.plan(6)
 

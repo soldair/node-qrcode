@@ -39,29 +39,28 @@
   "dependencies": {
     "dijkstrajs": "^1.0.1",
     "encode-utf8": "^1.0.3",
-    "isarray": "^2.0.1",
-    "pngjs": "^3.3.0",
-    "yargs": "^13.2.4"
+    "isarray": "^2.0.5",
+    "pngjs": "^5.0.0",
+    "uglify-js": "^3.9.1",
+    "yargs": "^15.3.1"
   },
   "devDependencies": {
-    "browserify": "^16.2.3",
-    "canvas": "^1.6.11",
-    "canvasutil": "*",
-    "colors": "*",
-    "express": "^4.16.4",
-    "htmlparser2": "^3.9.2",
-    "os-tmpdir": "^1.0.2",
-    "sinon": "^1.17.7",
+    "browserify": "^16.5.1",
+    "canvas": "^2.6.1",
+    "canvasutil": "0.0.4",
+    "colors": "^1.4.0",
+    "express": "^4.17.1",
+    "htmlparser2": "^4.1.0",
+    "sinon": "^9.0.2",
     "standard": "^14.3.3",
-    "tap": "^12.1.1",
-    "uglify-js": "^2.7.5"
+    "tap": "^14.10.7"
   },
   "repository": {
     "type": "git",
     "url": "git://github.com/soldair/node-qrcode.git"
   },
   "engines": {
-    "node": ">=4"
+    "node": ">=10.13.0"
   },
   "standard": {
     "ignore": [

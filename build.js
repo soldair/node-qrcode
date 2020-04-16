@@ -1,23 +1,19 @@
-var spawn = require('child_process').spawn
-var fs = require('fs')
-var path = require('path')
+const childProcess = require('child_process')
+const fs = require('fs')
+const path = require('path')
+
 require('colors')
 
-function createFolder (folderPath, onDone) {
+function createFolder (folderPath) {
   console.log('*'.green + ' creating folder: '.grey + folderPath.white)
 
-  if (!fs.existsSync(folderPath)) {
-    fs.mkdirSync(folderPath)
-  }
-
-  onDone()
+  fs.mkdirSync(folderPath, { recursive: true })
 }
 
 function bundle (inputFile, exportName, outputFile, onDone) {
-  console.log('*'.green + ' bundling: '.grey +
-   inputFile.white + ' -> '.grey + outputFile.white)
+  console.log('*'.green + ' bundling: '.grey + inputFile.white + ' -> '.grey + outputFile.white)
 
-  var browserify = spawn('node', [
+  const { status, stderr } = childProcess.spawnSync('node', [
     'node_modules/.bin/browserify',
     inputFile,
     '-s', exportName,
@@ -25,61 +21,32 @@ function bundle (inputFile, exportName, outputFile, onDone) {
     '-o', outputFile
   ])
 
-  browserify.stdin.end()
-  browserify.stdout.pipe(process.stdout)
-  browserify.stderr.pipe(process.stderr)
-  browserify.on('exit', function (code) {
-    if (code) {
-      console.error('browserify failed!')
-      process.exit(code)
-    }
-
-    onDone()
-  })
+  if (status !== 0) {
+    console.error(stderr.toString())
+    process.exit(status)
+  }
 }
 
-function minify (inputFile, outputFile, onDone) {
-  console.log('*'.green + ' minifying: '.grey +
-   inputFile.white + ' -> '.grey + outputFile.white)
+function minify (inputFile, outputFile) {
+  console.log('*'.green + ' minifying: '.grey + inputFile.white + ' -> '.grey + outputFile.white)
 
-  var uglify = spawn('node', [
+  const { status, stderr } = childProcess.spawnSync('node', [
     'node_modules/.bin/uglifyjs',
     '--compress', '--mangle',
-    '--source-map', outputFile + '.map',
-    '--source-map-url', path.basename(outputFile) + '.map',
-    '--', inputFile])
+    '--output', outputFile,
+    '--source-map', `url='${path.basename(outputFile)}.map'`,
+    '--', inputFile
+  ])
 
-  var minStream = fs.createWriteStream(outputFile)
-  uglify.stdout.pipe(minStream)
-  uglify.stdin.end()
-  uglify.on('exit', function (code) {
-    if (code) {
-      console.error('uglify failed!')
-      fs.unlink(outputFile, function () {
-        process.exit(code)
-      })
-    }
-
-    onDone()
-  })
+  if (status !== 0) {
+    console.error(stderr.toString())
+    process.exit(status)
+  }
 }
 
-var q = [
-  createFolder.bind(null, './build', done),
-  bundle.bind(null, 'lib/index.js', 'QRCode', 'build/qrcode.js', done),
-  bundle.bind(null, 'helper/to-sjis.js', 'QRCode.toSJIS', 'build/qrcode.tosjis.js', done),
-  minify.bind(null, 'build/qrcode.js', 'build/qrcode.min.js', done),
-  minify.bind(null, 'build/qrcode.tosjis.js', 'build/qrcode.tosjis.min.js', done)
-]
-
-function done () {
-  var j = q.shift()
-  if (j) j()
-  else complete()
-}
-
-function complete () {
-  console.log('\nBuild complete =)\n'.green)
-}
-
-done()
+createFolder('./build')
+bundle('lib/index.js', 'QRCode', 'build/qrcode.js')
+bundle('helper/to-sjis.js', 'QRCode.toSJIS', 'build/qrcode.tosjis.js')
+minify('build/qrcode.js', 'build/qrcode.min.js')
+minify('build/qrcode.tosjis.js', 'build/qrcode.tosjis.min.js')
+console.log('\nBuild complete =)\n'.green)

@@ -1,5 +1,5 @@
 var test = require('tap').test
-var Canvas = require('canvas')
+var { Canvas, createCanvas } = require('canvas')
 var QRCode = require('core/qrcode')
 var CanvasRenderer = require('renderer/canvas')
 
@@ -18,7 +18,7 @@ test('CanvasRenderer render', function (t) {
   global.document = {
     createElement: function (el) {
       if (el === 'canvas') {
-        return new Canvas(200, 200)
+        return createCanvas(200, 200)
       }
     }
   }
@@ -56,7 +56,7 @@ test('CanvasRenderer render', function (t) {
 
 test('CanvasRenderer render to provided canvas', function (t) {
   var sampleQrData = QRCode.create('sample text', { version: 2 })
-  var canvasEl = new Canvas(200, 200)
+  var canvasEl = createCanvas(200, 200)
 
   t.notThrow(function () { CanvasRenderer.render(sampleQrData, canvasEl) },
     'Should not throw with only qrData and canvas param')
@@ -83,7 +83,7 @@ test('CanvasRenderer renderToDataURL', function (t) {
   global.document = {
     createElement: function (el) {
       if (el === 'canvas') {
-        return new Canvas(200, 200)
+        return createCanvas(200, 200)
       }
     }
   }
@@ -118,7 +118,7 @@ test('CanvasRenderer renderToDataURL', function (t) {
 
 test('CanvasRenderer renderToDataURL to provided canvas', function (t) {
   var sampleQrData = QRCode.create('sample text', { version: 2 })
-  var canvasEl = new Canvas(200, 200)
+  var canvasEl = createCanvas(200, 200)
   var url
 
   t.notThrow(function () {

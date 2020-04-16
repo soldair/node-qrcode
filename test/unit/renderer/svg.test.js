@@ -144,7 +144,6 @@ test('Svg renderToFile', function (t) {
   var sampleQrData = QRCode.create('sample text', { version: 2 })
   var fileName = 'qrimage.svg'
   var fsStub = sinon.stub(fs, 'writeFile').callsArg(2)
-  fsStub.reset()
 
   t.plan(5)
 
@@ -169,7 +168,6 @@ test('Svg renderToFile', function (t) {
 
   fsStub.restore()
   fsStub = sinon.stub(fs, 'writeFile').callsArgWith(2, new Error())
-  fsStub.reset()
 
   SvgRenderer.renderToFile(fileName, sampleQrData, function (err) {
     t.ok(err,

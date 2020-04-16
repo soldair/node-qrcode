@@ -1,7 +1,7 @@
 var test = require('tap').test
 var QRCode = require('lib')
 var QRCodeBrowser = require('lib/browser')
-var Canvas = require('canvas')
+var { createCanvas } = require('canvas')
 var Helpers = require('test/helpers')
 
 test('toDataURL - no promise available', function (t) {
@@ -126,7 +126,7 @@ test('Canvas toDataURL - image/png', function (t) {
   t.throw(function () { QRCodeBrowser.toDataURL(function () {}) },
     'Should throw if text is not provided')
 
-  var canvas = new Canvas(200, 200)
+  var canvas = createCanvas(200, 200)
   QRCodeBrowser.toDataURL(canvas, 'i am a pony!', {
     errorCorrectionLevel: 'H',
     type: 'image/png'
@@ -163,7 +163,7 @@ test('Canvas toDataURL - image/png', function (t) {
   global.document = {
     createElement: function (el) {
       if (el === 'canvas') {
-        return new Canvas(200, 200)
+        return createCanvas(200, 200)
       }
     }
   }

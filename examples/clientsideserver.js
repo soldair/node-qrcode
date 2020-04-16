@@ -4,8 +4,7 @@ var http = require('http')
 var fs = require('fs')
 var QRCode = require('../lib')
 var canvasutil = require('canvasutil')
-var Canvas = require('canvas')
-var Image = Canvas.Image
+var { createCanvas, loadImage } = require('canvas')
 
 var path = require('path')
 
@@ -73,7 +72,7 @@ effectHandlers.bacon = function (args, cb) {
 }
 
 effectHandlers.rounded = function (args, cb) {
-  var canvas = new Canvas(200, 200)
+  var canvas = createCanvas(200, 200)
   QRCode.toCanvas(canvas, args.text || '', function (err) {
     if (err) {
       cb(err, canvas)
@@ -223,12 +222,9 @@ effectHandlers.remoteImage = function (args, cb) {
 }
 
 effectHandlers.image = function (args, cb) {
-  var src = args.src || ''
-
-  var img = new Image()
-  var convert = canvasutil.conversionLib
-  img.onload = function () {
-    var canvas = new Canvas(200, 200)
+  loadImage(args.src || '').then((img) => {
+    var convert = canvasutil.conversionLib
+    var canvas = createCanvas(200, 200)
     QRCode.toCanvas(canvas, args.text || '', function (err) {
       if (err) {
         cb(err, false)
@@ -238,7 +234,7 @@ effectHandlers.image = function (args, cb) {
       var codeCtx = canvas.getContext('2d')
       var frame = codeCtx.getImageData(0, 0, canvas.width, canvas.width)
       var tpx = new canvasutil.PixelCore()
-      var baconCanvas = new Canvas(canvas.width, canvas.width)
+      var baconCanvas = createCanvas(canvas.width, canvas.width)
       var ctx = baconCanvas.getContext('2d')
       var topThreshold = args.darkThreshold || 25
       var bottomThreshold = args.lightThreshold || 75
@@ -294,18 +290,13 @@ effectHandlers.image = function (args, cb) {
 
       cb(null, baconCanvas)
     })
-  }
-
-  img.onerror = function (error) {
-    error.message += ' (' + src + ')'
+  }, (error) => {
     cb(error, null)
-  }
-
-  img.src = src
+  })
 }
 
 effectHandlers.plain = function (args, cb) {
-  var canvas = new Canvas(200, 200)
+  var canvas = createCanvas(200, 200)
   var text = args.text || ''
   QRCode.toCanvas(canvas, text || '', function (err) {
     cb(err, canvas)

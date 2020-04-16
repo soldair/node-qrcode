@@ -91,7 +91,6 @@ test('PNG renderToFile', function (t) {
   var fileName = 'qrimage.png'
   var fsStub = sinon.stub(fs, 'createWriteStream')
   fsStub.returns(new StreamMock())
-  fsStub.reset()
 
   t.plan(6)
 
@@ -117,7 +116,6 @@ test('PNG renderToFile', function (t) {
   fsStub.restore()
   fsStub = sinon.stub(fs, 'createWriteStream')
   fsStub.returns(new StreamMock().forceErrorOnWrite())
-  fsStub.reset()
 
   PngRenderer.renderToFile(fileName, sampleQrData, function (err) {
     t.ok(err,
