@@ -1,13 +1,13 @@
-var test = require('tap').test
-var ECLevel = require('core/error-correction-level')
+const test = require('tap').test
+const ECLevel = require('core/error-correction-level')
 
-var EC_LEVELS = [ECLevel.L, ECLevel.M, ECLevel.Q, ECLevel.H]
+const EC_LEVELS = [ECLevel.L, ECLevel.M, ECLevel.Q, ECLevel.H]
 
 test('Error level from input value', function (t) {
-  var values = [['l', 'low'], ['m', 'medium'], ['q', 'quartile'], ['h', 'high']]
+  const values = [['l', 'low'], ['m', 'medium'], ['q', 'quartile'], ['h', 'high']]
 
-  for (var l = 0; l < values.length; l++) {
-    for (var i = 0; i < values[l].length; i++) {
+  for (let l = 0; l < values.length; l++) {
+    for (let i = 0; i < values[l].length; i++) {
       t.equal(ECLevel.from(values[l][i]), EC_LEVELS[l])
       t.equal(ECLevel.from(values[l][i].toUpperCase()), EC_LEVELS[l])
     }
@@ -21,7 +21,7 @@ test('Error level from input value', function (t) {
 })
 
 test('Error level validity', function (t) {
-  for (var l = 0; l < EC_LEVELS.length; l++) {
+  for (let l = 0; l < EC_LEVELS.length; l++) {
     t.ok(ECLevel.isValid(EC_LEVELS[l]), 'Should return true if error level is valid')
   }
 

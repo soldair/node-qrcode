@@ -1,8 +1,8 @@
-var test = require('tap').test
-var RS = require('core/reed-solomon-encoder')
+const test = require('tap').test
+const RS = require('core/reed-solomon-encoder')
 
 test('Reed-Solomon encoder', function (t) {
-  var enc = new RS()
+  let enc = new RS()
 
   t.notOk(enc.genPoly, 'Should have an undefined generator polynomial')
   t.throw(function () { enc.encode([]) }, 'Should throw if generator polynomial is undefined')
@@ -11,11 +11,11 @@ test('Reed-Solomon encoder', function (t) {
   t.equal(enc.degree, 2, 'Should set correct degree value')
   t.ok(enc.genPoly, 'Generator polynomial should be defined')
 
-  var result = enc.encode(new Uint8Array([48, 49, 50, 51, 52]))
+  const result = enc.encode(new Uint8Array([48, 49, 50, 51, 52]))
   t.equal(result.length, 2, 'Should return a number of codewords equal to gen poly degree')
 
   enc = new RS(2)
-  var genPoly = enc.genPoly
+  const genPoly = enc.genPoly
   t.equal(enc.degree, 2, 'Should set correct degree value')
   t.ok(genPoly, 'Generator polynomial should be defined')
 

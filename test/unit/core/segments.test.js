@@ -1,13 +1,13 @@
-var test = require('tap').test
-var Mode = require('core/mode')
-var Segments = require('core/segments')
-var NumericData = require('core/numeric-data')
-var AlphanumericData = require('core/alphanumeric-data')
-var ByteData = require('core/byte-data')
-var toSJIS = require('helper/to-sjis')
-var Utils = require('core/utils')
+const test = require('tap').test
+const Mode = require('core/mode')
+const Segments = require('core/segments')
+const NumericData = require('core/numeric-data')
+const AlphanumericData = require('core/alphanumeric-data')
+const ByteData = require('core/byte-data')
+const toSJIS = require('helper/to-sjis')
+const Utils = require('core/utils')
 
-var testData = [
+let testData = [
   {
     input: '1A1',
     result: [{ data: '1A1', mode: Mode.ALPHANUMERIC }]
@@ -135,7 +135,7 @@ var testData = [
   }
 ]
 
-var kanjiTestData = [
+const kanjiTestData = [
   {
     input: '乂ЁЖぞβ',
     result: [{ data: '乂ЁЖぞβ', mode: Mode.KANJI }]
@@ -209,7 +209,7 @@ test('Segments optimization', function (t) {
 })
 
 test('Segments raw split', function (t) {
-  var splitted = [
+  const splitted = [
     new ByteData('abc'),
     new AlphanumericData('DEF'),
     new NumericData('123')

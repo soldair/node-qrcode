@@ -1,10 +1,10 @@
-var test = require('tap').test
-var sinon = require('sinon')
-var fs = require('fs')
-var QRCode = require('core/qrcode')
-var PngRenderer = require('renderer/png')
-var PNG = require('pngjs').PNG
-var StreamMock = require('../../mocks/writable-stream')
+const test = require('tap').test
+const sinon = require('sinon')
+const fs = require('fs')
+const QRCode = require('core/qrcode')
+const PngRenderer = require('renderer/png')
+const PNG = require('pngjs').PNG
+const StreamMock = require('../../mocks/writable-stream')
 
 test('PNG renderer interface', function (t) {
   t.type(PngRenderer.render, 'function',
@@ -23,8 +23,8 @@ test('PNG renderer interface', function (t) {
 })
 
 test('PNG render', function (t) {
-  var sampleQrData = QRCode.create('sample text', { version: 2 })
-  var png
+  const sampleQrData = QRCode.create('sample text', { version: 2 })
+  let png
 
   t.notThrow(function () { png = PngRenderer.render(sampleQrData) },
     'Should not throw with only qrData param')
@@ -57,7 +57,7 @@ test('PNG render', function (t) {
 })
 
 test('PNG renderToDataURL', function (t) {
-  var sampleQrData = QRCode.create('sample text', { version: 2 })
+  const sampleQrData = QRCode.create('sample text', { version: 2 })
 
   t.plan(6)
 
@@ -79,7 +79,7 @@ test('PNG renderToDataURL', function (t) {
       t.equal(url.split(',')[0], 'data:image/png;base64',
         'Should have correct header')
 
-      var b64png = url.split(',')[1]
+      const b64png = url.split(',')[1]
       t.equal(b64png.length % 4, 0,
         'Should have a correct length')
     }
@@ -87,9 +87,9 @@ test('PNG renderToDataURL', function (t) {
 })
 
 test('PNG renderToFile', function (t) {
-  var sampleQrData = QRCode.create('sample text', { version: 2 })
-  var fileName = 'qrimage.png'
-  var fsStub = sinon.stub(fs, 'createWriteStream')
+  const sampleQrData = QRCode.create('sample text', { version: 2 })
+  const fileName = 'qrimage.png'
+  let fsStub = sinon.stub(fs, 'createWriteStream')
   fsStub.returns(new StreamMock())
 
   t.plan(6)
@@ -126,7 +126,7 @@ test('PNG renderToFile', function (t) {
 })
 
 test('PNG renderToFileStream', function (t) {
-  var sampleQrData = QRCode.create('sample text', { version: 2 })
+  const sampleQrData = QRCode.create('sample text', { version: 2 })
 
   t.notThrow(function () {
     PngRenderer.renderToFileStream(new StreamMock(), sampleQrData)

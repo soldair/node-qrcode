@@ -1,12 +1,12 @@
-var test = require('tap').test
-var Poly = require('core/polynomial')
+const test = require('tap').test
+const Poly = require('core/polynomial')
 
 test('Generator polynomial', function (t) {
-  var result = Poly.generateECPolynomial(0)
+  const result = Poly.generateECPolynomial(0)
   t.ok(result instanceof Uint8Array, 'Should return an Uint8Array')
   t.deepEqual(result, new Uint8Array([1]), 'Should return coeff [1] for polynomial of degree 0')
 
-  for (var e = 2; e <= 68; e++) {
+  for (let e = 2; e <= 68; e++) {
     t.equal(Poly.generateECPolynomial(e).length, e + 1, 'Should return a number of coefficients equal to (degree + 1)')
   }
 
@@ -14,10 +14,10 @@ test('Generator polynomial', function (t) {
 })
 
 test('Polynomial', function (t) {
-  var p1 = [0, 1, 2, 3, 4]
-  var p2 = [5, 6]
+  const p1 = [0, 1, 2, 3, 4]
+  const p2 = [5, 6]
 
-  var result = Poly.mul(p1, p2)
+  let result = Poly.mul(p1, p2)
   t.ok(result instanceof Uint8Array, 'Should return an Uint8Array')
   t.equal(result.length, 6, 'Should return correct number of coefficients')
 

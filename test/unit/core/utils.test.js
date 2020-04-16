@@ -1,11 +1,11 @@
-var test = require('tap').test
-var Utils = require('core/utils')
+const test = require('tap').test
+const Utils = require('core/utils')
 
 /**
  * QR Code sizes. Each element refers to a version
  * @type {Array}
  */
-var EXPECTED_SYMBOL_SIZES = [
+const EXPECTED_SYMBOL_SIZES = [
   21, 25, 29, 33, 37, 41, 45,
   49, 53, 57, 61, 65, 69, 73,
   77, 81, 85, 89, 93, 97, 101,
@@ -18,7 +18,7 @@ test('Symbol size', function (t) {
   t.throws(function () { Utils.getSymbolSize(0) }, 'Should throw if version is not in range')
   t.throws(function () { Utils.getSymbolSize(41) }, 'Should throw if version is not in range')
 
-  for (var i = 1; i <= 40; i++) {
+  for (let i = 1; i <= 40; i++) {
     t.equal(Utils.getSymbolSize(i), EXPECTED_SYMBOL_SIZES[i - 1], 'Should return correct symbol size')
   }
 
@@ -26,7 +26,7 @@ test('Symbol size', function (t) {
 })
 
 test('Symbol codewords', function (t) {
-  for (var i = 1; i <= 40; i++) {
+  for (let i = 1; i <= 40; i++) {
     t.ok(Utils.getSymbolTotalCodewords(i), 'Should return positive number')
   }
 
@@ -34,7 +34,7 @@ test('Symbol codewords', function (t) {
 })
 
 test('BCH Digit', function (t) {
-  var testData = [
+  const testData = [
     { data: 0, bch: 0 },
     { data: 1, bch: 1 },
     { data: 2, bch: 2 },
@@ -57,7 +57,7 @@ test('Set/Get SJIS function', function (t) {
   t.notOk(Utils.isKanjiModeEnabled(),
     'Kanji mode should be disabled if "toSJIS" function is not set')
 
-  var testFunc = function testFunc (c) {
+  const testFunc = function testFunc (c) {
     return 'test_' + c
   }
 

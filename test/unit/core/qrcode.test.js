@@ -1,15 +1,15 @@
-var test = require('tap').test
-var ECLevel = require('core/error-correction-level')
-var Version = require('core/version')
-var QRCode = require('core/qrcode')
-var toSJIS = require('helper/to-sjis')
+const test = require('tap').test
+const ECLevel = require('core/error-correction-level')
+const Version = require('core/version')
+const QRCode = require('core/qrcode')
+const toSJIS = require('helper/to-sjis')
 
 test('QRCode interface', function (t) {
   t.type(QRCode.create, 'function', 'Should have "create" function')
   t.throw(function () { QRCode.create() }, 'Should throw if no data is provided')
   t.notThrow(function () { QRCode.create('1234567') }, 'Should not throw')
 
-  var qr = QRCode.create('a123456A', {
+  let qr = QRCode.create('a123456A', {
     version: 1,
     maskPattern: 1,
     errorCorrectionLevel: 'H'
@@ -17,7 +17,7 @@ test('QRCode interface', function (t) {
   t.equal(qr.modules.size, 21, 'Should return correct modules count')
   t.equal(qr.maskPattern, 1, 'Should return correct mask pattern')
 
-  var darkModule = qr.modules.get(qr.modules.size - 8, 8)
+  const darkModule = qr.modules.get(qr.modules.size - 8, 8)
   t.ok(darkModule, 'Should have a dark module at coords [size-8][8]')
 
   t.throw(function () {
@@ -46,16 +46,16 @@ test('QRCode interface', function (t) {
 })
 
 test('QRCode error correction', function (t) {
-  var qr
-  var ecValues = [
+  let qr
+  const ecValues = [
     { name: ['l', 'low'], level: ECLevel.L },
     { name: ['m', 'medium'], level: ECLevel.M },
     { name: ['q', 'quartile'], level: ECLevel.Q },
     { name: ['h', 'high'], level: ECLevel.H }
   ]
 
-  for (var l = 0; l < ecValues.length; l++) {
-    for (var i = 0; i < ecValues[l].name.length; i++) {
+  for (let l = 0; l < ecValues.length; l++) {
+    for (let i = 0; i < ecValues[l].name.length; i++) {
       t.notThrow(function () {
         qr = QRCode.create('ABCDEFG', { errorCorrectionLevel: ecValues[l].name[i] })
       }, 'Should accept errorCorrectionLevel value: ' + ecValues[l].name[i])
@@ -79,7 +79,7 @@ test('QRCode error correction', function (t) {
 })
 
 test('QRCode version', function (t) {
-  var qr = QRCode.create('data', { version: 9, errorCorrectionLevel: ECLevel.M })
+  let qr = QRCode.create('data', { version: 9, errorCorrectionLevel: ECLevel.M })
 
   t.equal(qr.version, 9, 'Should create qrcode with correct version')
   t.equal(qr.errorCorrectionLevel, ECLevel.M, 'Should set correct EC level')
@@ -102,7 +102,7 @@ test('QRCode version', function (t) {
 })
 
 test('QRCode capacity', function (t) {
-  var qr
+  let qr
 
   qr = QRCode.create([{ data: 'abcdefg', mode: 'byte' }])
   t.equal(qr.version, 1, 'Should contain 7 byte characters')

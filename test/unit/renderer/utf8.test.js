@@ -1,8 +1,8 @@
-var test = require('tap').test
-var sinon = require('sinon')
-var fs = require('fs')
-var QRCode = require('core/qrcode')
-var Utf8Renderer = require('renderer/utf8')
+const test = require('tap').test
+const sinon = require('sinon')
+const fs = require('fs')
+const QRCode = require('core/qrcode')
+const Utf8Renderer = require('renderer/utf8')
 
 test('Utf8Renderer interface', function (t) {
   t.type(Utf8Renderer.render, 'function',
@@ -12,8 +12,8 @@ test('Utf8Renderer interface', function (t) {
 })
 
 test('Utf8Renderer render', function (t) {
-  var sampleQrData = QRCode.create('sample text', { version: 2 })
-  var str
+  const sampleQrData = QRCode.create('sample text', { version: 2 })
+  let str
 
   t.notThrow(function () { str = Utf8Renderer.render(sampleQrData) },
     'Should not throw with only qrData param')
@@ -32,9 +32,9 @@ test('Utf8Renderer render', function (t) {
 })
 
 test('Utf8 renderToFile', function (t) {
-  var sampleQrData = QRCode.create('sample text', { version: 2 })
-  var fileName = 'qrimage.txt'
-  var fsStub = sinon.stub(fs, 'writeFile').callsArg(2)
+  const sampleQrData = QRCode.create('sample text', { version: 2 })
+  const fileName = 'qrimage.txt'
+  let fsStub = sinon.stub(fs, 'writeFile').callsArg(2)
 
   t.plan(5)
 

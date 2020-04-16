@@ -1,6 +1,6 @@
-var test = require('tap').test
-var QRCode = require('core/qrcode')
-var TerminalRenderer = require('renderer/terminal')
+const test = require('tap').test
+const QRCode = require('core/qrcode')
+const TerminalRenderer = require('renderer/terminal')
 
 test('TerminalRenderer interface', function (t) {
   t.type(TerminalRenderer.render, 'function',
@@ -10,8 +10,8 @@ test('TerminalRenderer interface', function (t) {
 })
 
 test('TerminalRenderer render', function (t) {
-  var sampleQrData = QRCode.create('sample text', { version: 2 })
-  var str
+  const sampleQrData = QRCode.create('sample text', { version: 2 })
+  let str
 
   t.notThrow(function () { str = TerminalRenderer.render(sampleQrData) },
     'Should not throw with only qrData param')

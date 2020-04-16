@@ -1,8 +1,8 @@
-var test = require('tap').test
-var Utils = require('renderer/utils')
+const test = require('tap').test
+const Utils = require('renderer/utils')
 
 test('Utils getOptions', function (t) {
-  var defaultOptions = {
+  const defaultOptions = {
     width: undefined,
     scale: 4,
     margin: 4,
@@ -59,7 +59,7 @@ test('Utils getOptions', function (t) {
 })
 
 test('Utils getScale', function (t) {
-  var symbolSize = 21
+  const symbolSize = 21
 
   t.equal(Utils.getScale(symbolSize, { scale: 5 }), 5,
     'Should return correct scale value')
@@ -74,7 +74,7 @@ test('Utils getScale', function (t) {
 })
 
 test('Utils getImageWidth', function (t) {
-  var symbolSize = 21
+  const symbolSize = 21
 
   t.equal(Utils.getImageWidth(symbolSize, { scale: 5, margin: 0 }), 105,
     'Should return correct width value')
@@ -92,7 +92,7 @@ test('Utils qrToImageData', function (t) {
   t.ok(Utils.qrToImageData,
     'qrToImageData should be defined')
 
-  var sampleQrData = {
+  const sampleQrData = {
     modules: {
       data: [
         1, 0, 1, 0,
@@ -104,24 +104,24 @@ test('Utils qrToImageData', function (t) {
     }
   }
 
-  var margin = 4
-  var scale = 2
-  var width = 100
+  const margin = 4
+  const scale = 2
+  const width = 100
 
-  var color = {
+  const color = {
     dark: { r: 255, g: 255, b: 255, a: 255 },
     light: { r: 0, g: 0, b: 0, a: 255 }
   }
 
-  var opts = {
+  const opts = {
     margin: margin,
     scale: scale,
     color: color
   }
 
-  var imageData = []
-  var expectedImageSize = (sampleQrData.modules.size + margin * 2) * scale
-  var expectedImageDataLength = Math.pow(expectedImageSize, 2) * 4
+  let imageData = []
+  const expectedImageSize = (sampleQrData.modules.size + margin * 2) * scale
+  let expectedImageDataLength = Math.pow(expectedImageSize, 2) * 4
 
   Utils.qrToImageData(imageData, sampleQrData, opts)
 

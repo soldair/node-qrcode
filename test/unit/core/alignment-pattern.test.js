@@ -1,5 +1,5 @@
-var test = require('tap').test
-var pattern = require('core/alignment-pattern')
+const test = require('tap').test
+const pattern = require('core/alignment-pattern')
 
 /**
  * Row/column coordinates of the center module of each alignment pattern.
@@ -7,7 +7,7 @@ var pattern = require('core/alignment-pattern')
  *
  * @type {Array}
  */
-var EXPECTED_POSITION_TABLE = [
+const EXPECTED_POSITION_TABLE = [
   [],
   [6, 18],
   [6, 22],
@@ -53,17 +53,17 @@ var EXPECTED_POSITION_TABLE = [
 test('Alignment pattern - Row/Col coords', function (t) {
   t.plan(40)
 
-  for (var i = 1; i <= 40; i++) {
-    var pos = pattern.getRowColCoords(i)
+  for (let i = 1; i <= 40; i++) {
+    const pos = pattern.getRowColCoords(i)
     t.deepEqual(pos, EXPECTED_POSITION_TABLE[i - 1], 'Should return correct coords')
   }
 })
 
 test('Alignment pattern - Positions', function (t) {
-  for (var i = 1; i <= 40; i++) {
-    var pos = pattern.getPositions(i)
-    var expectedPos = EXPECTED_POSITION_TABLE[i - 1]
-    var expectedLength = (Math.pow(expectedPos.length, 2) || 3) - 3
+  for (let i = 1; i <= 40; i++) {
+    const pos = pattern.getPositions(i)
+    const expectedPos = EXPECTED_POSITION_TABLE[i - 1]
+    const expectedLength = (Math.pow(expectedPos.length, 2) || 3) - 3
 
     t.equal(pos.length, expectedLength, 'Should return correct number of positions')
 
