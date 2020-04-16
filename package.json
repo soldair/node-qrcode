@@ -4,7 +4,8 @@
   "version": "1.4.4",
   "author": "Ryan Day <soldair@gmail.com>",
   "contributors": [
-    "Vincenzo Greco <greco.vincenzo@gmail.com>"
+    "Vincenzo Greco <greco.vincenzo@gmail.com>",
+    "Linus Unnebäck <linus@folkdatorn.se>"
   ],
   "keywords": [
     "qr",
