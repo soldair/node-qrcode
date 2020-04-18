@@ -1,21 +1,7 @@
 language: node_js
-
+dist: bionic
 node_js:
   - '10.13.0'
   - '10'
   - '12'
   - 'node'
-
-env:
-  - CXX=g++-4.8
-
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - g++-4.8
-
-before_install:
-  - sudo apt-get update
-  - sudo apt-get install -y libgif-dev
