@@ -40,7 +40,6 @@
   "dependencies": {
     "dijkstrajs": "^1.0.1",
     "encode-utf8": "^1.0.3",
-    "isarray": "^2.0.5",
     "pngjs": "^5.0.0",
     "uglify-js": "^3.9.1",
     "yargs": "^15.3.1"
