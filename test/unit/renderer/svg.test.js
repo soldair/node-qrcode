@@ -1,20 +1,20 @@
-var test = require('tap').test
-var sinon = require('sinon')
-var fs = require('fs')
-var htmlparser = require('htmlparser2')
-var QRCode = require('core/qrcode')
-var SvgRenderer = require('renderer/svg')
+const test = require('tap').test
+const sinon = require('sinon')
+const fs = require('fs')
+const htmlparser = require('htmlparser2')
+const QRCode = require('core/qrcode')
+const SvgRenderer = require('renderer/svg')
 
 function getExpectedViewbox (size, margin) {
-  var expectedQrCodeSize = size + margin * 2
+  const expectedQrCodeSize = size + margin * 2
   return '0 0 ' + expectedQrCodeSize + ' ' + expectedQrCodeSize
 }
 
 function testSvgFragment (t, svgFragment, expectedTags) {
   return new Promise(function (resolve, reject) {
-    var parser = new htmlparser.Parser({
+    const parser = new htmlparser.Parser({
       onopentag: function (name, attribs) {
-        var tag = expectedTags.shift()
+        const tag = expectedTags.shift()
 
         t.equal(tag.name, name,
           'Should have a ' + tag.name + ' tag')
@@ -40,7 +40,7 @@ function testSvgFragment (t, svgFragment, expectedTags) {
 }
 
 function buildTest (t, data, opts, expectedTags) {
-  var svg = SvgRenderer.render(data, opts)
+  const svg = SvgRenderer.render(data, opts)
   return testSvgFragment(t, svg, expectedTags.slice())
 }
 
@@ -55,10 +55,10 @@ test('svgrender interface', function (t) {
 })
 
 test('Svg render', function (t) {
-  var tests = []
+  const tests = []
 
-  var data = QRCode.create('sample text', { version: 2 })
-  var size = data.modules.size
+  const data = QRCode.create('sample text', { version: 2 })
+  const size = data.modules.size
 
   tests.push(buildTest(t, data, {
     scale: 4,
@@ -67,19 +67,25 @@ test('Svg render', function (t) {
       light: '#ffffff80'
     }
   }, [
-    { name: 'svg',
+    {
+      name: 'svg',
       attribs: [
         { name: 'viewbox', value: getExpectedViewbox(size, 4) }
-      ]},
-    { name: 'path',
+      ]
+    },
+    {
+      name: 'path',
       attribs: [
         { name: 'fill', value: '#ffffff' },
         { name: 'fill-opacity', value: '.50' }
-      ]},
-    { name: 'path',
+      ]
+    },
+    {
+      name: 'path',
       attribs: [
         { name: 'stroke', value: '#000000' }
-      ]}
+      ]
+    }
   ]))
 
   tests.push(buildTest(t, data, {
@@ -90,33 +96,41 @@ test('Svg render', function (t) {
       dark: '#00000080'
     }
   }, [
-    { name: 'svg',
+    {
+      name: 'svg',
       attribs: [
         { name: 'viewbox', value: getExpectedViewbox(size, 8) }
-      ]},
-    { name: 'path',
+      ]
+    },
+    {
+      name: 'path',
       attribs: [
         { name: 'stroke', value: '#000000' },
         { name: 'stroke-opacity', value: '.50' }
-      ]}
+      ]
+    }
   ]))
 
   tests.push(buildTest(t, data, {}, [
-    { name: 'svg',
+    {
+      name: 'svg',
       attribs: [
         { name: 'viewbox', value: getExpectedViewbox(size, 4) }
-      ]},
+      ]
+    },
     { name: 'path', attribs: [{ name: 'fill', value: '#ffffff' }] },
     { name: 'path', attribs: [{ name: 'stroke', value: '#000000' }] }
   ]))
 
   tests.push(buildTest(t, data, { width: 250 }, [
-    { name: 'svg',
+    {
+      name: 'svg',
       attribs: [
         { name: 'width', value: '250' },
         { name: 'height', value: '250' },
         { name: 'viewbox', value: getExpectedViewbox(size, 4) }
-      ]},
+      ]
+    },
     { name: 'path', attribs: [{ name: 'fill', value: '#ffffff' }] },
     { name: 'path', attribs: [{ name: 'stroke', value: '#000000' }] }
   ]))
@@ -127,10 +141,9 @@ test('Svg render', function (t) {
 })
 
 test('Svg renderToFile', function (t) {
-  var sampleQrData = QRCode.create('sample text', { version: 2 })
-  var fileName = 'qrimage.svg'
-  var fsStub = sinon.stub(fs, 'writeFile').callsArg(2)
-  fsStub.reset()
+  const sampleQrData = QRCode.create('sample text', { version: 2 })
+  const fileName = 'qrimage.svg'
+  let fsStub = sinon.stub(fs, 'writeFile').callsArg(2)
 
   t.plan(5)
 
@@ -155,7 +168,6 @@ test('Svg renderToFile', function (t) {
 
   fsStub.restore()
   fsStub = sinon.stub(fs, 'writeFile').callsArgWith(2, new Error())
-  fsStub.reset()
 
   SvgRenderer.renderToFile(fileName, sampleQrData, function (err) {
     t.ok(err,

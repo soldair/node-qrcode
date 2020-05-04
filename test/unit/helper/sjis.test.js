@@ -1,5 +1,5 @@
-var test = require('tap').test
-var toSJIS = require('helper/to-sjis')
+const test = require('tap').test
+const toSJIS = require('helper/to-sjis')
 
 test('SJIS from char', function (t) {
   t.notOk(toSJIS(''),

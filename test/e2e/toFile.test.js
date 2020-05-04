@@ -1,15 +1,15 @@
-var test = require('tap').test
-var fs = require('fs')
-var path = require('path')
-var tmpDir = require('os-tmpdir')
-var sinon = require('sinon')
-var QRCode = require('lib')
-var Helpers = require('test/helpers')
-var StreamMock = require('test/mocks/writable-stream')
+const test = require('tap').test
+const fs = require('fs')
+const path = require('path')
+const os = require('os')
+const sinon = require('sinon')
+const QRCode = require('lib')
+const Helpers = require('test/helpers')
+const StreamMock = require('test/mocks/writable-stream')
 
 test('toFile - no promise available', function (t) {
   Helpers.removeNativePromise()
-  var fileName = path.join(tmpDir(), 'qrimage.png')
+  const fileName = path.join(os.tmpdir(), 'qrimage.png')
 
   t.throw(function () { QRCode.toFile(fileName, 'some text') },
     'Should throw if a callback is not provided')
@@ -23,7 +23,7 @@ test('toFile - no promise available', function (t) {
 })
 
 test('toFile', function (t) {
-  var fileName = path.join(tmpDir(), 'qrimage.png')
+  const fileName = path.join(os.tmpdir(), 'qrimage.png')
 
   t.throw(function () { QRCode.toFile('some text', function () {}) },
     'Should throw if path is not provided')
@@ -38,8 +38,8 @@ test('toFile', function (t) {
 })
 
 test('toFile png', function (t) {
-  var fileName = path.join(tmpDir(), 'qrimage.png')
-  var expectedBase64Output = [
+  const fileName = path.join(os.tmpdir(), 'qrimage.png')
+  const expectedBase64Output = [
     'iVBORw0KGgoAAAANSUhEUgAAAHQAAAB0CAYAAABUmhYnAAAAAklEQVR4AewaftIAAAKzSU',
     'RBVO3BQW7kQAwEwSxC//9y7h55akCQxvYQjIj/scYo1ijFGqVYoxRrlGKNUqxRijVKsUYp',
     '1ijFGqVYoxRrlGKNUqxRijXKxUNJ+EkqdyShU+mS0Kl0SfhJKk8Ua5RijVKsUS5epvKmJD',
@@ -99,9 +99,8 @@ test('toFile png', function (t) {
     })
   })
 
-  var fsStub = sinon.stub(fs, 'createWriteStream')
+  const fsStub = sinon.stub(fs, 'createWriteStream')
   fsStub.returns(new StreamMock().forceErrorOnWrite())
-  fsStub.reset()
 
   QRCode.toFile(fileName, 'i am a pony!', {
     errorCorrectionLevel: 'L'
@@ -119,11 +118,9 @@ test('toFile png', function (t) {
 })
 
 test('toFile svg', function (t) {
-  var fileName = path.join(tmpDir(), 'qrimage.svg')
-  var expectedOutput = fs.readFileSync(
-    path.join(__dirname,
-    '/svg.expected.out'),
-    'UTF-8')
+  const fileName = path.join(os.tmpdir(), 'qrimage.svg')
+  const expectedOutput = fs.readFileSync(
+    path.join(__dirname, '/svg.expected.out'), 'UTF-8')
 
   t.plan(6)
 
@@ -168,8 +165,8 @@ test('toFile svg', function (t) {
 })
 
 test('toFile utf8', function (t) {
-  var fileName = path.join(tmpDir(), 'qrimage.txt')
-  var expectedOutput = [
+  const fileName = path.join(os.tmpdir(), 'qrimage.txt')
+  const expectedOutput = [
     '                                 ',
     '                                 ',
     '    █▀▀▀▀▀█ █ ▄█  ▀ █ █▀▀▀▀▀█    ',
@@ -228,12 +225,12 @@ test('toFile utf8', function (t) {
 })
 
 test('toFile manual segments', function (t) {
-  var fileName = path.join(tmpDir(), 'qrimage.txt')
-  var segs = [
+  const fileName = path.join(os.tmpdir(), 'qrimage.txt')
+  const segs = [
     { data: 'ABCDEFG', mode: 'alphanumeric' },
     { data: '0123456', mode: 'numeric' }
   ]
-  var expectedOutput = [
+  const expectedOutput = [
     '                             ',
     '                             ',
     '    █▀▀▀▀▀█ ██▀██ █▀▀▀▀▀█    ',

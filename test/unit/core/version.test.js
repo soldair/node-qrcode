@@ -1,16 +1,16 @@
-var test = require('tap').test
-var Version = require('core/version')
-var VersionCheck = require('core/version-check')
-var ECLevel = require('core/error-correction-level')
-var Mode = require('core/mode')
-var NumericData = require('core/numeric-data')
-var AlphanumericData = require('core/alphanumeric-data')
-var KanjiData = require('core/kanji-data')
-var ByteData = require('core/byte-data')
+const test = require('tap').test
+const Version = require('core/version')
+const VersionCheck = require('core/version-check')
+const ECLevel = require('core/error-correction-level')
+const Mode = require('core/mode')
+const NumericData = require('core/numeric-data')
+const AlphanumericData = require('core/alphanumeric-data')
+const KanjiData = require('core/kanji-data')
+const ByteData = require('core/byte-data')
 
-var EC_LEVELS = [ECLevel.L, ECLevel.M, ECLevel.Q, ECLevel.H]
+const EC_LEVELS = [ECLevel.L, ECLevel.M, ECLevel.Q, ECLevel.H]
 
-var EXPECTED_NUMERIC_CAPACITY = [
+const EXPECTED_NUMERIC_CAPACITY = [
   [41, 34, 27, 17], [77, 63, 48, 34], [127, 101, 77, 58], [187, 149, 111, 82],
   [255, 202, 144, 106], [322, 255, 178, 139], [370, 293, 207, 154], [461, 365, 259, 202],
   [552, 432, 312, 235], [652, 513, 364, 288], [772, 604, 427, 331], [883, 691, 489, 374],
@@ -23,7 +23,7 @@ var EXPECTED_NUMERIC_CAPACITY = [
   [6153, 4775, 3417, 2625], [6479, 5039, 3599, 2735], [6743, 5313, 3791, 2927], [7089, 5596, 3993, 3057]
 ]
 
-var EXPECTED_ALPHANUMERIC_CAPACITY = [
+const EXPECTED_ALPHANUMERIC_CAPACITY = [
   [25, 20, 16, 10], [47, 38, 29, 20], [77, 61, 47, 35], [114, 90, 67, 50],
   [154, 122, 87, 64], [195, 154, 108, 84], [224, 178, 125, 93], [279, 221, 157, 122],
   [335, 262, 189, 143], [395, 311, 221, 174], [468, 366, 259, 200], [535, 419, 296, 227],
@@ -36,7 +36,7 @@ var EXPECTED_ALPHANUMERIC_CAPACITY = [
   [3729, 2894, 2071, 1591], [3927, 3054, 2181, 1658], [4087, 3220, 2298, 1774], [4296, 3391, 2420, 1852]
 ]
 
-var EXPECTED_KANJI_CAPACITY = [
+const EXPECTED_KANJI_CAPACITY = [
   [10, 8, 7, 4], [20, 16, 12, 8], [32, 26, 20, 15], [48, 38, 28, 21],
   [65, 52, 37, 27], [82, 65, 45, 36], [95, 75, 53, 39], [118, 93, 66, 52],
   [141, 111, 80, 60], [167, 131, 93, 74], [198, 155, 109, 85], [226, 177, 125, 96],
@@ -49,7 +49,7 @@ var EXPECTED_KANJI_CAPACITY = [
   [1577, 1224, 876, 673], [1661, 1292, 923, 701], [1729, 1362, 972, 750], [1817, 1435, 1024, 784]
 ]
 
-var EXPECTED_BYTE_CAPACITY = [
+const EXPECTED_BYTE_CAPACITY = [
   [17, 14, 11, 7], [32, 26, 20, 14], [53, 42, 32, 24], [78, 62, 46, 34],
   [106, 84, 60, 44], [134, 106, 74, 58], [154, 122, 86, 64], [192, 152, 108, 84],
   [230, 180, 130, 98], [271, 213, 151, 119], [321, 251, 177, 137], [367, 287, 203, 155],
@@ -62,7 +62,7 @@ var EXPECTED_BYTE_CAPACITY = [
   [2563, 1989, 1423, 1093], [2699, 2099, 1499, 1139], [2809, 2213, 1579, 1219], [2953, 2331, 1663, 1273]
 ]
 
-var EXPECTED_VERSION_BITS = [
+const EXPECTED_VERSION_BITS = [
   0x07C94, 0x085BC, 0x09A99, 0x0A4D3, 0x0BBF6, 0x0C762, 0x0D847, 0x0E60D,
   0x0F928, 0x10B78, 0x1145D, 0x12A17, 0x13532, 0x149A6, 0x15683, 0x168C9,
   0x177EC, 0x18EC4, 0x191E1, 0x1AFAB, 0x1B08E, 0x1CC1A, 0x1D33F, 0x1ED75,
@@ -94,8 +94,8 @@ test('Version capacity', function (t) {
   t.throws(function () { Version.getCapacity(0) }, 'Should throw if version is not in range')
   t.throws(function () { Version.getCapacity(41) }, 'Should throw if version is not in range')
 
-  for (var l = 0; l < EC_LEVELS.length; l++) {
-    for (var i = 1; i <= 40; i++) {
+  for (let l = 0; l < EC_LEVELS.length; l++) {
+    for (let i = 1; i <= 40; i++) {
       t.equal(Version.getCapacity(i, EC_LEVELS[l], Mode.NUMERIC),
         EXPECTED_NUMERIC_CAPACITY[i - 1][l], 'Should return correct numeric mode capacity')
 
@@ -118,10 +118,10 @@ test('Version capacity', function (t) {
 
 test('Version best match', function (t) {
   function testBestVersionForCapacity (expectedCapacity, DataCtor) {
-    for (var v = 0; v < 40; v++) {
-      for (var l = 0; l < EC_LEVELS.length; l++) {
-        var capacity = expectedCapacity[v][l]
-        var data = new DataCtor(new Array(capacity + 1).join('-'))
+    for (let v = 0; v < 40; v++) {
+      for (let l = 0; l < EC_LEVELS.length; l++) {
+        const capacity = expectedCapacity[v][l]
+        const data = new DataCtor(new Array(capacity + 1).join('-'))
 
         t.equal(Version.getBestVersionForData(data, EC_LEVELS[l]), v + 1, 'Should return best version')
         t.equal(Version.getBestVersionForData([data], EC_LEVELS[l]), v + 1, 'Should return best version')
@@ -135,10 +135,10 @@ test('Version best match', function (t) {
       }
     }
 
-    for (var i = 0; i < EC_LEVELS.length; i++) {
-      var exceededCapacity = expectedCapacity[39][i] + 1
-      var tooBigData = new DataCtor(new Array(exceededCapacity + 1).join('-'))
-      var tooBigDataArray = [
+    for (let i = 0; i < EC_LEVELS.length; i++) {
+      const exceededCapacity = expectedCapacity[39][i] + 1
+      const tooBigData = new DataCtor(new Array(exceededCapacity + 1).join('-'))
+      const tooBigDataArray = [
         new DataCtor(new Array(Math.floor(exceededCapacity / 2)).join('-')),
         new DataCtor(new Array(Math.floor(exceededCapacity / 2) + 1).join('-'))
       ]
@@ -167,7 +167,7 @@ test('Version best match', function (t) {
 })
 
 test('Version encoded info', function (t) {
-  var v
+  let v
 
   for (v = 0; v < 7; v++) {
     t.throws(function () { Version.getEncodedBits(v) },
@@ -175,7 +175,7 @@ test('Version encoded info', function (t) {
   }
 
   for (v = 7; v <= 40; v++) {
-    var bch = Version.getEncodedBits(v)
+    const bch = Version.getEncodedBits(v)
     t.equal(bch, EXPECTED_VERSION_BITS[v - 7], 'Should return correct bits')
   }
 

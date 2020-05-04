@@ -1,11 +1,11 @@
-var test = require('tap').test
-var BitMatrix = require('core/bit-matrix')
+const test = require('tap').test
+const BitMatrix = require('core/bit-matrix')
 
 test('Bit Matrix', function (t) {
   t.throw(function () { BitMatrix(0) }, 'Should throw if size is 0')
   t.throw(function () { BitMatrix(-1) }, 'Should throw if size less than 0')
 
-  var bm = new BitMatrix(2)
+  const bm = new BitMatrix(2)
 
   t.equal(bm.size, 2, 'Should have correct size')
   t.equal(bm.data.length, 4, 'Should correctly set buffer size')

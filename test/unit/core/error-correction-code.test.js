@@ -1,21 +1,21 @@
-var test = require('tap').test
-var Utils = require('core/utils')
-var Version = require('core/version')
-var ECLevel = require('core/error-correction-level')
-var ECCode = require('core/error-correction-code')
-var Mode = require('core/mode')
+const test = require('tap').test
+const Utils = require('core/utils')
+const Version = require('core/version')
+const ECLevel = require('core/error-correction-level')
+const ECCode = require('core/error-correction-code')
+const Mode = require('core/mode')
 
 test('Error correction codewords', function (t) {
-  var levels = [ECLevel.L, ECLevel.M, ECLevel.Q, ECLevel.H]
+  const levels = [ECLevel.L, ECLevel.M, ECLevel.Q, ECLevel.H]
 
-  for (var v = 1; v <= 40; v++) {
-    var totalCodewords = Utils.getSymbolTotalCodewords(v)
-    var reservedByte = Math.ceil((Mode.getCharCountIndicator(Mode.BYTE, v) + 4) / 8)
+  for (let v = 1; v <= 40; v++) {
+    const totalCodewords = Utils.getSymbolTotalCodewords(v)
+    const reservedByte = Math.ceil((Mode.getCharCountIndicator(Mode.BYTE, v) + 4) / 8)
 
-    for (var l = 0; l < levels.length; l++) {
-      var dataCodewords = Version.getCapacity(v, levels[l], Mode.BYTE) + reservedByte
+    for (let l = 0; l < levels.length; l++) {
+      const dataCodewords = Version.getCapacity(v, levels[l], Mode.BYTE) + reservedByte
 
-      var expectedCodewords = totalCodewords - dataCodewords
+      const expectedCodewords = totalCodewords - dataCodewords
 
       t.equal(ECCode.getTotalCodewordsCount(v, levels[l]), expectedCodewords,
         'Should return correct codewords number')
@@ -29,10 +29,10 @@ test('Error correction codewords', function (t) {
 })
 
 test('Error correction blocks', function (t) {
-  var levels = [ECLevel.L, ECLevel.M, ECLevel.Q, ECLevel.H]
+  const levels = [ECLevel.L, ECLevel.M, ECLevel.Q, ECLevel.H]
 
-  for (var v = 1; v <= 40; v++) {
-    for (var l = 0; l < levels.length; l++) {
+  for (let v = 1; v <= 40; v++) {
+    for (let l = 0; l < levels.length; l++) {
       t.ok(ECCode.getBlocksCount(v, levels[l]), 'Should return a positive number')
     }
   }

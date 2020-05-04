@@ -1,7 +1,7 @@
-var test = require('tap').test
-var sinon = require('sinon')
-var QRCode = require('lib')
-var StreamMock = require('../mocks/writable-stream')
+const test = require('tap').test
+const sinon = require('sinon')
+const QRCode = require('lib')
+const StreamMock = require('../mocks/writable-stream')
 
 test('toFileStream png', function (t) {
   t.throw(function () { QRCode.toFileStream('some text') },
@@ -10,8 +10,8 @@ test('toFileStream png', function (t) {
   t.throw(function () { QRCode.toFileStream(new StreamMock()) },
     'Should throw if text is not provided')
 
-  var fstream = new StreamMock()
-  var spy = sinon.spy(fstream, 'emit')
+  const fstream = new StreamMock()
+  const spy = sinon.spy(fstream, 'emit')
 
   QRCode.toFileStream(fstream, 'i am a pony!')
 
@@ -27,7 +27,7 @@ test('toFileStream png', function (t) {
 })
 
 test('toFileStream png with write error', function (t) {
-  var fstreamErr = new StreamMock().forceErrorOnWrite()
+  const fstreamErr = new StreamMock().forceErrorOnWrite()
   QRCode.toFileStream(fstreamErr, 'i am a pony!')
 
   t.plan(2)
@@ -38,8 +38,8 @@ test('toFileStream png with write error', function (t) {
 })
 
 test('toFileStream png with qrcode error', function (t) {
-  var fstreamErr = new StreamMock()
-  var bigString = Array(200).join('i am a pony!')
+  const fstreamErr = new StreamMock()
+  const bigString = Array(200).join('i am a pony!')
 
   t.plan(2)
 

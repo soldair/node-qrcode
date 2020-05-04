@@ -1,7 +1,7 @@
-var spawn = require('child_process').spawn
-var path = require('path')
+const spawn = require('child_process').spawn
+const path = require('path')
 
-var opt = {
+const opt = {
   cwd: __dirname,
   env: (function () {
     process.env.NODE_PATH = './' + path.delimiter + './lib'

@@ -1,8 +1,8 @@
-var test = require('tap').test
-var QRCode = require('lib')
-var QRCodeBrowser = require('lib/browser')
-var Canvas = require('canvas')
-var Helpers = require('test/helpers')
+const test = require('tap').test
+const QRCode = require('lib')
+const QRCodeBrowser = require('lib/browser')
+const { createCanvas } = require('canvas')
+const Helpers = require('test/helpers')
 
 test('toDataURL - no promise available', function (t) {
   Helpers.removeNativePromise()
@@ -37,7 +37,7 @@ test('toDataURL - no promise available', function (t) {
 })
 
 test('toDataURL - image/png', function (t) {
-  var expectedDataURL = [
+  const expectedDataURL = [
     'data:image/png;base64,',
     'iVBORw0KGgoAAAANSUhEUgAAAHQAAAB0CAYAAABUmhYnAAAAAklEQVR4AewaftIAAAKzSU',
     'RBVO3BQW7kQAwEwSxC//9y7h55akCQxvYQjIj/scYo1ijFGqVYoxRrlGKNUqxRijVKsUYp',
@@ -99,7 +99,7 @@ test('toDataURL - image/png', function (t) {
 })
 
 test('Canvas toDataURL - image/png', function (t) {
-  var expectedDataURL = [
+  const expectedDataURL = [
     'data:image/png;base64,',
     'iVBORw0KGgoAAAANSUhEUgAAAIQAAACECAYAAABRRIOnAAAABmJLR0QA/wD/AP+gvaeTAA',
     'AC20lEQVR4nO3dQY7jMAwEwM1i///lzGUurYtWEEknQNV1EidjNGhFpuTX+/1+/4Fff5/+',
@@ -124,9 +124,9 @@ test('Canvas toDataURL - image/png', function (t) {
     'Should throw if no arguments are provided')
 
   t.throw(function () { QRCodeBrowser.toDataURL(function () {}) },
-      'Should throw if text is not provided')
+    'Should throw if text is not provided')
 
-  var canvas = new Canvas(200, 200)
+  const canvas = createCanvas(200, 200)
   QRCodeBrowser.toDataURL(canvas, 'i am a pony!', {
     errorCorrectionLevel: 'H',
     type: 'image/png'
@@ -163,7 +163,7 @@ test('Canvas toDataURL - image/png', function (t) {
   global.document = {
     createElement: function (el) {
       if (el === 'canvas') {
-        return new Canvas(200, 200)
+        return createCanvas(200, 200)
       }
     }
   }

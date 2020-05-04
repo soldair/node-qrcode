@@ -1,5 +1,5 @@
-var stream = require('stream')
-var util = require('util')
+const stream = require('stream')
+const util = require('util')
 
 function WritableStream () {
   stream.Writable.call(this)
