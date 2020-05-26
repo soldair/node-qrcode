@@ -84,12 +84,6 @@ var argv = yargs
     implies: 'output',
     group: 'Renderer options:'
   })
-  .option('small', {
-    type: 'boolean',
-    description: 'Output smaller QR code to terminal',
-    conflicts: 'type',
-    group: 'Renderer options:'
-  })
   .option('i', {
     alias: 'inverse',
     type: 'boolean',
@@ -124,6 +118,12 @@ var argv = yargs
   .option('d', {
     alias: 'darkcolor',
     description: 'Dark RGBA hex color',
+    group: 'Renderer options:'
+  })
+  .option('small', {
+    type: 'boolean',
+    description: 'Output smaller QR code to terminal',
+    conflicts: 'type',
     group: 'Renderer options:'
   })
   .option('o', {

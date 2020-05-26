@@ -61,8 +61,6 @@ Renderer options:
   -q, --qzone       Quiet zone size                                     [number]
   -l, --lightcolor  Light RGBA hex color
   -d, --darkcolor   Dark RGBA hex color
-
-Terminal options:
   --small  Output smaller QR code to terminal                          [boolean]
 
 Options:
