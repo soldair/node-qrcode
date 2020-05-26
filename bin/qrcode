@@ -30,6 +30,8 @@ function parseOptions (args) {
     version: args.qversion,
     errorCorrectionLevel: args.error,
     type: args.type,
+    small: !!args.small,
+    inverse: !!args.inverse,
     maskPattern: args.mask,
     margin: args.qzone,
     width: args.width,
@@ -80,6 +82,18 @@ var argv = yargs
     description: 'Output type',
     choices: ['png', 'svg', 'utf8'],
     implies: 'output',
+    group: 'Renderer options:'
+  })
+  .option('small', {
+    type: 'boolean',
+    description: 'Output smaller QR code to terminal',
+    conflicts: 'type',
+    group: 'Renderer options:'
+  })
+  .option('i', {
+    alias: 'inverse',
+    type: 'boolean',
+    description: 'Invert colors',
     group: 'Renderer options:'
   })
   .option('w', {
