@@ -61,6 +61,7 @@ Renderer options:
   -q, --qzone       Quiet zone size                                     [number]
   -l, --lightcolor  Light RGBA hex color
   -d, --darkcolor   Dark RGBA hex color
+  --small  Output smaller QR code to terminal                          [boolean]
 
 Options:
   -o, --output  Output file
@@ -724,6 +725,12 @@ See [Options](#options).
   Default: `4`
 
   Scale factor. A value of `1` means 1px per modules (black dots).
+
+##### `small`
+  Type: `Boolean`<br>
+  Default: `false`
+
+  Relevant only for terminal renderer. Outputs smaller QR code.
 
 ##### `width`
   Type: `Number`<br>
