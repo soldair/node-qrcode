@@ -92,7 +92,7 @@ test('PNG renderToFile', function (t) {
   let fsStub = sinon.stub(fs, 'createWriteStream')
   fsStub.returns(new StreamMock())
 
-  t.plan(6)
+  t.plan(5)
 
   PngRenderer.renderToFile(fileName, sampleQrData, function (err) {
     t.ok(!err,

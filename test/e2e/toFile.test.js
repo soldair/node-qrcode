@@ -56,7 +56,7 @@ test('toFile png', function (t) {
     'qVO5LQqTxRrFGKNUqxRon/scYo1ijFGqVYoxRrlGKNUqxRijVKsUYp1ijFGqVYoxRrlGKN',
     'UqxRijXKP0OHEepgrecVAAAAAElFTkSuQmCC'].join('')
 
-  t.plan(9)
+  t.plan(8)
 
   QRCode.toFile(fileName, 'i am a pony!', {
     errorCorrectionLevel: 'L'
