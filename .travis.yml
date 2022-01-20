@@ -1,7 +1,0 @@
-language: node_js
-dist: bionic
-node_js:
-  - '10.13.0'
-  - '10'
-  - '12'
-  - 'node'
