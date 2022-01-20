@@ -24,7 +24,7 @@
     "lib",
     "helper"
   ],
-  "homepage": "http://github.com/soldair/node-qrcode",
+  "homepage": "https://github.com/soldair/node-qrcode",
   "license": "MIT",
   "scripts": {
     "lint": "standard",
