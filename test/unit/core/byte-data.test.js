@@ -3,7 +3,7 @@ const BitBuffer = require('core/bit-buffer')
 const ByteData = require('core/byte-data')
 const Mode = require('core/mode')
 
-test('Byte Data', function (t) {
+test('Byte Data: String Input', function (t) {
   const text = '1234'
   const textBitLength = 32
   const textByte = [49, 50, 51, 52] // 1, 2, 3, 4
@@ -21,6 +21,20 @@ test('Byte Data', function (t) {
 
   const byteDataUtf8 = new ByteData(utf8Text)
   t.equal(byteDataUtf8.getLength(), 12, 'Should return correct length for utf8 chars')
+
+  t.end()
+})
+
+test('Byte Data: Byte Input', function (t) {
+  const bytes = new Uint8ClampedArray([1, 231, 32, 22])
+
+  const byteData = new ByteData(bytes)
+  t.equal(byteData.getLength(), bytes.length, 'Should return correct length')
+  t.equal(byteData.getBitsLength(), bytes.length * 8, 'Should return correct bit length')
+
+  const bitBuffer = new BitBuffer()
+  byteData.write(bitBuffer)
+  t.deepEqual(bitBuffer.buffer, bytes, 'Should write correct data to buffer')
 
   t.end()
 })
