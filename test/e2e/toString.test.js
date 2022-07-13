@@ -231,3 +231,31 @@ test('toString terminal', function (t) {
     t.equal(code + '\n', expectedTerminal, 'should output a valid symbol (promise)')
   })
 })
+
+test('toString byte-input', function (t) {
+  const expectedOutput = [
+    '                             ',
+    '                             ',
+    '    █▀▀▀▀▀█  █▄█▀ █▀▀▀▀▀█    ',
+    '    █ ███ █ ▀█ █▀ █ ███ █    ',
+    '    █ ▀▀▀ █   ▀ █ █ ▀▀▀ █    ',
+    '    ▀▀▀▀▀▀▀ █▄▀▄█ ▀▀▀▀▀▀▀    ',
+    '    ▀██▄██▀▀▀█▀▀ ▀█  ▄▀▄     ',
+    '    ▀█▀▄█▄▀▄ ██ ▀ ▄ ▀▄  ▀    ',
+    '    ▀ ▀ ▀▀▀▀█▄ ▄▀▄▀▄▀▄▀▄▀    ',
+    '    █▀▀▀▀▀█ █  █▄█▀█▄█  ▀    ',
+    '    █ ███ █ ▀█▀▀ ▀██  ▀█▀    ',
+    '    █ ▀▀▀ █ ██▀ ▀ ▄ ▀▄▀▄▀    ',
+    '    ▀▀▀▀▀▀▀ ▀▀▀ ▀ ▀▀▀ ▀▀▀    ',
+    '                             ',
+    '                             '
+  ].join('\n')
+  const byteInput = new Uint8ClampedArray([1, 2, 3, 4, 5])
+
+  t.plan(2)
+
+  QRCode.toString([{ data: byteInput, mode: 'byte' }], { errorCorrectionLevel: 'L' }, (err, code) => {
+    t.ok(!err, 'there should be no error')
+    t.equal(code, expectedOutput, 'should output the correct code')
+  })
+})
