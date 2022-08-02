@@ -13,6 +13,10 @@ export default [{
   output: { file: 'build/qrcode.js', format: 'iife', name: 'QRCode', exports: 'named' },
   plugins: [commonjs(), resolve(), babel(babelConfig), terser()]
 }, {
+  input: 'lib/browser.js',
+  output: { file: 'build/qrcode-esm.js', format: 'esm' },
+  plugins: [commonjs(), resolve(), babel(babelConfig), terser()]
+}, {
   input: 'helper/to-sjis-browser.js',
   output: { file: 'build/qrcode.tosjis.js', format: 'iife', exports: 'none' },
   plugins: [commonjs(), resolve(), babel(babelConfig), terser()]
