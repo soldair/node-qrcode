@@ -350,8 +350,6 @@ QRCode.toFile(
 )
 ```
 
-TypeScript users: if you are using [@types/qrcode](https://www.npmjs.com/package/@types/qrcode), you will need to add a `// @ts-ignore` above the data segment because it expects `data: string`.
-
 ## Multibyte characters
 Support for multibyte characters isn't present in the initial QR Code standard, but is possible to encode UTF-8 characters in Byte mode.
 
