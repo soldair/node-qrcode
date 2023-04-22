@@ -1,5 +1,6 @@
-*~
-node_modules
-coverage
-.nyc_output
-build
+node_modules/
+coverage/
+.nyc_output/
+build/
+.idea/
+.DS_Store
