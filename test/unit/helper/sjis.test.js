@@ -14,5 +14,20 @@ test('SJIS from char', function (t) {
   t.equal(toSJIS('￢'), 0x81ca,
     'Should return correct SJIS value')
 
+  t.equal(toSJIS('≧'), 0x8186,
+    'Should return correct SJIS value')
+
+  t.equal(toSJIS('⊥'), 0x81db,
+    'Should return correct SJIS value')
+
+  t.equal(toSJIS('愛'), 0x88a4,
+    'Should return correct SJIS value')
+
+  t.equal(toSJIS('衣'), 0x88df,
+    'Should return correct SJIS value')
+
+  t.equal(toSJIS('蔭'), 0x88fc,
+    'Should return correct SJIS value')
+
   t.end()
 })
