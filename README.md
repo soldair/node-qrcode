@@ -142,7 +142,7 @@ QRCode.toString('I am a pony!',{type:'terminal'}, function (err, url) {
 Promises and Async/Await can be used in place of callback function.
 
 ```javascript
-import QRCode from 'qrcode'
+import * as QRCode from 'qrcode'
 
 // With promises
 QRCode.toDataURL('I am a pony!')
