@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "dijkstrajs": "^1.0.1",
-    "pngjs": "^5.0.0",
+    "pngjs": "^6.0.0",
     "yargs": "^15.3.1"
   },
   "devDependencies": {
@@ -65,7 +65,7 @@
     "url": "git://github.com/soldair/node-qrcode.git"
   },
   "engines": {
-    "node": ">=10.13.0"
+    "node": ">=12.13.0"
   },
   "standard": {
     "ignore": [
