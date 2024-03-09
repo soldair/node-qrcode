@@ -352,6 +352,21 @@ QRCode.toFile(
 
 TypeScript users: if you are using [@types/qrcode](https://www.npmjs.com/package/@types/qrcode), you will need to add a `// @ts-ignore` above the data segment because it expects `data: string`.
 
+## How To Save The QRcode as a PNG to your local Directory
+```javascript
+const QRCode = require('qrcode');
+const fs = require('fs');
+
+//The png is hence generated and stored under the images directory
+QRCode.toFile('./images/qrcode.png', 'I am a pony!', function (err, url) {
+  if (err) {
+    console.error(err);
+    return;
+  }
+  console.log('QR code image saved as qrcode.png');
+});
+```
+
 ## Multibyte characters
 Support for multibyte characters isn't present in the initial QR Code standard, but is possible to encode UTF-8 characters in Byte mode.
 
