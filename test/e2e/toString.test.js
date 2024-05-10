@@ -120,6 +120,24 @@ test('toString svg', function (t) {
   })
 })
 
+test('toString scaled svg', function (t) {
+  const file = path.join(__dirname, '/svgtag.scaled.expected.out')
+  t.plan(2)
+
+  fs.readFile(file, 'utf8', function (err, expectedSvg) {
+    if (err) throw err
+
+    QRCode.toString('http://www.google.com', {
+      errorCorrectionLevel: 'H',
+      type: 'svg',
+      scale: 1
+    }, function (err, code) {
+      t.ok(!err, 'There should be no error')
+      t.equal(code, expectedSvg, 'should output a valid svg')
+    })
+  })
+})
+
 test('toString browser svg', function (t) {
   const file = path.join(__dirname, '/svgtag.expected.out')
 
