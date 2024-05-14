@@ -18,6 +18,7 @@
     "./lib/index.js": "./lib/browser.js",
     "fs": false
   },
+  "module": "./dist/qrcode.esm.js",
   "files": [
     "bin",
     "build",
