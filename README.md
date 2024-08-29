@@ -1,10 +1,10 @@
 # node-qrcode
 > QR code/2d barcode generator.
 
-[![Travis](https://img.shields.io/travis/soldair/node-qrcode.svg?style=flat-square)](http://travis-ci.org/soldair/node-qrcode)
-[![npm](https://img.shields.io/npm/v/qrcode.svg?style=flat-square)](https://www.npmjs.com/package/qrcode)
-[![npm](https://img.shields.io/npm/dt/qrcode.svg?style=flat-square)](https://www.npmjs.com/package/qrcode)
-[![npm](https://img.shields.io/npm/l/qrcode.svg?style=flat-square)](https://github.com/soldair/node-qrcode/blob/master/license)
+[![ci](https://github.com/soldair/node-qrcode/workflows/ci/badge.svg)](https://github.com/soldair/node-qrcode/actions)
+[![npm](https://img.shields.io/npm/v/qrcode.svg)](https://www.npmjs.com/package/qrcode)
+[![npm](https://img.shields.io/npm/dt/qrcode.svg)](https://www.npmjs.com/package/qrcode)
+[![npm](https://img.shields.io/npm/l/qrcode.svg)](https://github.com/soldair/node-qrcode/blob/master/license)
 
 - [Highlights](#highlights)
 - [Installation](#installation)
