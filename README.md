@@ -299,8 +299,8 @@ With precompiled bundle:
 ```html
 <canvas id="canvas"></canvas>
 
-<script src="/build/qrcode.min.js"></script>
-<script src="/build/qrcode.tosjis.min.js"></script>
+<script src="/build/qrcode.js"></script>
+<script src="/build/qrcode.tosjis.js"></script>
 <script>
   QRCode.toCanvas(document.getElementById('canvas'),
     'sample text', { toSJISFunc: QRCode.toSJIS }, function (error) {
@@ -349,8 +349,6 @@ QRCode.toFile(
   ...callback...
 )
 ```
-
-TypeScript users: if you are using [@types/qrcode](https://www.npmjs.com/package/@types/qrcode), you will need to add a `// @ts-ignore` above the data segment because it expects `data: string`.
 
 ## Multibyte characters
 Support for multibyte characters isn't present in the initial QR Code standard, but is possible to encode UTF-8 characters in Byte mode.
@@ -480,11 +478,13 @@ Callback function called on finish.
 var opts = {
   errorCorrectionLevel: 'H',
   type: 'image/jpeg',
-  quality: 0.3,
   margin: 1,
   color: {
-    dark:"#010599FF",
-    light:"#FFBF60FF"
+    dark: "#010599FF",
+    light: "#FFBF60FF"
+  },
+  rendererOpts: {
+    quality: 0.3
   }
 }
 
