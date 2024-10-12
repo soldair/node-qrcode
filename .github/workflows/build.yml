@@ -1,0 +1,47 @@
+name: build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node: [ 18 ]
+      fail-fast: false
+
+    steps:
+    - name: checkout
+      uses: actions/checkout@v4
+
+    - name: setup node
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node }}
+
+    - name: install canvas dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
+
+    - name: npm ci
+      run: npm ci
+
+    - name: npm run build
+      run: npm run build
+
+    - name: npm test
+      run: npm test
+
+    - name: npm pack
+      run: npm pack
+
+    - name: upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+          name: qrcode_nodejs_${{ matrix.node }}
+          path: '*.tgz'
+          compression-level: 0
