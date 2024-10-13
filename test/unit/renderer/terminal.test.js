@@ -65,7 +65,7 @@ test('TerminalRenderer render small', function (t) {
   t.type(str, 'string',
     'Should return a string')
 
-  t.equal(calledCallback, true, 'string',
+  t.equal(calledCallback, true,
     'Should call a callback')
 
   t.notThrow(function () {
