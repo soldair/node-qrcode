@@ -7,28 +7,28 @@ const Helpers = require('test/helpers')
 test('toDataURL - no promise available', function (t) {
   Helpers.removeNativePromise()
 
-  t.throw(function () { QRCode.toDataURL() },
+  t.throws(function () { QRCode.toDataURL() },
     'Should throw if no arguments are provided')
 
-  t.throw(function () { QRCode.toDataURL(function () {}) },
+  t.throws(function () { QRCode.toDataURL(function () {}) },
     'Should throw if text is not provided')
 
-  t.throw(function () { QRCode.toDataURL('some text') },
+  t.throws(function () { QRCode.toDataURL('some text') },
     'Should throw if a callback is not provided')
 
-  t.throw(function () { QRCode.toDataURL('some text', {}) },
+  t.throws(function () { QRCode.toDataURL('some text', {}) },
     'Should throw if a callback is not a function')
 
-  t.throw(function () { QRCodeBrowser.toDataURL() },
+  t.throws(function () { QRCodeBrowser.toDataURL() },
     'Should throw if no arguments are provided (browser)')
 
-  t.throw(function () { QRCodeBrowser.toDataURL(function () {}) },
+  t.throws(function () { QRCodeBrowser.toDataURL(function () {}) },
     'Should throw if text is not provided (browser)')
 
-  t.throw(function () { QRCodeBrowser.toDataURL('some text') },
+  t.throws(function () { QRCodeBrowser.toDataURL('some text') },
     'Should throw if a callback is not provided (browser)')
 
-  t.throw(function () { QRCodeBrowser.toDataURL('some text', {}) },
+  t.throws(function () { QRCodeBrowser.toDataURL('some text', {}) },
     'Should throw if a callback is not a function (browser)')
 
   t.end()
@@ -57,7 +57,7 @@ test('toDataURL - image/png', function (t) {
 
   t.plan(8)
 
-  t.throw(function () { QRCode.toDataURL() },
+  t.throws(function () { QRCode.toDataURL() },
     'Should throw if no arguments are provided')
 
   QRCode.toDataURL('i am a pony!', {
@@ -65,7 +65,7 @@ test('toDataURL - image/png', function (t) {
     type: 'image/png'
   }, function (err, url) {
     t.ok(!err, 'there should be no error ' + err)
-    t.equals(url, expectedDataURL,
+    t.equal(url, expectedDataURL,
       'url should match expected value for error correction L')
   })
 
@@ -78,14 +78,14 @@ test('toDataURL - image/png', function (t) {
     t.notOk(url, 'url should be null')
   })
 
-  t.equals(typeof QRCode.toDataURL('i am a pony!').then, 'function',
+  t.equal(typeof QRCode.toDataURL('i am a pony!').then, 'function',
     'Should return a promise')
 
   QRCode.toDataURL('i am a pony!', {
     errorCorrectionLevel: 'L',
     type: 'image/png'
   }).then(function (url) {
-    t.equals(url, expectedDataURL,
+    t.equal(url, expectedDataURL,
       'url should match expected value for error correction L (promise)')
   })
 
@@ -120,10 +120,10 @@ test('Canvas toDataURL - image/png', function (t) {
 
   t.plan(11)
 
-  t.throw(function () { QRCodeBrowser.toDataURL() },
+  t.throws(function () { QRCodeBrowser.toDataURL() },
     'Should throw if no arguments are provided')
 
-  t.throw(function () { QRCodeBrowser.toDataURL(function () {}) },
+  t.throws(function () { QRCodeBrowser.toDataURL(function () {}) },
     'Should throw if text is not provided')
 
   const canvas = createCanvas(200, 200)
@@ -132,7 +132,7 @@ test('Canvas toDataURL - image/png', function (t) {
     type: 'image/png'
   }, function (err, url) {
     t.ok(!err, 'there should be no error ' + err)
-    t.equals(url, expectedDataURL, 'url generated should match expected value')
+    t.equal(url, expectedDataURL, 'url generated should match expected value')
   })
 
   QRCodeBrowser.toDataURL(canvas, 'i am a pony!', {
@@ -148,7 +148,7 @@ test('Canvas toDataURL - image/png', function (t) {
     errorCorrectionLevel: 'H',
     type: 'image/png'
   }).then(function (url) {
-    t.equals(url, expectedDataURL, 'url generated should match expected value (promise)')
+    t.equal(url, expectedDataURL, 'url generated should match expected value (promise)')
   })
 
   QRCodeBrowser.toDataURL(canvas, 'i am a pony!', {
@@ -173,13 +173,13 @@ test('Canvas toDataURL - image/png', function (t) {
     type: 'image/png'
   }, function (err, url) {
     t.ok(!err, 'there should be no error ' + err)
-    t.equals(url, expectedDataURL, 'url generated should match expected value')
+    t.equal(url, expectedDataURL, 'url generated should match expected value')
   })
 
   QRCodeBrowser.toDataURL('i am a pony!', {
     errorCorrectionLevel: 'H',
     type: 'image/png'
   }).then(function (url) {
-    t.equals(url, expectedDataURL, 'url generated should match expected value (promise)')
+    t.equal(url, expectedDataURL, 'url generated should match expected value (promise)')
   })
 })

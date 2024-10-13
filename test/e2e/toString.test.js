@@ -8,22 +8,22 @@ const Helpers = require('test/helpers')
 test('toString - no promise available', function (t) {
   Helpers.removeNativePromise()
 
-  t.throw(function () { QRCode.toString() },
+  t.throws(function () { QRCode.toString() },
     'Should throw if text is not provided')
 
-  t.throw(function () { QRCode.toString('some text') },
+  t.throws(function () { QRCode.toString('some text') },
     'Should throw if a callback is not provided')
 
-  t.throw(function () { QRCode.toString('some text', {}) },
+  t.throws(function () { QRCode.toString('some text', {}) },
     'Should throw if a callback is not a function')
 
-  t.throw(function () { QRCode.toString() },
+  t.throws(function () { QRCode.toString() },
     'Should throw if text is not provided (browser)')
 
-  t.throw(function () { browser.toString('some text') },
+  t.throws(function () { browser.toString('some text') },
     'Should throw if a callback is not provided (browser)')
 
-  t.throw(function () { browser.toString('some text', {}) },
+  t.throws(function () { browser.toString('some text', {}) },
     'Should throw if a callback is not a function (browser)')
 
   t.end()
@@ -34,21 +34,21 @@ test('toString - no promise available', function (t) {
 test('toString', function (t) {
   t.plan(5)
 
-  t.throw(function () { QRCode.toString() },
+  t.throws(function () { QRCode.toString() },
     'Should throw if text is not provided')
 
   QRCode.toString('some text', function (err, str) {
     t.ok(!err, 'There should be no error')
-    t.equals(typeof str, 'string',
+    t.equal(typeof str, 'string',
       'Should return a string')
   })
 
-  t.equals(typeof QRCode.toString('some text').then, 'function',
+  t.equal(typeof QRCode.toString('some text').then, 'function',
     'Should return a promise')
 
   QRCode.toString('some text', { errorCorrectionLevel: 'L' })
     .then(function (str) {
-      t.equals(typeof str, 'string',
+      t.equal(typeof str, 'string',
         'Should return a string')
     })
 })
@@ -56,21 +56,21 @@ test('toString', function (t) {
 test('toString (browser)', function (t) {
   t.plan(5)
 
-  t.throw(function () { browser.toString() },
+  t.throws(function () { browser.toString() },
     'Should throw if text is not provided')
 
   browser.toString('some text', function (err, str) {
     t.ok(!err, 'There should be no error (browser)')
-    t.equals(typeof str, 'string',
+    t.equal(typeof str, 'string',
       'Should return a string (browser)')
   })
 
-  t.equals(typeof browser.toString('some text').then, 'function',
+  t.equal(typeof browser.toString('some text').then, 'function',
     'Should return a promise')
 
   browser.toString('some text', { errorCorrectionLevel: 'L' })
     .then(function (str) {
-      t.equals(typeof str, 'string',
+      t.equal(typeof str, 'string',
         'Should return a string')
     })
 })

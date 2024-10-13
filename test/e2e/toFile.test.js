@@ -11,10 +11,10 @@ test('toFile - no promise available', function (t) {
   Helpers.removeNativePromise()
   const fileName = path.join(os.tmpdir(), 'qrimage.png')
 
-  t.throw(function () { QRCode.toFile(fileName, 'some text') },
+  t.throws(function () { QRCode.toFile(fileName, 'some text') },
     'Should throw if a callback is not provided')
 
-  t.throw(function () { QRCode.toFile(fileName, 'some text', {}) },
+  t.throws(function () { QRCode.toFile(fileName, 'some text', {}) },
     'Should throw if a callback is not a function')
 
   t.end()
@@ -25,10 +25,10 @@ test('toFile - no promise available', function (t) {
 test('toFile', function (t) {
   const fileName = path.join(os.tmpdir(), 'qrimage.png')
 
-  t.throw(function () { QRCode.toFile('some text', function () {}) },
+  t.throws(function () { QRCode.toFile('some text', function () {}) },
     'Should throw if path is not provided')
 
-  t.throw(function () { QRCode.toFile(fileName) },
+  t.throws(function () { QRCode.toFile(fileName) },
     'Should throw if text is not provided')
 
   t.equal(typeof QRCode.toFile(fileName, 'some text').then, 'function',

@@ -20,11 +20,11 @@ test('Kanji Data', function (t) {
 
   let bitBuffer = new BitBuffer()
   kanjiData.write(bitBuffer)
-  t.deepEqual(bitBuffer.buffer, dataBit, 'Should write correct data to buffer')
+  t.same(bitBuffer.buffer, dataBit, 'Should write correct data to buffer')
 
   kanjiData = new KanjiData('abc')
   bitBuffer = new BitBuffer()
-  t.throw(function () { kanjiData.write(bitBuffer) }, 'Should throw if data is invalid')
+  t.throws(function () { kanjiData.write(bitBuffer) }, 'Should throw if data is invalid')
 
   t.end()
 })

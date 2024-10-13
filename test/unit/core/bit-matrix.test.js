@@ -2,8 +2,8 @@ const test = require('tap').test
 const BitMatrix = require('core/bit-matrix')
 
 test('Bit Matrix', function (t) {
-  t.throw(function () { BitMatrix(0) }, 'Should throw if size is 0')
-  t.throw(function () { BitMatrix(-1) }, 'Should throw if size less than 0')
+  t.throws(function () { BitMatrix(0) }, 'Should throw if size is 0')
+  t.throws(function () { BitMatrix(-1) }, 'Should throw if size less than 0')
 
   const bm = new BitMatrix(2)
 

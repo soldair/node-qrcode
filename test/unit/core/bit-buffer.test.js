@@ -13,7 +13,7 @@ test('Bit Buffer', function (t) {
   t.equal(bitBuffer.getLengthInBits(), 8, 'Length should be 8')
 
   for (let i = 0; i < 8; i++) {
-    t.deepEqual(bitBuffer.get(i), expectedDataBits[i], 'Should return correct bit value')
+    t.same(bitBuffer.get(i), expectedDataBits[i], 'Should return correct bit value')
   }
 
   t.end()

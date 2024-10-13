@@ -34,7 +34,7 @@ test('Alphanumeric Data', function (t) {
 
     const bitBuffer = new BitBuffer()
     alphanumericData.write(bitBuffer)
-    t.deepEqual(bitBuffer.buffer, data.dataBit, 'Should write correct data to buffer')
+    t.same(bitBuffer.buffer, data.dataBit, 'Should write correct data to buffer')
   })
 
   t.end()

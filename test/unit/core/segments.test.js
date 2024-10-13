@@ -163,33 +163,33 @@ const kanjiTestData = [
 testData = testData.concat(kanjiTestData)
 
 test('Segments from array', function (t) {
-  t.deepEqual(
+  t.same(
     Segments.fromArray(['abcdef', '12345']),
     [new ByteData('abcdef'), new NumericData('12345')],
     'Should return correct segment from array of string')
 
-  t.deepEqual(
+  t.same(
     Segments.fromArray([{ data: 'abcdef', mode: Mode.BYTE }, { data: '12345', mode: Mode.NUMERIC }]),
     [new ByteData('abcdef'), new NumericData('12345')],
     'Should return correct segment from array of objects')
 
-  t.deepEqual(
+  t.same(
     Segments.fromArray([{ data: 'abcdef', mode: 'byte' }, { data: '12345', mode: 'numeric' }]),
     [new ByteData('abcdef'), new NumericData('12345')],
     'Should return correct segment from array of objects if mode is specified as string')
 
-  t.deepEqual(
+  t.same(
     Segments.fromArray([{ data: 'abcdef' }, { data: '12345' }]),
     [new ByteData('abcdef'), new NumericData('12345')],
     'Should return correct segment from array of objects if mode is not specified')
 
-  t.deepEqual(Segments.fromArray([{}]), [],
+  t.same(Segments.fromArray([{}]), [],
     'Should return an empty array')
 
-  t.throw(function () { Segments.fromArray([{ data: 'ABCDE', mode: 'numeric' }]) },
+  t.throws(function () { Segments.fromArray([{ data: 'ABCDE', mode: 'numeric' }]) },
     'Should throw if segment cannot be encoded with specified mode')
 
-  t.deepEqual(
+  t.same(
     Segments.fromArray([{ data: '０１２３', mode: Mode.KANJI }]), [new ByteData('０１２３')],
     'Should use Byte mode if kanji support is disabled')
 
@@ -197,12 +197,12 @@ test('Segments from array', function (t) {
 })
 
 test('Segments optimization', function (t) {
-  t.deepEqual(Segments.fromString('乂ЁЖ', 1), Segments.fromArray([{ data: '乂ЁЖ', mode: 'byte' }]),
+  t.same(Segments.fromString('乂ЁЖ', 1), Segments.fromArray([{ data: '乂ЁЖ', mode: 'byte' }]),
     'Should use Byte mode if Kanji support is disabled')
 
   Utils.setToSJISFunction(toSJIS)
   testData.forEach(function (data) {
-    t.deepEqual(Segments.fromString(data.input, 1), Segments.fromArray(data.result))
+    t.same(Segments.fromString(data.input, 1), Segments.fromArray(data.result))
   })
 
   t.end()
@@ -215,7 +215,7 @@ test('Segments raw split', function (t) {
     new NumericData('123')
   ]
 
-  t.deepEqual(Segments.rawSplit('abcDEF123'), splitted)
+  t.same(Segments.rawSplit('abcDEF123'), splitted)
 
   t.end()
 })

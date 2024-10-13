@@ -17,7 +17,7 @@ test('Byte Data: String Input', function (t) {
 
   const bitBuffer = new BitBuffer()
   byteData.write(bitBuffer)
-  t.deepEqual(bitBuffer.buffer, textByte, 'Should write correct data to buffer')
+  t.same(bitBuffer.buffer, textByte, 'Should write correct data to buffer')
 
   const byteDataUtf8 = new ByteData(utf8Text)
   t.equal(byteDataUtf8.getLength(), 12, 'Should return correct length for utf8 chars')
@@ -34,7 +34,7 @@ test('Byte Data: Byte Input', function (t) {
 
   const bitBuffer = new BitBuffer()
   byteData.write(bitBuffer)
-  t.deepEqual(bitBuffer.buffer, bytes, 'Should write correct data to buffer')
+  t.same(bitBuffer.buffer, bytes, 'Should write correct data to buffer')
 
   t.end()
 })

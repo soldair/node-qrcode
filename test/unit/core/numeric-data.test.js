@@ -47,7 +47,7 @@ test('Numeric Data', function (t) {
 
     const bitBuffer = new BitBuffer()
     numericData.write(bitBuffer)
-    t.deepEqual(bitBuffer.buffer, data.dataBit, 'Should write correct data to buffer')
+    t.same(bitBuffer.buffer, data.dataBit, 'Should write correct data to buffer')
   })
 
   t.end()

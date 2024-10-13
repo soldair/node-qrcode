@@ -13,10 +13,10 @@ test('TerminalRenderer render big', function (t) {
   const sampleQrData = QRCode.create('sample text', { version: 2 })
   let str
 
-  t.notThrow(function () { str = TerminalRenderer.render(sampleQrData) },
+  t.doesNotThrow(function () { str = TerminalRenderer.render(sampleQrData) },
     'Should not throw with only qrData param')
 
-  t.notThrow(function () {
+  t.doesNotThrow(function () {
     str = TerminalRenderer.render(sampleQrData, {
       margin: 10,
       scale: 1
@@ -26,7 +26,7 @@ test('TerminalRenderer render big', function (t) {
   t.type(str, 'string',
     'Should return a string')
 
-  t.notThrow(function () {
+  t.doesNotThrow(function () {
     str = TerminalRenderer.render(sampleQrData, { inverse: true })
   }, 'Should not throw with inverse options')
 
@@ -42,10 +42,10 @@ test('TerminalRenderer render small', function (t) {
   let calledCallback = false
   const callback = function () { calledCallback = true }
 
-  t.notThrow(function () { str = TerminalRenderer.render(sampleQrData) },
+  t.doesNotThrow(function () { str = TerminalRenderer.render(sampleQrData) },
     'Should not throw with only qrData param')
 
-  t.notThrow(function () {
+  t.doesNotThrow(function () {
     str = TerminalRenderer.render(sampleQrData, {
       margin: 10,
       scale: 1,
@@ -53,7 +53,7 @@ test('TerminalRenderer render small', function (t) {
     })
   }, 'Should not throw with options param and without callback')
 
-  t.notThrow(function () {
+  t.doesNotThrow(function () {
     str = TerminalRenderer.render(sampleQrData, {
       margin: 10,
       scale: 1,
@@ -68,7 +68,7 @@ test('TerminalRenderer render small', function (t) {
   t.equal(calledCallback, true, 'string',
     'Should call a callback')
 
-  t.notThrow(function () {
+  t.doesNotThrow(function () {
     str = TerminalRenderer.render(sampleQrData, { small: true, inverse: true })
   }, 'Should not throw with inverse options')
 

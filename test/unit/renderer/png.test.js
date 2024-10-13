@@ -26,7 +26,7 @@ test('PNG render', function (t) {
   const sampleQrData = QRCode.create('sample text', { version: 2 })
   let png
 
-  t.notThrow(function () { png = PngRenderer.render(sampleQrData) },
+  t.doesNotThrow(function () { png = PngRenderer.render(sampleQrData) },
     'Should not throw with only qrData param')
 
   t.ok(png instanceof PNG,
@@ -39,7 +39,7 @@ test('PNG render', function (t) {
   t.equal(png.width, (25 + 4 * 2) * 4,
     'Should have correct size')
 
-  t.notThrow(function () {
+  t.doesNotThrow(function () {
     png = PngRenderer.render(sampleQrData, {
       margin: 10,
       scale: 1
@@ -128,11 +128,11 @@ test('PNG renderToFile', function (t) {
 test('PNG renderToFileStream', function (t) {
   const sampleQrData = QRCode.create('sample text', { version: 2 })
 
-  t.notThrow(function () {
+  t.doesNotThrow(function () {
     PngRenderer.renderToFileStream(new StreamMock(), sampleQrData)
   }, 'Should not throw with only qrData param')
 
-  t.notThrow(function () {
+  t.doesNotThrow(function () {
     PngRenderer.renderToFileStream(new StreamMock(), sampleQrData, {
       margin: 10,
       scale: 1

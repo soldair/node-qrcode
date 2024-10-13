@@ -4,7 +4,7 @@ const Poly = require('core/polynomial')
 test('Generator polynomial', function (t) {
   const result = Poly.generateECPolynomial(0)
   t.ok(result instanceof Uint8Array, 'Should return an Uint8Array')
-  t.deepEqual(result, new Uint8Array([1]), 'Should return coeff [1] for polynomial of degree 0')
+  t.same(result, new Uint8Array([1]), 'Should return coeff [1] for polynomial of degree 0')
 
   for (let e = 2; e <= 68; e++) {
     t.equal(Poly.generateECPolynomial(e).length, e + 1, 'Should return a number of coefficients equal to (degree + 1)')

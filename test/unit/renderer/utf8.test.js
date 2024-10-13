@@ -15,10 +15,10 @@ test('Utf8Renderer render', function (t) {
   const sampleQrData = QRCode.create('sample text', { version: 2 })
   let str
 
-  t.notThrow(function () { str = Utf8Renderer.render(sampleQrData) },
+  t.doesNotThrow(function () { str = Utf8Renderer.render(sampleQrData) },
     'Should not throw with only qrData param')
 
-  t.notThrow(function () {
+  t.doesNotThrow(function () {
     str = Utf8Renderer.render(sampleQrData, {
       margin: 10,
       scale: 1

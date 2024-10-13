@@ -51,7 +51,7 @@ test('BCH Digit', function (t) {
 })
 
 test('Set/Get SJIS function', function (t) {
-  t.throw(function () { Utils.setToSJISFunction() },
+  t.throws(function () { Utils.setToSJISFunction() },
     'Should throw if param is not a function')
 
   t.notOk(Utils.isKanjiModeEnabled(),

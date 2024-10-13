@@ -4,10 +4,10 @@ const QRCode = require('lib')
 const StreamMock = require('../mocks/writable-stream')
 
 test('toFileStream png', function (t) {
-  t.throw(function () { QRCode.toFileStream('some text') },
+  t.throws(function () { QRCode.toFileStream('some text') },
     'Should throw if stream is not provided')
 
-  t.throw(function () { QRCode.toFileStream(new StreamMock()) },
+  t.throws(function () { QRCode.toFileStream(new StreamMock()) },
     'Should throw if text is not provided')
 
   const fstream = new StreamMock()

@@ -16,16 +16,16 @@ test('toCanvas - no promise available', function (t) {
   }
   const canvasEl = createCanvas(200, 200)
 
-  t.throw(function () { QRCode.toCanvas() },
+  t.throws(function () { QRCode.toCanvas() },
     'Should throw if no arguments are provided')
 
-  t.throw(function () { QRCode.toCanvas('some text') },
+  t.throws(function () { QRCode.toCanvas('some text') },
     'Should throw if a callback is not provided')
 
-  t.throw(function () { QRCode.toCanvas(canvasEl, 'some text') },
+  t.throws(function () { QRCode.toCanvas(canvasEl, 'some text') },
     'Should throw if a callback is not provided')
 
-  t.throw(function () { QRCode.toCanvas(canvasEl, 'some text', {}) },
+  t.throws(function () { QRCode.toCanvas(canvasEl, 'some text', {}) },
     'Should throw if callback is not a function')
 
   t.end()
@@ -46,7 +46,7 @@ test('toCanvas', function (t) {
 
   t.plan(7)
 
-  t.throw(function () { QRCode.toCanvas() },
+  t.throws(function () { QRCode.toCanvas() },
     'Should throw if no arguments are provided')
 
   QRCode.toCanvas('some text', function (err, canvasEl) {

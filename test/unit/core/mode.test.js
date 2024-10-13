@@ -49,10 +49,10 @@ test('Char count bits', function (t) {
     t.equal(Mode.getCharCountIndicator(Mode.KANJI, v), EXPECTED_BITS.kanji[2])
   }
 
-  t.throw(function () { Mode.getCharCountIndicator({}, 1) },
+  t.throws(function () { Mode.getCharCountIndicator({}, 1) },
     'Should throw if mode is invalid')
 
-  t.throw(function () { Mode.getCharCountIndicator(Mode.BYTE, 0) },
+  t.throws(function () { Mode.getCharCountIndicator(Mode.BYTE, 0) },
     'Should throw if version is invalid')
 
   t.end()
@@ -122,7 +122,7 @@ test('To string', function (t) {
   t.equal(Mode.toString(Mode.BYTE), 'Byte')
   t.equal(Mode.toString(Mode.KANJI), 'Kanji')
 
-  t.throw(function () { Mode.toString({}) }, 'Should throw if mode is invalid')
+  t.throws(function () { Mode.toString({}) }, 'Should throw if mode is invalid')
 
   t.end()
 })
