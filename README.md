@@ -29,6 +29,7 @@
 - Support for multibyte characters (like emojis :smile:)
 - Auto generates optimized segments for best data compression and smallest QR Code size
 - App agnostic readability, QR Codes by definition are app agnostic
+- [One of the most popular QR Code packages](https://npm-compare.com/qrcode/#timeRange=FIVE_YEARS)
 
 ## Installation
 Inside your project folder do:
