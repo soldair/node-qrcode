@@ -55,7 +55,7 @@ QR Code options:
   -m, --mask      Mask pattern (0 - 7)                                  [number]
 
 Renderer options:
-  -t, --type        Output type                  [choices: "png", "svg", "utf8"]
+  -t, --type        Output type     [choices: "png", "svg", "svg-round", "utf8"]
   -w, --width       Image width (px)                                    [number]
   -s, --scale       Scale factor                                        [number]
   -q, --qzone       Quiet zone size                                     [number]
@@ -513,7 +513,7 @@ Text to encode or a list of objects describing segments.
   Default: `utf8`
 
   Output format.<br>
-  Possible values are: `terminal`,`utf8`, and `svg`.
+  Possible values are: `terminal`, `utf8`, `svg` and `svg-round`.
 
 See [Options](#options) for other settings.
 
@@ -578,7 +578,7 @@ Callback function called on finish.
 
 #### `toString(text, [options], [cb(error, string)])`
 Returns a string representation of the QR Code.<br>
-If choosen output format is `svg` it will returns a string containing xml code.
+If chosen output format is `svg` or `svg-round` it will return a string containing xml code.
 
 ##### `text`
 Type: `String|Array`
@@ -591,7 +591,7 @@ Text to encode or a list of objects describing segments.
   Default: `utf8`
 
   Output format.<br>
-  Possible values are: `utf8`, `svg`, `terminal`.
+  Possible values are: `utf8`, `svg`, `svg-round`, `terminal`.
 
 See [Options](#options) for other settings.
 
@@ -751,6 +751,12 @@ Type: `String`<br>
 Default: `#ffffffff`
 
 Color of light module. Value must be in hex format (RGBA).<br>
+
+##### `rendererOpts.corners.topLeft`, `rendererOpts.corners.topRight`, `rendererOpts.corners.bottomLeft`, `rendererOpts.corners.bottomRight`
+Type: `Number`<br>
+Default: `0`
+
+Radius of top-left, top-right, bottom-left and bottom-right corners respectively. Value should be between `0.0` - `1.0`, however larger values will be scaled down proportionally. Only works with `svg-round` format for now.
 
 <br>
 
