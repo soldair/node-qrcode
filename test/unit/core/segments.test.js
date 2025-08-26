@@ -1,12 +1,12 @@
-const test = require('tap').test
-const Mode = require('core/mode')
-const Segments = require('core/segments')
-const NumericData = require('core/numeric-data')
-const AlphanumericData = require('core/alphanumeric-data')
-const ByteData = require('core/byte-data')
-const toSJIS = require('helper/to-sjis')
-const Utils = require('core/utils')
-
+import tap from 'tap'
+import * as Mode from '../../../lib/core/mode.js'
+import * as Segments from '../../../lib/core/segments.js'
+import NumericData from '../../../lib/core/numeric-data.js'
+import AlphanumericData from '../../../lib/core/alphanumeric-data.js'
+import ByteData from '../../../lib/core/byte-data.js'
+import toSJIS from '../../../helper/to-sjis.js'
+import * as Utils from '../../../lib/core/utils.js'
+const test = tap.test
 let testData = [
   {
     input: '1A1',
@@ -134,7 +134,6 @@ let testData = [
     ]
   }
 ]
-
 const kanjiTestData = [
   {
     input: '乂ЁЖぞβ',
@@ -159,63 +158,31 @@ const kanjiTestData = [
     ]
   }
 ]
-
 testData = testData.concat(kanjiTestData)
-
 test('Segments from array', function (t) {
-  t.deepEqual(
-    Segments.fromArray(['abcdef', '12345']),
-    [new ByteData('abcdef'), new NumericData('12345')],
-    'Should return correct segment from array of string')
-
-  t.deepEqual(
-    Segments.fromArray([{ data: 'abcdef', mode: Mode.BYTE }, { data: '12345', mode: Mode.NUMERIC }]),
-    [new ByteData('abcdef'), new NumericData('12345')],
-    'Should return correct segment from array of objects')
-
-  t.deepEqual(
-    Segments.fromArray([{ data: 'abcdef', mode: 'byte' }, { data: '12345', mode: 'numeric' }]),
-    [new ByteData('abcdef'), new NumericData('12345')],
-    'Should return correct segment from array of objects if mode is specified as string')
-
-  t.deepEqual(
-    Segments.fromArray([{ data: 'abcdef' }, { data: '12345' }]),
-    [new ByteData('abcdef'), new NumericData('12345')],
-    'Should return correct segment from array of objects if mode is not specified')
-
-  t.deepEqual(Segments.fromArray([{}]), [],
-    'Should return an empty array')
-
-  t.throw(function () { Segments.fromArray([{ data: 'ABCDE', mode: 'numeric' }]) },
-    'Should throw if segment cannot be encoded with specified mode')
-
-  t.deepEqual(
-    Segments.fromArray([{ data: '０１２３', mode: Mode.KANJI }]), [new ByteData('０１２３')],
-    'Should use Byte mode if kanji support is disabled')
-
+  t.deepEqual(Segments.fromArray(['abcdef', '12345']), [new ByteData('abcdef'), new NumericData('12345')], 'Should return correct segment from array of string')
+  t.deepEqual(Segments.fromArray([{ data: 'abcdef', mode: Mode.BYTE }, { data: '12345', mode: Mode.NUMERIC }]), [new ByteData('abcdef'), new NumericData('12345')], 'Should return correct segment from array of objects')
+  t.deepEqual(Segments.fromArray([{ data: 'abcdef', mode: 'byte' }, { data: '12345', mode: 'numeric' }]), [new ByteData('abcdef'), new NumericData('12345')], 'Should return correct segment from array of objects if mode is specified as string')
+  t.deepEqual(Segments.fromArray([{ data: 'abcdef' }, { data: '12345' }]), [new ByteData('abcdef'), new NumericData('12345')], 'Should return correct segment from array of objects if mode is not specified')
+  t.deepEqual(Segments.fromArray([{}]), [], 'Should return an empty array')
+  t.throw(function () { Segments.fromArray([{ data: 'ABCDE', mode: 'numeric' }]) }, 'Should throw if segment cannot be encoded with specified mode')
+  t.deepEqual(Segments.fromArray([{ data: '０１２３', mode: Mode.KANJI }]), [new ByteData('０１２３')], 'Should use Byte mode if kanji support is disabled')
   t.end()
 })
-
 test('Segments optimization', function (t) {
-  t.deepEqual(Segments.fromString('乂ЁЖ', 1), Segments.fromArray([{ data: '乂ЁЖ', mode: 'byte' }]),
-    'Should use Byte mode if Kanji support is disabled')
-
+  t.deepEqual(Segments.fromString('乂ЁЖ', 1), Segments.fromArray([{ data: '乂ЁЖ', mode: 'byte' }]), 'Should use Byte mode if Kanji support is disabled')
   Utils.setToSJISFunction(toSJIS)
   testData.forEach(function (data) {
     t.deepEqual(Segments.fromString(data.input, 1), Segments.fromArray(data.result))
   })
-
   t.end()
 })
-
 test('Segments raw split', function (t) {
   const splitted = [
     new ByteData('abc'),
     new AlphanumericData('DEF'),
     new NumericData('123')
   ]
-
   t.deepEqual(Segments.rawSplit('abcDEF123'), splitted)
-
   t.end()
 })

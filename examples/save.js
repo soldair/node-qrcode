@@ -1,5 +1,4 @@
-const QRCode = require('../lib')
-
+import * as QRCode from '../lib/index.js'
 const path = './tmp.png'
 QRCode.toFile(path, 'life of the party bros', {
   color: {
@@ -7,6 +6,6 @@ QRCode.toFile(path, 'life of the party bros', {
     light: '#0000' // Transparent background
   }
 }, function (err) {
-  if (err) throw err
+  if (err) { throw err }
   console.log('saved.')
 })

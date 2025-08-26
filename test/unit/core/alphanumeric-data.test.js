@@ -1,8 +1,8 @@
-const test = require('tap').test
-const BitBuffer = require('core/bit-buffer')
-const AlphanumericData = require('core/alphanumeric-data')
-const Mode = require('core/mode')
-
+import tap from 'tap'
+import BitBuffer from '../../../lib/core/bit-buffer.js'
+import AlphanumericData from '../../../lib/core/alphanumeric-data.js'
+import * as Mode from '../../../lib/core/mode.js'
+const test = tap.test
 const testData = [
   {
     data: 'A',
@@ -23,19 +23,15 @@ const testData = [
     dataBit: [57, 168, 116, 32]
   }
 ]
-
 test('Alphanumeric Data', function (t) {
   testData.forEach(function (data) {
     const alphanumericData = new AlphanumericData(data.data)
-
     t.equal(alphanumericData.mode, Mode.ALPHANUMERIC, 'Mode should be ALPHANUMERIC')
     t.equal(alphanumericData.getLength(), data.length, 'Should return correct length')
     t.equal(alphanumericData.getBitsLength(), data.bitLength, 'Should return correct bit length')
-
     const bitBuffer = new BitBuffer()
     alphanumericData.write(bitBuffer)
     t.deepEqual(bitBuffer.buffer, data.dataBit, 'Should write correct data to buffer')
   })
-
   t.end()
 })
