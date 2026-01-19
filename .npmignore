@@ -1,0 +1,10 @@
+*~
+node_modules
+coverage
+.nyc_output
+test/
+examples/
+.travis.yml
+.gitignore
+rollup.config.js
+test.js

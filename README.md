@@ -77,9 +77,10 @@ If not specified, output type is guessed from file extension.<br>
 Recognized extensions are `png`, `svg` and `txt`.
 
 ### Browser
-`node-qrcode` can be used in browser through module bundlers like [Browserify](https://github.com/substack/node-browserify) and [Webpack](https://github.com/webpack/webpack) or by including the precompiled bundle present in `build/` folder.
+`node-qrcode` can be used in browser through module bundlers like [Browserify](https://github.com/substack/node-browserify) and [Webpack](https://github.com/webpack/webpack).
 
 #### Module bundlers
+If you're using a module bundler (Webpack, Vite, Rollup, Parcel, etc.), simply install and import the module as you would in Node.js. The bundler will automatically use the browser-compatible source files via the `browser` field in `package.json`:
 ```html
 <!-- index.html -->
 <html>
@@ -101,11 +102,13 @@ QRCode.toCanvas(canvas, 'sample text', function (error) {
 })
 ```
 
-#### Precompiled bundle
+#### Precompiled bundle (for non-bundler usage)
+If you're **not** using a module bundler and want to include the library directly via a `<script>` tag, the precompiled standalone bundle is already included when you install from npm:
+
 ```html
 <canvas id="canvas"></canvas>
 
-<script src="/build/qrcode.js"></script>
+<script src="/path/to/node_modules/qrcode/build/qrcode.js"></script>
 <script>
   QRCode.toCanvas(document.getElementById('canvas'), 'sample text', function (error) {
     if (error) console.error(error)
@@ -114,9 +117,9 @@ QRCode.toCanvas(canvas, 'sample text', function (error) {
 </script>
 ```
 
-If you install through `npm`, precompiled files will be available in `node_modules/qrcode/build/` folder.
+The precompiled bundle has support for [Internet Explorer 10+, Safari 5.1+, and all evergreen browsers](https://browserl.ist/?q=defaults%2C+IE+%3E%3D+10%2C+Safari+%3E%3D+5.1).
 
-The precompiled bundle have support for [Internet Explorer 10+, Safari 5.1+, and all evergreen browsers](https://browserl.ist/?q=defaults%2C+IE+%3E%3D+10%2C+Safari+%3E%3D+5.1).
+**Note:** Most modern projects use bundlers (Webpack, Vite, etc.) and don't need the precompiled bundle - just `npm install qrcode` and import it.
 
 ### NodeJS
 Require the module `qrcode`
@@ -294,13 +297,13 @@ An helper method is provided by the lib through an optional file that you can in
   })
 ```
 
-With precompiled bundle:
+With precompiled bundle (run `npm run build` to generate these files):
 
 ```html
 <canvas id="canvas"></canvas>
 
-<script src="/build/qrcode.min.js"></script>
-<script src="/build/qrcode.tosjis.min.js"></script>
+<script src="/build/qrcode.js"></script>
+<script src="/build/qrcode.tosjis.js"></script>
 <script>
   QRCode.toCanvas(document.getElementById('canvas'),
     'sample text', { toSJISFunc: QRCode.toSJIS }, function (error) {
