@@ -31,7 +31,7 @@
     "pretest": "npm run lint",
     "test": "node --throw-deprecation test.js",
     "build": "rollup -c",
-    "prepublish": "npm run build",
+    "prepare": "npm run build",
     "browser": "node examples/clientsideserver.js"
   },
   "bin": {
