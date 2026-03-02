@@ -5,8 +5,8 @@ test('Regex', function (t) {
   t.ok(Regex.NUMERIC instanceof RegExp,
     'Should export a regex for NUMERIC')
 
-  t.ok(Regex.ALPHANUMERIC instanceof RegExp,
-    'Should export a regex for ALPHANUMERIC')
+  t.ok(Regex.LETTERS_AND_CHARACTERS instanceof RegExp,
+    'Should export a regex for LETTERS_AND_CHARACTERS')
 
   t.ok(Regex.BYTE instanceof RegExp,
     'Should export a regex for BYTE')
