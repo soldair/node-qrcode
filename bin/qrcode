@@ -2,8 +2,10 @@
 var yargs = require('yargs')
 var qr = require('../lib')
 
+var y = yargs(process.argv.slice(2))
+
 function save (file, text, options) {
-  qr.toFile(file, text, options, function (err, data) {
+  qr.toFile(file, text, options, function (err, _data) {
     if (err) {
       console.error('Error:', err.message)
       process.exit(1)
@@ -45,7 +47,7 @@ function parseOptions (args) {
 
 function processInputs (text, opts) {
   if (!text.length) {
-    yargs.showHelp()
+    y.showHelp()
     process.exit(1)
   }
 
@@ -56,7 +58,7 @@ function processInputs (text, opts) {
   }
 }
 
-var argv = yargs
+var argv = y
   .detectLocale(false)
   .usage('Usage: $0 [options] <input string>')
   .option('v', {
@@ -154,6 +156,6 @@ if (process.stdin.isTTY) {
   process.stdin.on('end', function () {
     // this process can be run as a command outside of a tty so if there was no
     // data on stdin read from argv
-    processInputs(text.length?text:argv._.join(' '), argv)
+    processInputs(text.length ? text : argv._.join(' '), argv)
   })
 }
