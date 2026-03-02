@@ -1,7 +1,7 @@
 const test = require('tap').test
 const sinon = require('sinon')
 const fs = require('fs')
-const htmlparser = require('htmlparser2')
+const { Parser } = require('htmlparser2')
 const QRCode = require('core/qrcode')
 const SvgRenderer = require('renderer/svg')
 
@@ -12,7 +12,7 @@ function getExpectedViewbox (size, margin) {
 
 function testSvgFragment (t, svgFragment, expectedTags) {
   return new Promise(function (resolve, reject) {
-    const parser = new htmlparser.Parser({
+    const parser = new Parser({
       onopentag: function (name, attribs) {
         const tag = expectedTags.shift()
 
