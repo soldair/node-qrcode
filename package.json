@@ -50,7 +50,6 @@
     "browserify": "^16.5.1",
     "canvas": "^2.8.0",
     "canvasutil": "0.0.4",
-    "colors": "^1.4.0",
     "express": "^4.17.1",
     "htmlparser2": "^4.1.0",
     "rollup": "^2.6.1",
