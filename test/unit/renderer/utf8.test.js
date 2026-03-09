@@ -33,7 +33,7 @@ test('Utf8Renderer render', function (t) {
 
 test('Utf8 renderToFile', function (t) {
   const sampleQrData = QRCode.create('sample text', { version: 2 })
-  const fileName = 'qrimage.txt'
+  const fileName = 'qrimage-to-file.txt'
   let fsStub = sinon.stub(fs, 'writeFile').callsArg(2)
 
   t.plan(5)
