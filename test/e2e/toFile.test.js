@@ -165,7 +165,7 @@ test('toFile svg', function (t) {
 })
 
 test('toFile utf8', function (t) {
-  const fileName = path.join(os.tmpdir(), 'qrimage.txt')
+  const fileName = path.join(os.tmpdir(), 'qrimage-utf8.txt')
   const expectedOutput = [
     '                                 ',
     '                                 ',
@@ -225,7 +225,7 @@ test('toFile utf8', function (t) {
 })
 
 test('toFile manual segments', function (t) {
-  const fileName = path.join(os.tmpdir(), 'qrimage.txt')
+  const fileName = path.join(os.tmpdir(), 'qrimage-segments.txt')
   const segs = [
     { data: 'ABCDEFG', mode: 'alphanumeric' },
     { data: '0123456', mode: 'numeric' }
