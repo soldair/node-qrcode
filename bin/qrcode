@@ -1,21 +1,118 @@
 #!/usr/bin/env node
-var yargs = require('yargs')
-var qr = require('../lib')
+const { program, Option, InvalidArgumentError } = require('commander')
+const QRCode = require('../lib')
+const pkg = require('../package.json')
 
-function save (file, text, options) {
-  qr.toFile(file, text, options, function (err, data) {
+const QR_VERSION_RANGE = [1, 40]
+const QR_MASK_RANGE = [0, 7]
+const ALL_EC_LEVELS = ['L', 'M', 'Q', 'H']
+const OUTPUT_OPTIONS = ['png', 'svg', 'utf8']
+
+/**
+ * Parse CLI arguments and return a CLI instance.
+ * @returns {import('commander').Command}
+ */
+function parseArgs() {
+  return (
+    program
+      .name('qrcode')
+      .usage('[options] <input string>')
+      .optionsGroup('QR Code options:')
+      .option(
+        '-v, --qversion <number>',
+        `QR Code symbol version ${printRange(QR_VERSION_RANGE)}`,
+        integerBetween(...QR_VERSION_RANGE),
+      )
+      .addOption(new Option('-e, --error <level>', 'Error correction level').choices(ALL_EC_LEVELS))
+      .option(
+        '-m, --mask <number>',
+        `Mask pattern ${printRange(QR_MASK_RANGE)}`,
+        integerBetween(...QR_MASK_RANGE),
+      )
+      .optionsGroup('Renderer options:')
+      // IDEA: Maybe use a shared constant for valid renderers, defined by the renderers themselves
+      .addOption(new Option('-t, --type <type>', 'Output type').choices(OUTPUT_OPTIONS))
+      .option('-i, --inverse', 'Invert colors')
+      .option('-w, --width <number>', 'Image width (px)', integerBetween(0))
+      .option('-s, --scale <number>', 'Scale factor', integer)
+      .option('-q, --qzone <number>', 'Quiet zone size', integerBetween(0))
+      .option('-l, --lightcolor <color>', 'Light RGBA hex color')
+      .option('-d, --darkcolor <color>', 'Dark RGBA hex color')
+      .option('--small', 'Output smaller QR code to terminal')
+      .optionsGroup('Options:')
+      .option('-o, --output <path>', 'Output file')
+      .helpOption('-h, --help', 'Show help')
+      .addHelpText(
+        'after',
+        `
+Examples:
+  qrcode "some text"                      Draw in terminal window
+  qrcode -o out.png "some text"           Save as png image
+  qrcode -d F00 -o out.png "some text"    Use red as foreground color
+`,
+      )
+      .showHelpAfterError()
+      .version(pkg.version, '--version', 'Show version number')
+      // The input string is a variadic argument that will include any remaining
+      // input after parsing options In commander, this is indicated by the `...`
+      // suffix.
+      // The wrapping [] makes the input string arguments optional.
+      // This allows executing the CLI and reading from stdin, useful in scripts.
+      // By making the arguments optional, the help can be printed by default.
+      .argument('[input string...]', undefined) // undefined to hide description
+      .parse()
+  )
+}
+
+/**
+ * @param {readonly [number, number])} range
+ */
+function printRange([min, max]) {
+  return `(${min} - ${max})`
+}
+
+/**
+ * @param {string} value
+ */
+function integer(value) {
+  const parsedValue = parseInt(value, 10)
+  if (Number.isInteger(parsedValue)) {
+    return parsedValue
+  }
+
+  throw new InvalidArgumentError('Must be an integer')
+}
+
+/**
+ * @param {number} min
+ * @param {number} [max]
+ */
+function integerBetween(min, max = Number.MAX_SAFE_INTEGER) {
+  return (value) => {
+    const n = integer(value)
+
+    if (min <= n && n <= max) {
+      return n
+    }
+
+    throw new InvalidArgumentError(`Must be between ${min} and ${max}`)
+  }
+}
+
+function save(file, text, options) {
+  QRCode.toFile(file, text, options, (err, _data) => {
     if (err) {
       console.error('Error:', err.message)
       process.exit(1)
     }
 
-    console.log('saved qrcode to: ' + file + '\n')
+    console.log('Saved qrcode to: ' + file + '\n')
   })
 }
 
-function print (text, options) {
+function print(text, options) {
   options.type = 'terminal'
-  qr.toString(text, options, function (err, text) {
+  QRCode.toString(text, options, (err, text) => {
     if (err) {
       console.error('Error:', err.message)
       process.exit(1)
@@ -25,7 +122,7 @@ function print (text, options) {
   })
 }
 
-function parseOptions (args) {
+function parseOptions(args) {
   return {
     version: args.qversion,
     errorCorrectionLevel: args.error,
@@ -43,10 +140,10 @@ function parseOptions (args) {
   }
 }
 
-function processInputs (text, opts) {
+function processInput(text, opts) {
+  // Show help and exit when no input was passed
   if (!text.length) {
-    yargs.showHelp()
-    process.exit(1)
+    program.help()
   }
 
   if (opts.output) {
@@ -56,104 +153,24 @@ function processInputs (text, opts) {
   }
 }
 
-var argv = yargs
-  .detectLocale(false)
-  .usage('Usage: $0 [options] <input string>')
-  .option('v', {
-    alias: 'qversion',
-    description: 'QR Code symbol version (1 - 40)',
-    group: 'QR Code options:',
-    type: 'number'
-  })
-  .option('e', {
-    alias: 'error',
-    description: 'Error correction level',
-    choices: ['L', 'M', 'Q', 'H'],
-    group: 'QR Code options:'
-  })
-  .option('m', {
-    alias: 'mask',
-    description: 'Mask pattern (0 - 7)',
-    group: 'QR Code options:',
-    type: 'number'
-  })
-  .option('t', {
-    alias: 'type',
-    description: 'Output type',
-    choices: ['png', 'svg', 'utf8'],
-    implies: 'output',
-    group: 'Renderer options:'
-  })
-  .option('i', {
-    alias: 'inverse',
-    type: 'boolean',
-    description: 'Invert colors',
-    group: 'Renderer options:'
-  })
-  .option('w', {
-    alias: 'width',
-    description: 'Image width (px)',
-    conflicts: 'scale',
-    group: 'Renderer options:',
-    type: 'number'
-  })
-  .option('s', {
-    alias: 'scale',
-    description: 'Scale factor',
-    conflicts: 'width',
-    group: 'Renderer options:',
-    type: 'number'
-  })
-  .option('q', {
-    alias: 'qzone',
-    description: 'Quiet zone size',
-    group: 'Renderer options:',
-    type: 'number'
-  })
-  .option('l', {
-    alias: 'lightcolor',
-    description: 'Light RGBA hex color',
-    group: 'Renderer options:'
-  })
-  .option('d', {
-    alias: 'darkcolor',
-    description: 'Dark RGBA hex color',
-    group: 'Renderer options:'
-  })
-  .option('small', {
-    type: 'boolean',
-    description: 'Output smaller QR code to terminal',
-    conflicts: 'type',
-    group: 'Renderer options:'
-  })
-  .option('o', {
-    alias: 'output',
-    description: 'Output file'
-  })
-  .help('h')
-  .alias('h', 'help')
-  .version()
-  .example('$0 "some text"', 'Draw in terminal window')
-  .example('$0 -o out.png "some text"', 'Save as png image')
-  .example('$0 -d F00 -o out.png "some text"', 'Use red as foreground color')
-  .parserConfiguration({'parse-numbers': false})
-  .argv
+const cli = parseArgs()
+const argv = cli.opts()
 
 if (process.stdin.isTTY) {
-  processInputs(argv._.join(' '), argv)
+  processInput(cli.args.join(' '), argv)
 } else {
-  var text = ''
+  let text = ''
   process.stdin.setEncoding('utf8')
-  process.stdin.on('readable', function () {
-    var chunk = process.stdin.read()
+  process.stdin.on('readable', () => {
+    const chunk = process.stdin.read()
     if (chunk !== null) {
       text += chunk
     }
   })
 
-  process.stdin.on('end', function () {
-    // this process can be run as a command outside of a tty so if there was no
-    // data on stdin read from argv
-    processInputs(text.length?text:argv._.join(' '), argv)
+  process.stdin.on('end', () => {
+    // This process can be run as a command outside of a TTY
+    // so if there was no data on stdin, read the CLI args instead
+    processInput(text.length ? text : cli.args.join(' '), argv)
   })
 }
