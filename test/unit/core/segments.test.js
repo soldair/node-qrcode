@@ -157,6 +157,20 @@ const kanjiTestData = [
       { data: '皿a\n', mode: Mode.BYTE },
       { data: '晒三', mode: Mode.KANJI }
     ]
+  },
+  {
+    input: '皿a\u2028晒三',
+    result: [
+      { data: '皿a\u2028', mode: Mode.BYTE },
+      { data: '晒三', mode: Mode.KANJI }
+    ]
+  },
+  {
+    input: '皿a\u2029晒三',
+    result: [
+      { data: '皿a\u2029', mode: Mode.BYTE },
+      { data: '晒三', mode: Mode.KANJI }
+    ]
   }
 ]
 
