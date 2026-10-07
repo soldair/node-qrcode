@@ -119,3 +119,9 @@ test('QRCode capacity', function (t) {
 
   t.end()
 })
+
+test('QRCode chooses the lowest-penalty mask for dark-heavy symbols', function (t) {
+  const qr = QRCode.create('aa', { errorCorrectionLevel: 'M' })
+  t.equal(qr.maskPattern, 0, 'Should not over-penalize masks with more than 50% dark modules')
+  t.end()
+})
