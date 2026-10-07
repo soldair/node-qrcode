@@ -265,6 +265,23 @@ test('Mask pattern - Penalty N4', function (t) {
   t.end()
 })
 
+test('Mask pattern - Penalty N4 is symmetric around 50%', function (t) {
+  const matrix = new BitMatrix(20)
+  const cases = [
+    [0, 100], [176, 10], [180, 10], [181, 0], [192, 0], [200, 0],
+    [208, 0], [219, 0], [220, 10], [224, 10], [400, 100]
+  ]
+
+  cases.forEach(function ([darkCount, expected]) {
+    matrix.data.fill(0)
+    matrix.data.fill(1, 0, darkCount)
+    t.equal(MaskPattern.getPenaltyN4(matrix), expected,
+      'Should score ' + darkCount + ' of 400 dark modules correctly')
+  })
+
+  t.end()
+})
+
 test('Mask pattern - Best mask', function (t) {
   const matrix = new BitMatrix(11)
   matrix.data = [
