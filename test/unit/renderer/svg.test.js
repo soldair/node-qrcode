@@ -176,3 +176,12 @@ test('Svg renderToFile', function (t) {
 
   fsStub.restore()
 })
+
+test('Svg renderToDataURL without options', function (t) {
+  const data = QRCode.create('sample text')
+  SvgRenderer.renderToDataURL(data, function (err, url) {
+    t.error(err)
+    t.equal(decodeURIComponent(url.split(',')[1]), SvgRenderer.render(data))
+  })
+  t.end()
+})

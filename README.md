@@ -559,7 +559,12 @@ Callback function called on finish.
 
 #### `toDataURL(text, [options], [cb(error, url)])`
 Returns a Data URI containing a representation of the QR Code image.<br>
-Only works with `image/png` type for now.
+Supports `png` (or `image/png`, the default) and `svg` output on the server.
+SVG output is a percent-encoded `data:image/svg+xml,` URI.
+
+```javascript
+const url = await QRCode.toDataURL('I am a pony!', { type: 'svg' })
+```
 
 ##### `text`
 Type: `String|Array`
