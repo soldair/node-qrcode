@@ -140,6 +140,32 @@ test('Svg render', function (t) {
   })
 })
 
+test('Svg render opacity near the endpoints', function (t) {
+  const data = QRCode.create('sample text')
+  const cases = [
+    ['00', '.00', null],
+    ['01', '0.00392156862745098', '0.00392156862745098'],
+    ['80', '.50', '.50'],
+    ['fd', '.99', '.99'],
+    ['fe', '0.996078431372549', '0.996078431372549'],
+    ['ff', null, null]
+  ]
+
+  cases.forEach(function ([alpha, darkOpacity, lightOpacity]) {
+    const svg = SvgRenderer.render(data, {
+      color: { dark: '#000000' + alpha, light: '#ffffff' + alpha }
+    })
+    const stroke = svg.match(/stroke-opacity="([^"]+)"/)
+    const fill = svg.match(/fill-opacity="([^"]+)"/)
+
+    t.equal(stroke && stroke[1], darkOpacity, 'stroke opacity for 0x' + alpha)
+    t.equal(fill && fill[1], lightOpacity, 'fill opacity for 0x' + alpha)
+    t.equal(svg.includes('<path fill="#ffffff"'), alpha !== '00', 'background presence for 0x' + alpha)
+  })
+
+  t.end()
+})
+
 test('Svg renderToFile', function (t) {
   const sampleQrData = QRCode.create('sample text', { version: 2 })
   const fileName = 'qrimage.svg'
